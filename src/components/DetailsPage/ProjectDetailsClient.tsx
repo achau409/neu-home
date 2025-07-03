@@ -67,7 +67,7 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
 
   return (
     <>
-      <div className="relative max-w-2xl mx-auto px-2 md:px-6 py-4 md:py-8 text-gray-800 z-20 flex items-center justify-between flex-col">
+      <div className="relative max-w-3xl mx-auto px-2 md:px-6 py-4 md:py-8 text-gray-800 z-20 flex items-center justify-between flex-col">
         <div className="text-center mb-4 md:mb-10">
           <h1 className="text-3xl lg:text-[56px] font-bold mb-4 lg:leading-snug text-white">
             {serviceData.heroHeading}

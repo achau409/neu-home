@@ -70,7 +70,7 @@ export default async function ProjectDetails({
 
   return (
     <div className="overflow-hidden">
-      <section className="relative bg-gray-50 py-6 md:py-12 max-h-[480px] md:min-h-[600px]">
+      <section className="relative bg-gray-50 py-6 md:py-12">
         <Image
           src={serviceData.heroImage.url}
           alt="Background Image"
