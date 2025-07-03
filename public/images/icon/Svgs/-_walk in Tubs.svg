@@ -1,0 +1,42 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="body_1" width="91" height="79">
+
+<g transform="matrix(0.7711865 0 0 0.76699036 0 0)">
+	<g transform="matrix(0.4298473 0 0 0.4298473 0.110924944 -0)">
+        <path d="M32.5 238.12L272.5 238.12" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M1.5 238.12L19.75 238.12" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M53.100006 138.76999L79 138.76999" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M66.43 116.44L32.38 116.44C 26.896141 116.467354 22.457355 120.906136 22.43 126.39L22.43 126.39L22.43 128.81999C 22.427343 131.4597 23.474792 133.99207 25.341356 135.85863C 27.20792 137.72519 29.740282 138.77264 32.38 138.76999L32.38 138.76999L44.43 138.76999" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M79 205.82L129.48 205.82" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -119 -131.88)"  d="M198 248.32L198 270.65L198 337.7" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M66.42999 116.44001L79 116.44001" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M175.62 138.77L245.20999 138.77C 247.85837 138.78601 250.40361 137.74445 252.281 135.87643C 254.1584 134.00842 255.2127 131.46843 255.20999 128.82L255.20999 128.82L255.20999 126.39001C 255.18246 120.886696 250.71336 116.43994 245.20999 116.44001L245.20999 116.44001L178.75 116.44001C 177.85358 116.44 176.99385 116.79611 176.35999 117.429985C 175.7261 118.06386 175.37 118.92358 175.37 119.82001L175.37 119.82001L175.37 125.12001" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -119 -131.88)"  d="M295.73 332.95L351.68 332.95L351.69 332.95" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M271.62 13.259999L253.98999 13.259999" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -119 -131.88)"  d="M264.85 145.13L280.13 145.13L296.58 145.13" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M145.85 3.8499956L145.85 23.830008" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M271.62 3.8499956L271.62 23.830008" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M177.58 48.52L161.13 48.52L161.13 8.85C 161.13 6.900658 161.90439 5.031156 163.28278 3.6527634C 164.66118 2.2743707 166.53067 1.4999986 168.48001 1.5000005L168.48001 1.5000005L177.58002 1.5000005" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M253.98999 29.26L253.98999 13.250005" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M254 13.25L254 8.85C 254 6.9006586 253.22562 5.0311546 251.84723 3.6527624C 250.46883 2.2743702 248.59933 1.4999976 246.65 1.5L246.65 1.5L177.58 1.5L177.58 76.73L254 76.73L254 51.730003" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M243.41 138.78L243.41 169.04C 243.41266 183.14766 237.80959 196.6783 227.83395 206.65393C 217.8583 216.62956 204.32768 222.23264 190.22 222.23L190.22 222.23L86.22 222.23C 61.64409 222.23209 40.26518 205.40013 34.5 181.51C 33.522015 178.26683 33.026707 174.8974 33.03 171.51L33.03 171.51L33.03 138.76999" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -119 -131.88)"  d="M295.91 342.93L294.25 249.18L247.79 260.8" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -119 -131.88)"  d="M295.91 342.93L283.79 345.48L248.62 352.89" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -119 -131.88)"  d="M248.62 352.89L248.56 345.48L247.79 260.8" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M135.01 162.51999L135.01 179.94" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M64.3 238.12L64.3 217.53" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M212.23999 238.12L212.23999 217.47" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M86.33 109.93C 80.42184 102.28804 81.822784 91.30429 89.46 85.39C 93.12773 82.54899 97.773964 81.2816 102.376274 81.86674C 106.978584 82.45187 111.15986 84.84158 114 88.51" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M114 88.51L86.33 109.93" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M110.31 84.97001L83.92 105.75001" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M54.23 116.44L54.23 77.12C 54.231155 74.52438 56.04996 72.28425 58.59 71.75C 70.766655 69.18001 83.235344 74.6017 89.66 85.26" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M105.35001 119.15L109.5 123.62" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M97.5 110.62L102.19 115.67001" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M113.35001 113.15L117.5 117.62" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M105.5 104.62L110.19 109.67001" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M120.35001 106.15L124.5 110.62" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M112.5 97.62L117.19 102.67001" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+	</g>
+</g>
+</svg>

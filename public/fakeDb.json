@@ -1,0 +1,303 @@
+[
+  {
+    "id": "walk-in-shower",
+    "title": "Walk in Shower",
+    "description": "You will be surprised how affordable a Walk-in Showers can be:",
+    "benefits": [
+      "Modern style and comfort",
+      "Easy to clean",
+      "Fair price",
+      "Multiple safety options",
+      "Shower seated or standing",
+      "Better accessibility"
+    ],
+    "image": "/images/walk-in-shower.webp",
+    "advantages": [
+      {
+        "title": "Reduced Water Usage",
+        "description": "Walk-in showers use up to 50% less water, compared to other types of tubs and showers, which helps you save money on your utility bill."
+      },
+      {
+        "title": "Easy to Clean",
+        "description": "Walk-in showers minimize mold and mildew growth. Since water doesn’t remain on the bathroom floor, but runs into the shower drain. This also makes cleanup and maintenance a breeze."
+      },
+      {
+        "title": "Comfortable Bath Experience",
+        "description": "A walk-in shower is much more comfortable than a standard bath – you'll enjoy the unrestricted movement of your arms and legs."
+      },
+      {
+        "title": "Long-Term Durability",
+        "description": "Since walk-in showers employ fewer components than a standard bathtub or shower, there are fewer potential points of failure."
+      },
+      {
+        "title": "Custom Features",
+        "description": "Our walk in showers are custom-fitted to your requirements and come with anti-slip flooring, shower seats, and handy grab bars!"
+      },
+      {
+        "title": "Dementia-Friendly",
+        "description": "A walk-in shower is simple to use, allowing for easy temperature adjustments, and is comfortable for those with dementia."
+      }
+    ],
+    "features": {
+      "description": "The ergonomic design of walk-in showers makes them safe and simple to use. They are designed for the entire family and family members who may have limited mobility. Features include:",
+      "list": [
+        "Anti-Slip Technology",
+        "Low level entry or curb-less design",
+        "Easy-to-grip handrails",
+        "Multiple seating options",
+        "Wheelchair friendly",
+        "Modern and durable shower solutions",
+        "Low water usage",
+        "Numerous designs available"
+      ],
+      "images": [
+        "/images/feature-1.webp",
+        "/images/feature-2.webp",
+        "/images/feature-3.webp",
+        "/images/feature-4.webp"
+      ]
+    },
+    "inspirations": {
+      "images": [
+        "/images/inspiration-slide1.webp",
+        "/images/inspiration-slide2.webp",
+        "/images/inspiration-slide3.webp",
+        "/images/inspiration-slide4.webp",
+        "/images/inspiration-slide5.webp",
+        "/images/inspiration-slide6.webp",
+        "/images/inspiration-slide7.webp",
+        "/images/inspiration-slide8.webp"
+      
+      ]
+    }
+  },
+
+
+
+  {
+    "id": "walk-in-tub",
+    "title": "Walk in Tubs",
+    "description": "You will be surprised at how affordable a Walk-in Tub can be:",
+    "benefits": [
+      "Available in most States",
+      "Fair Price",
+      "Reduce Stress Levels",
+      " Improve Sleep",
+      "Reduce Knee aches",
+      "Home Therapy"
+    ],
+    "image": "/images/WIT/WIT-splash.webp",
+    "advantages": [
+      {
+        "title": "Insomania",
+        "description": "The calm and relaxation provided by a full-immersion walk-in tub allows your mind and body to unwind and improve sleep."
+      },
+      {
+        "title": "Arthritis and Body Aches",
+        "description": "A walk-in tub can help reduce the stiffness, pain, and swelling related to arthritis. With Full-body soak, you can ease the strain on your joints and promote cartilage healing."
+      },
+      {
+        "title": "Independent Bathing Experience",
+        "description": "Due to its walk-in design, seniors with limited moblity are able to safely bath independently without the help of a care taker."
+      },
+      {
+        "title": "Sleep Quality",
+        "description": "The steam from a walk-in bathtub can serve as a decongestant and promote deeper, and more peaceful sleep."
+      },
+      {
+        "title": "Hydrotherapy",
+        "description": "If you have achy joints and muscles, a walk-in tub with hydrotherapy can help you relax and receive some pain relief."
+      },
+      {
+        "title": "Dementia-Friendly",
+        "description": "Dementia may make people with the condition more resistant to bathing, a walk-in Tubs is easy to use and allows for temperature-control and comfort."
+      }
+    ],
+    "features": {
+      "description": "The ergonomic design of walk-in Tubs makes them safe and simple to use. They are designed specifically for people who have limited mobility. And may include features like:",
+      "list": [
+        "Hydrotherapy jets",
+        "Quick-fill faucet",
+        "Easy-to-grip grab bars",
+        "Quick-drain system",
+        "Low step-in threshold",
+        "Adjustable hand held shower with a hose",
+        "ADA-compliant accessibility seat",
+        "A leak-proof locking door"
+      ],
+      "images": [
+        "/images/WIT/wit-feature-1.webp",
+        "/images/WIT/wit-feature-2.webp",
+        "/images/WIT/wit-feature-3.webp",
+        "/images/WIT/wit-feature-4.webp"
+      
+      ]
+    },
+    "inspirations": {
+      "images": [
+        "/images/WIT/insp1.webp",
+        "/images/WIT/insp2.webp",
+        "/images/WIT/insp3.webp",
+        "/images/WIT/insp4.webp",
+        "/images/WIT/insp5.webp",
+        "/images/WIT/insp6.webp",
+        "/images/WIT/insp7.webp",
+        "/images/WIT/insp8.webp"
+     
+      
+      ]
+    }
+  },
+
+
+  {
+    "id": "kitchen-remodeling",
+    "title": "Kitchen Remodeling",
+    "description": "Kitchen remodeling can help you create a more functional, organized, and stylish kitchen. By updating the layout, fixtures, and finishes of your kitchen, you can increase its functionality and appeal.",
+    "benefits": [
+      "Free design consultion",
+      "Fair Price",
+      "Materials warranty",
+      "Create a functional kitchen space",
+      "RIncrease the value of your home",
+      "Modern style and comfort"
+    ],
+    "image": "/images/walk-in-shower.webp",
+    "advantages": [
+      
+      {
+        "title": "Better Cooking Experience",
+        "description": "A well-organized and streamlined kitchen makes it easier to cook nutritious meals quickly and easily. Plus, having all of the necessary tools at hand allows you to create more sophisticated dishes."
+      },
+      {
+        "title": "Eases Space Challenges",
+        "description": "A cramped or outdated kitchen is often one of the biggest obstacles to healthy eating because it's difﬁcult to store food properly or access various appliances without walking through multiple rooms. By reorganizing and expanding upon existing spaces, you can make better use of limited ﬂoor space while still accommodating all of your culinary needs."
+      },
+      {
+        "title": "Increases Functionality & usefulness",
+        "description": "It may be old news that a well-designed modern kitchen is typically much more functional than an archaic one but there's really no arguing evidence when it comes to this point – kitchens with upgraded cabinets , lower shelving , integrated appliances etc.,add up over time making them far more versatile than ever before ."
+      },
+      {
+        "title": "Highest quality workmanship",
+        "description": "Each cabinet is expertly made to the greatest standards, with attractive embellishments to complement your lifestyle, such false doors, drawers, or lovely beaded panels. Your bespoke design becomes a ﬂawless beauty thanks to ﬁnishing details like whisper-soft closing drawers."
+      },
+      {
+        "title": "Boosts Your House's Value",
+        "description": "One of the ﬁnest investments you can make in your house is a bespoke kitchen. It raises value in terms of both monetary worth and aesthetic and design appeal. You will make back 85% to 100% or more of the expense."
+      },
+      {
+        "title": "Energy consumption",
+        "description": "By renovating your kitchen and installing new and modern appliances, you can save a huge amount of energy consumption. These modern devices are designed in such a way that the energy wastage is minimum. The LED lights, refrigerators, and ovens are in a way that they consume less energy without compromising on quality and performance."
+      }
+    ],
+    "features": {
+      "description": "The ergonomic design of walk-in Tubs makes them safe and simple to use. They are designed specifically for people who have limited mobility. And may include features like:",
+      "list": [
+        "Kitchen cabinets",
+        "Kitchen Island",
+        "Storage Options",
+        "Countertops",
+        "Backsplash",
+        "Sinks and Faucets",
+        "Lighting",
+        "Flooring"
+      ],
+      "images": [
+        "/images/feature-1.webp",
+        "/images/feature-2.webp",
+        "/images/feature-3.webp",
+        "/images/feature-4.webp"
+      
+      ]
+    },
+    "inspirations": {
+      "images": [
+        "/images/inspiration-slide1.webp",
+        "/images/inspiration-slide2.webp",
+        "/images/inspiration-slide3.webp",
+        "/images/inspiration-slide4.webp",
+        "/images/inspiration-slide5.webp",
+        "/images/inspiration-slide6.webp",
+        "/images/inspiration-slide7.webp",
+        "/images/inspiration-slide8.webp"
+      
+      ]
+    }
+  },
+
+
+
+  {
+    "id": "window-replacement",
+    "title": "Window replacement",
+    "description": "Quick Window Replacement with best-in-class service",
+    "benefits": [
+      " Available in most States",
+      "Local prices",
+      "Increase your property's value",
+      "Product warranty",
+      "Energy Savings",
+      "Modern Styles"
+    ],
+    "image": "/images/WIN/win-splash.webp",
+    "advantages": [
+      
+      {
+        "title": "Home & Skin Protection",
+        "description": "UV-guard on windows helps prevent fading of flooring and furnishings in addition to reducing dangerous radiation for healthier skin."
+      },
+      {
+        "title": "Energy Savings",
+        "description": "windows helps to retain heat inside during cold weather and cool air inside during hot weather."
+      },
+      {
+        "title": "Easily Managed",
+        "description": "Long-lasting frame color and a strong construction maintain windows in excellent condition."
+      },
+      {
+        "title": "Better Protection",
+        "description": "Stronger glass is more difficult to shatter, increasing you and your family's safety."
+      },
+      {
+        "title": "Improved Interior",
+        "description": "For a healthy atmosphere, windows with tight seals let in less allergens and toxins."
+      },
+      {
+        "title": "Cool and collected",
+        "description": "Modern windows reduce obnoxious loud street noise, allowing you to relax and appreciate your space"
+      }
+    ],
+    "features": {
+      "description": "Window replacement can offer a number of benefits, including:",
+      "list": [
+        "Protection from the elements",
+        "Increase in home value",
+        "Noise reduction",
+        "Enhanced curb appeal",
+        "Reduced dust and allergens",
+        "Improved Natural Lighting",
+        "Improvement in air quality",
+        "Condensation Reduction"
+      ],
+      "images": [
+        "/images/WIN/win-feature-1.webp",
+        "/images/WIN/win-feature-2.webp",
+        "/images/WIN/win-feature-3.webp",
+        "/images/WIN/win-feature-4.webp"
+      
+      ]
+    },
+    "inspirations": {
+      "images": [
+        "/images/WIN/win-insp1.webp",
+        "/images/WIN/win-insp2.webp",
+        "/images/WIN/win-insp3.webp",
+        "/images/WIN/win-insp4.webp",
+        "/images/WIN/win-insp5.webp",
+        "/images/WIN/win-insp6.webp",
+        "/images/WIN/win-insp7.webp",
+        "/images/WIN/win-insp8.webp"
+      ]
+    }
+  }
+]

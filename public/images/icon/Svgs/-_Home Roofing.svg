@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="body_1" width="122" height="76">
+
+<g transform="matrix(0.7672956 0 0 0.7676768 0 0)">
+	<g transform="matrix(0.4296322 0 0 0.4296322 -0 0.1030387)">
+        <path d="M48.117104 228.45L365.6171 228.45" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M9.617105 227.95L34.117104 227.95" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M130.49712 57.720005L107.6471 28.09" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -70.3829 -142.05)"  d="M108.48 268.23L177.94 170.14L178.03 170.14L236.07 170.14" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M58.787106 156.44L40.717106 181.32L4.007105 181.32C 3.063446 181.31024 2.2016916 180.78209 1.7646635 179.94568C 1.3276355 179.10925 1.3862176 178.10023 1.917105 177.32L1.917105 177.32L38.117104 126.49" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M220.9071 28.09L259.1171 28.09C 259.45703 28.093145 259.77567 28.25616 259.97708 28.53L259.97708 28.53L368.31708 178.84C 368.66452 179.31577 368.7143 179.9467 368.44577 180.47108C 368.17725 180.99545 367.6362 181.32384 367.0471 181.31999L367.0471 181.31999L226.52708 181.31999C 226.04022 181.32553 225.5798 181.09903 225.28708 180.70999L225.28708 180.70999L130.49707 57.70999L75.35707 133.62" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M220.9071 35.29L220.9071 3.290001C 220.9071 2.3235025 220.1236 1.5400009 219.1571 1.5400009L219.1571 1.5400009L167.44711 1.5400009C 166.98125 1.5373402 166.53355 1.7205393 166.2032 2.049017C 165.87285 2.3774943 165.6871 2.824135 165.68712 3.290001L165.68712 3.290001L165.68712 48.39L191.61713 82.21C 192.08821 82.84076 192.82986 83.21158 193.61713 83.21L193.61713 83.21L218.49713 83.21C 219.15395 83.210014 219.78372 82.94841 220.24722 82.483025C 220.71072 82.01765 220.96979 81.38682 220.96713 80.729996L220.96713 80.729996L220.96713 57.45" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -70.3829 -142.05)"  d="M263.2 143.55L263.2 170.14L263.2 225.23" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M231.56712 167.39L331.3571 167.39" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -70.3829 -142.05)"  d="M310.67 180.27L326.17 180.27L337.8 196.74" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M353.1171 227.95L353.1171 181.31999" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M15.117105 181.31999L15.117105 227.95" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+	</g>
+</g>
+</svg>

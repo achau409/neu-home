@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="body_1" width="109" height="79">
+
+<g transform="matrix(0.7730497 0 0 0.76699036 0 0)">
+	<g transform="matrix(0.4298781 0 0 0.4298781 -0 0.022105243)">
+        <path d="M33.629997 238L326.5 238" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M1.5 238L23.129997 238" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -92 -132.5)"  d="M179.84 295.67L179.84 157.6L355.16 157.6L355.16 339.66L179.84 339.66L179.84 310.67" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M293.5 69L293.5 76" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -92 -132.5)"  d="M385.5 223.5L385.5 370L149.5 370L149.5 134L385.5 134L385.5 201.5" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M175.5 207.16L175.5 25.100006" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M98.97 62.300003L122.67 33.520004" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M112.8 64.7L125.63 48.899994" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M155.26 98.270004L165.12999 98.270004L165.12999 135.79001L155.26 135.79001L155.26 98.270004z" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M186.85999 98.270004L196.72998 98.270004L196.72998 135.79001L186.85999 135.79001L186.85999 98.270004z" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M160.19 135.79001L160.19 119.00999" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M191.79001 115.06L191.79001 98.270004" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path transform="matrix(1 0 0 1 -92 -132.5)"  d="M368.71 179.42L368.71 145.85L338.1 145.85" stroke="#263B8E" stroke-width="3" stroke-linecap="round" fill="none" />
+	</g>
+</g>
+</svg>
