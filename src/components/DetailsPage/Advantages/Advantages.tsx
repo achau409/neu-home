@@ -9,7 +9,7 @@ const Advantages = ({ advantageData, title }: AdvantagesProps) => {
   return (
     <div className="mt-10  py-12 px-2">
       <div className="w-full lg:w-[1180px] mx-auto">
-        <h1 className="text-4xl font-semibold mb-6 text-center">
+        <h1 className="text-4xl font-semibold mb-12 text-center">
           {advantageData.sectionTitle || `Advantages Of ${title}`}
         </h1>
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

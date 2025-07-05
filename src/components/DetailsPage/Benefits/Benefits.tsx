@@ -10,7 +10,7 @@ const Benefits = ({ serviceData }: BenefitsSectionProps) => {
   return (
     <div className="flex flex-col items-center justify-center w-full lg:w-[1180px] mx-auto my-10 px-4">
       <h1 className="text-4xl font-bold mb-4 text-center">
-        {serviceData.title}
+        {serviceData.benefits.sectionTitle}
       </h1>
       <p className="text-lg text-gray-600 mb-6 text-center font-semibold">
         {serviceData.description}

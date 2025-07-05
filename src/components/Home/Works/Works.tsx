@@ -36,7 +36,9 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
   return (
     <section className="bg-[#0b1b3f]  text-white py-14 px-6">
       <div className="max-w-[1180px] mx-auto text-center">
-        <h2 className="text-3xl font-semibold mb-12">How it works?</h2>
+        <h2 className="text-3xl font-semibold mb-12">
+          {howItWorkBlock.sectionTitle || "How it works?"}
+        </h2>
         <div className="flex flex-col lg:flex-row items-center justify-between">
           {cards.map((card: any, index: number) => (
             <div

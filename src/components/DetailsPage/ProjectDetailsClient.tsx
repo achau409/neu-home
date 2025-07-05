@@ -71,7 +71,8 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
         <div className="text-center mb-4 md:mb-10">
           <h1 className="text-3xl lg:text-[56px] font-bold mb-4 lg:leading-snug text-white">
             {serviceData.heroHeading}
-            <span className="font-extrabold text-white"> {userState}</span>?
+            <span className="font-extrabold text-white"> {userState}</span>{" "}
+            {serviceData.hasQuestionMark ? "?" : ""}
           </h1>
         </div>
 
