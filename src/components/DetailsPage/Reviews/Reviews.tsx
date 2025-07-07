@@ -84,7 +84,7 @@ const TestimonialsSlider = ({
             {testimonials.map((testimonial: any, index: number) => (
               <SwiperSlide key={index}>
                 <div className="flex flex-col items-center text-center p-4">
-                  <div className="w-16 h-16 rounded-full border flex items-center justify-center overflow-hidden">
+                  <div className="w-16 h-16 flex items-center justify-center overflow-hidden">
                     {testimonial?.image?.url && (
                       <Image
                         src={testimonial.image.url}

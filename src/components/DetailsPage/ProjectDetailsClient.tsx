@@ -107,8 +107,7 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
         )}
 
         <p className="text-base text-center font-medium text-white mt-2">
-          Get your FREE, no-risk estimate today—no obligations, just peace of
-          mind!{" "}
+          {serviceData.afterCTAText}
         </p>
       </div>
     </>
