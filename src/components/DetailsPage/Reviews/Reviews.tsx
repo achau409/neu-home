@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { ChevronLeft, ChevronRight, UserRound } from "lucide-react"; // Import the Lucide profile icon
 import Image from "next/image";
+import TextBlock from "@/components/blocks/TextBlockLexical";
 
 interface Testimonial {
   name: string;
@@ -98,12 +99,15 @@ const TestimonialsSlider = ({
                       <UserRound className="w-10 h-10" />
                     )}
                   </div>
-                  <h4 className="font-semibold my-4 text-gray-900">
+                  <h4 className="my-4 text-gray-900 font-bold">
                     {testimonial.name}
                   </h4>
-                  <p className="mb-4 text-sm text-gray-700">
-                    {testimonial.testimonial}
-                  </p>
+                  <TextBlock
+                    block={{
+                      blockType: "testimonial",
+                      testimonial: testimonial.testimonial,
+                    }}
+                  />
                 </div>
               </SwiperSlide>
             ))}

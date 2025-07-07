@@ -6,6 +6,7 @@ import TextBlock from "../blocks/TextBlock";
 import CardBlock from "../blocks/CardBlock";
 import DotLoading from "./Dotloading";
 import HTMLBlock from "../blocks/HTMLBlock";
+import BeforeAfterBlock from "../blocks/BeforeAfter";
 
 interface Image {
   // Define your image properties here
@@ -64,6 +65,17 @@ const ProjectContent: React.FC<ProjectContentProps> = ({
             return <TextBlock key={block.id} {...block} text={block.text} />;
           case "htmlblock":
             return <HTMLBlock key={block.id} {...block} content={block.html} />;
+          case "beforeAfter":
+            return (
+              <BeforeAfterBlock
+                key={block.id}
+                {...block}
+                headerTitle={block.headerTitle}
+                headerDescription={block.headerDescription}
+                beforeImage={block.beforeImage}
+                afterImage={block.afterImage}
+              />
+            );
           case "card":
             return (
               <CardBlock
