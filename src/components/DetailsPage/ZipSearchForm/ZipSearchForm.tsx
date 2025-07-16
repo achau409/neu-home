@@ -56,7 +56,7 @@ const ZipSearchForm = ({
 
     try {
       const { data } = await supabase
-        .from("ZIP Codes")
+        .from(serviceData.zipCodes)
         .select(
           `Zip_Code, City, State,Service,"Company name","Lead Delivery Email"`
         )

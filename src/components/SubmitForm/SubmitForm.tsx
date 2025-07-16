@@ -678,7 +678,7 @@ const SubmitForm = ({
   const handleSubmit = async (values: any) => {
     try {
       const { data, error } = await supabase
-        .from("Service_Requests")
+        .from(serviceData.serviceRequest)
         .insert([
           {
             ...values,
@@ -1046,7 +1046,7 @@ const SubmitForm = ({
         heroImage={serviceData.heroImage.url}
         contactPhone={serviceData.contactPhone}
         service={service}
-        customerLogo={serviceData.customerLogo.url}
+        customerLogo={serviceData.customerLogo?.url || ""  }
       />
     </>
   );

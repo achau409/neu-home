@@ -7,6 +7,7 @@ import CardBlock from "../blocks/CardBlock";
 import DotLoading from "./Dotloading";
 import HTMLBlock from "../blocks/HTMLBlock";
 import BeforeAfterBlock from "../blocks/BeforeAfter";
+import CityBlock from "../blocks/CityBlock";
 
 interface Image {
   // Define your image properties here
@@ -83,6 +84,16 @@ const ProjectContent: React.FC<ProjectContentProps> = ({
                 {...block}
                 title={block.title}
                 sections={block.sections}
+              />
+            );
+          case "cities":
+            return (
+              <CityBlock
+                key={block.id}
+                sectionTitle={block.sectionTitle}
+                cities={block.cities}
+                backgroundColor={block.backgroundColor}
+                blockName={block.blockName}
               />
             );
         }

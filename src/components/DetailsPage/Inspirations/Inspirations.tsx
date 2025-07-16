@@ -12,7 +12,7 @@ interface InspirationProps {
 
 const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  console.log(images);
   // Auto advance slides
   useEffect(() => {
     if (!images || images.length <= 1) return;
