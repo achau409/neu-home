@@ -631,6 +631,7 @@ const SubmitForm = ({
     }
     return acc;
   }, {} as Record<string, string>);
+  initialValues.xxTrustedFormCertUrl = "";
 
   const handleNext = (values: any) => {
     if (stepIndex === allSteps.length - 1) {
@@ -686,6 +687,7 @@ const SubmitForm = ({
             state: zipLocation?.state,
             Zip_code: zipCode,
             Service: projectTitle,
+            xxTrustedFormCertUrl: values.xxTrustedFormCertUrl,
           },
         ])
         .select();
@@ -733,7 +735,11 @@ const SubmitForm = ({
             .replace(/^./, (str) => str.toUpperCase());
           emailMessage += `${formattedKey}: ${values[key]}\n`;
         }
-        emailMessage += `Product: ${service}`;
+        emailMessage += `Product: ${service}\n`;
+        // Add TrustedForm cert URL to email
+        // if (values.xxTrustedFormCertUrl) {
+        //   emailMessage += `TrustedForm Cert URL: ${values.xxTrustedFormCertUrl}\n`;
+        // }
         await sendEmail(targetEmail, emailSubject, emailMessage);
 
         // Show thank you modal instead of redirecting
@@ -1000,6 +1006,15 @@ const SubmitForm = ({
         >
           {({ values, isValid, setFieldValue }: FormikProps<any>) => (
             <FormikForm className="w-full p-6 bg-white rounded-2xl relative overflow-hidden">
+              {/* TrustedForm hidden input */}
+              <input
+                type="hidden"
+                name="xxTrustedFormCertUrl"
+                id="xxTrustedFormCertUrl"
+                value={values.xxTrustedFormCertUrl || ""}
+                readOnly
+              />
+
               <div
                 className="absolute bottom-0 left-0 h-[5px] bg-[#28a745] transition-all duration-500"
                 style={{ width: `${progress}%` }}
@@ -1046,7 +1061,7 @@ const SubmitForm = ({
         heroImage={serviceData.heroImage.url}
         contactPhone={serviceData.contactPhone}
         service={service}
-        customerLogo={serviceData.customerLogo?.url || ""  }
+        customerLogo={serviceData.customerLogo?.url || ""}
       />
     </>
   );

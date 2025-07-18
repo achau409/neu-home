@@ -3,7 +3,12 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Shared/Navbar/Navbar";
 import Footer from "@/components/Shared/Footer/Footer";
-import { fetchHeader, getServices, fetchFooter, getAllServices } from "@/lib/api";
+import {
+  fetchHeader,
+  getServices,
+  fetchFooter,
+  getAllServices,
+} from "@/lib/api";
 import Script from "next/script";
 
 const inter = Inter({
@@ -58,11 +63,32 @@ export default async function RootLayout({
           />
         </noscript>
         {/* End Meta Pixel Code */}
+        {/* TrustedForm Web SDK */}
+        <Script
+          src="https://cdn.trustedform.com/tf.min.js"
+          strategy="afterInteractive"
+        />
+        <Script id="trustedform-init" strategy="afterInteractive">
+          {`
+            (function(){
+              var tf = document.createElement('script');
+              tf.type = 'text/javascript';
+              tf.async = true;
+              tf.src = 'https://cdn.trustedform.com/your_script.js&field=xxTrustedFormCertUrl';
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(tf, s);
+            })();
+          `}
+        </Script>
       </head>
       <body
         className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Navbar header={header} services={services} publishedServices={publishedServices} />
+        <Navbar
+          header={header}
+          services={services}
+          publishedServices={publishedServices}
+        />
         <main className="flex-grow">{children}</main>
         <Footer footer={footer} />
         <Toaster />
