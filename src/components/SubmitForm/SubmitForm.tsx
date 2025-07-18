@@ -370,6 +370,7 @@ interface SubmitFormProps {
   service: string;
   questions: any;
   serviceData: any;
+  product: string;
 }
 interface Locations {
   city: string;
@@ -580,7 +581,9 @@ const SubmitForm = ({
   service,
   questions,
   serviceData,
+  product,
 }: SubmitFormProps) => {
+  console.log("product", product);
   const [stepIndex, setStepIndex] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
   const [isWarningVisible, setIsWarningVisible] = useState(false);
@@ -714,7 +717,7 @@ const SubmitForm = ({
 
         const commonFields = ["fullName", "Email", "phoneNumber"];
         const otherFields = Object.keys(values).filter(
-          (key) => !commonFields.includes(key)
+          (key) => !commonFields.includes(key) && key !== "xxTrustedFormCertUrl"
         );
 
         for (const key of commonFields) {
@@ -735,7 +738,7 @@ const SubmitForm = ({
             .replace(/^./, (str) => str.toUpperCase());
           emailMessage += `${formattedKey}: ${values[key]}\n`;
         }
-        emailMessage += `Product: ${service}\n`;
+        emailMessage += `Product: ${product}\n`;
         // Add TrustedForm cert URL to email
         // if (values.xxTrustedFormCertUrl) {
         //   emailMessage += `TrustedForm Cert URL: ${values.xxTrustedFormCertUrl}\n`;

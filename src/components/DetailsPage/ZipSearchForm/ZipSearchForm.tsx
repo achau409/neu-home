@@ -39,6 +39,7 @@ const ZipSearchForm = ({
   const [projectTitle, setProjectTitle] = useState<string>(serviceData.title);
   const [deliveryEmail, setDeliveryEmail] = useState<string>("");
   const [companyName, setCompanyName] = useState<string>("");
+  const [product, setProduct] = useState<string>("");
   const [zipLocations, setZipLocations] = useState<Locations | null>(null);
   // access project title-----------------
   useEffect(() => {
@@ -76,6 +77,7 @@ const ZipSearchForm = ({
         setCompanyName(companyName);
         onStatusChange("matched");
         setIsMatched(true);
+        setProduct(data[0].Service);
       } else {
         setIsMatched(false);
         onStatusChange("not_matched");
@@ -102,7 +104,9 @@ const ZipSearchForm = ({
   return (
     <div className="text-center">
       <h3 className="text-lg md:text-2xl font-semibold mb-4 md:mb-6 text-white">
-        {serviceData.heroSubHeading ? serviceData.heroSubHeading : "Let's find out! Enter your ZIP code below"}
+        {serviceData.heroSubHeading
+          ? serviceData.heroSubHeading
+          : "Let's find out! Enter your ZIP code below"}
       </h3>
       <div className="flex justify-center items-center gap-3 relative px-2">
         <input
@@ -153,6 +157,7 @@ const ZipSearchForm = ({
             zipLocation={zipLocations}
             targetEmail={deliveryEmail}
             projectId={projectId}
+            product={product}
             companyName={companyName}
             questions={serviceData.questions}
             serviceData={serviceData}
