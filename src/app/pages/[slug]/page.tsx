@@ -63,7 +63,7 @@ const SlugPage = async ({ params }: TestPageProps) => {
       {/* <Projects services={services} /> */}
       {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
       {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
-      <ProjectContent content={cmsData?.content} />
+      <ProjectContent content={cmsData?.content} serviceData={cmsData} />
       <ScrollToTop />
     </div>
   );
