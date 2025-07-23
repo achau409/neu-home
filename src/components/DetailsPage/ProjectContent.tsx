@@ -8,6 +8,7 @@ import DotLoading from "./Dotloading";
 import HTMLBlock from "../blocks/HTMLBlock";
 import BeforeAfterBlock from "../blocks/BeforeAfter";
 import CityBlock from "../blocks/CityBlock";
+import ZipCodeBlock from "../blocks/ZipCode";
 
 interface Image {
   // Define your image properties here
@@ -26,11 +27,13 @@ interface ContentBlock {
 interface ProjectContentProps {
   content: ContentBlock[];
   isLoading?: boolean;
+  serviceData: any;
 }
 
 const ProjectContent: React.FC<ProjectContentProps> = ({
   content,
   isLoading = false,
+  serviceData,
 }) => {
   if (isLoading) {
     return <DotLoading />;
@@ -94,6 +97,20 @@ const ProjectContent: React.FC<ProjectContentProps> = ({
                 cities={block.cities}
                 backgroundColor={block.backgroundColor}
                 blockName={block.blockName}
+              />
+            );
+          case "zipcode":
+            return (
+              <ZipCodeBlock
+                key={block.id}
+                id={block.id}
+                heading={block.heading}
+                subheading={block.subheading}
+                belowTextEnabled={block.belowTextEnabled}
+                belowText={block.belowText}
+                backgroundColor={block.backgroundColor}
+                blockName={block.blockName}
+                serviceData={serviceData}
               />
             );
         }

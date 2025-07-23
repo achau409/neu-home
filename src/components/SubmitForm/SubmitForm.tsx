@@ -637,6 +637,14 @@ const SubmitForm = ({
   initialValues.xxTrustedFormCertUrl = "";
 
   const handleNext = (values: any) => {
+    // Sync TrustedForm value from DOM before next step or submit
+    const tfInput = document.getElementById(
+      "xxTrustedFormCertUrl"
+    ) as HTMLInputElement | null;
+    const tfValue = tfInput?.value;
+    if (tfValue && values.xxTrustedFormCertUrl !== tfValue) {
+      values.xxTrustedFormCertUrl = tfValue;
+    }
     if (stepIndex === allSteps.length - 1) {
       handleSubmit(values);
     } else {
@@ -680,16 +688,35 @@ const SubmitForm = ({
   };
 
   const handleSubmit = async (values: any) => {
+    // Sync TrustedForm value from DOM before submit
+    const tfInput = document.getElementById(
+      "xxTrustedFormCertUrl"
+    ) as HTMLInputElement | null;
+    const tfValue = tfInput?.value;
+    if (tfValue && values.xxTrustedFormCertUrl !== tfValue) {
+      values.xxTrustedFormCertUrl = tfValue;
+    }
+    // Split fullName into firstName and lastName for Supabase
+    let firstName = "";
+    let lastName = "";
+    if (values.fullName) {
+      const nameParts = values.fullName.trim().split(/\s+/);
+      firstName = nameParts[0];
+      lastName = nameParts.slice(1).join(" ");
+    }
     try {
       const { data, error } = await supabase
         .from(serviceData.serviceRequest)
         .insert([
           {
             ...values,
+            firstName,
+            lastName,
             city: zipLocation?.city,
             state: zipLocation?.state,
             Zip_code: zipCode,
-            Service: projectTitle,
+            // Service: projectTitle,
+            landing_page:projectTitle,
             xxTrustedFormCertUrl: values.xxTrustedFormCertUrl,
           },
         ])
@@ -1014,8 +1041,6 @@ const SubmitForm = ({
                 type="hidden"
                 name="xxTrustedFormCertUrl"
                 id="xxTrustedFormCertUrl"
-                value={values.xxTrustedFormCertUrl || ""}
-                readOnly
               />
 
               <div

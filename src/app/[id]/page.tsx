@@ -121,7 +121,7 @@ export default async function ProjectDetails({
         {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
 
         {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
-        <ProjectContent content={serviceData?.content} />
+        <ProjectContent content={serviceData?.content} serviceData={serviceData} />
 
         {serviceData.testimonials && (
           <TestimonialsSlider
