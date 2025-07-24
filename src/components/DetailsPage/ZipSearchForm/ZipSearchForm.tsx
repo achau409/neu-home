@@ -20,6 +20,7 @@ interface ZipSearchFormProps {
   service: string;
   deliveryEmail?: string;
   serviceData: any;
+  hero?: boolean;
 }
 interface Locations {
   city: string;
@@ -32,6 +33,7 @@ const ZipSearchForm = ({
   projectId,
   service,
   serviceData,
+  hero,
 }: ZipSearchFormProps) => {
   const [zipCode, setZipCode] = useState("");
   const [isMatched, setIsMatched] = useState(false);
@@ -103,11 +105,15 @@ const ZipSearchForm = ({
 
   return (
     <div className="text-center">
-      <h3 className="text-lg md:text-2xl font-semibold mb-4 md:mb-6 text-white">
-        {serviceData.heroSubHeading
-          ? serviceData.heroSubHeading
-          : "Let's find out! Enter your ZIP code below"}
-      </h3>
+      {hero ? (
+        <h3 className="text-lg md:text-2xl font-semibold mb-4 md:mb-6 text-white">
+          {serviceData.heroSubHeading
+            ? serviceData.heroSubHeading
+            : "Let's find out! Enter your ZIP code below"}
+        </h3>
+      ) : (
+        ""
+      )}
       <div className="flex justify-center items-center gap-3 relative px-2">
         <input
           type="text"

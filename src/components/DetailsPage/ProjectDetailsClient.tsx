@@ -83,6 +83,7 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
             onStatusChange={setZipStatus}
             onZipLocations={setZipDetails}
             serviceData={serviceData}
+            hero={true}
           />
         </Suspense>
 
