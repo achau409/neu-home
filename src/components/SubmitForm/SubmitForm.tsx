@@ -583,7 +583,6 @@ const SubmitForm = ({
   serviceData,
   product,
 }: SubmitFormProps) => {
-  console.log("product", product);
   const [stepIndex, setStepIndex] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
   const [isWarningVisible, setIsWarningVisible] = useState(false);

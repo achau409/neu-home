@@ -34,7 +34,7 @@ const Features = ({ featuresData }: FeaturesProps) => {
               <SquareCheckBig
                 strokeWidth={2.5}
                 size={28}
-                className="text-[#55bc7e] mr-3"
+                className="text-[#55bc7e] mr-3 !min-w-[28px] mt-1"
               />
               <p className="text-xl font-medium">{feature.title}</p>
             </div>
