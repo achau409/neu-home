@@ -104,6 +104,7 @@ export async function getServices() {
     const response = await axiosInstance.get("/services", {
       params: {
         "where[status][equals]": "published",
+        limit: 0,
       },
     });
     return response.data.docs;
@@ -119,7 +120,7 @@ export async function getAllServices() {
   try {
     const response = await axiosInstance.get("/services", {
       params: {
-        "where[status][in]": ["published", "draft"],
+        limit: 0,
       },
     });
     return response.data.docs;

@@ -12,7 +12,7 @@ interface InspirationProps {
 
 const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  console.log(images);
+
   // Auto advance slides
   useEffect(() => {
     if (!images || images.length <= 1) return;
@@ -20,11 +20,6 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
     const timer = setInterval(() => {
       setActiveIndex((current) => {
         const nextIndex = current + 1;
-        console.log(
-          `Auto advancing from ${current} to ${
-            nextIndex >= images.length ? 0 : nextIndex
-          }`
-        );
         return nextIndex >= images.length ? 0 : nextIndex;
       });
     }, 4000);
@@ -35,27 +30,22 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
   const handlePrevious = () => {
     const prevIndex = activeIndex - 1;
     const newIndex = prevIndex < 0 ? images.length - 1 : prevIndex;
-    console.log(`Previous clicked: ${activeIndex} -> ${newIndex}`);
     setActiveIndex(newIndex);
   };
 
   const handleNext = () => {
     const nextIndex = activeIndex + 1;
     const newIndex = nextIndex >= images.length ? 0 : nextIndex;
-    console.log(`Next clicked: ${activeIndex} -> ${newIndex}`);
     setActiveIndex(newIndex);
   };
 
   const handleDotClick = (index: number) => {
-    console.log(`Dot clicked: ${activeIndex} -> ${index}`);
     setActiveIndex(index);
   };
 
   if (!images || images.length === 0) {
     return null;
   }
-
-  console.log(`Rendering with ${images.length} images, active: ${activeIndex}`);
 
   return (
     <section className="py-12 overflow-hidden md:px-6">
@@ -118,7 +108,6 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
               />
             ))}
           </div>
-
         </div>
       </div>
     </section>

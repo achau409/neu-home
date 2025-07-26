@@ -398,8 +398,8 @@ const ThankYouModal = ({
   customerLogo,
 }: ThankYouModalProps) => {
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-full w-full h-[100dvh] p-0 rounded-lg text-[#0b1b3f] overflow-y-auto">
+    <Dialog open={true} onOpenChange={setIsOpen}>
+      <DialogContent className="max-w-full w-full h-[100dvh] p-0 rounded-lg text-[#0b1b3f] overflow-y-auto ">
         <div className="min-h-full bg-white">
           <section className="relative min-h-full">
             <div className="relative w-full h-screen">
@@ -413,7 +413,7 @@ const ThankYouModal = ({
                 placeholder="blur"
                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANg=="
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-200 to-transparent z-10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0b1b3fc6] to-[#0b1b3fbe] z-10" />
             </div>
 
             <div className="absolute inset-0 z-20 px-4 flex flex-col min-h-full">
@@ -421,7 +421,7 @@ const ThankYouModal = ({
               <div className="pt-4 pb-2 max-w-[1320px] mx-auto w-full">
                 <div className="flex items-center justify-between">
                   <Image
-                    src="/images/logo.svg"
+                    src="/images/logo_in.svg"
                     alt="Logo"
                     width={140}
                     height={140}
@@ -439,13 +439,13 @@ const ThankYouModal = ({
               <div className="flex-grow flex items-center justify-center py-4">
                 <div className="max-w-2xl mx-auto text-center">
                   {/* Thank You Message */}
-                  <h1 className="text-4xl font-bold mb-6 text-[#1a3c61]">
+                  <h1 className="text-4xl font-bold mb-6 text-white">
                     Thank You!
                   </h1>
 
                   {/* Checkmark Icon */}
                   <div className="mb-4">
-                    <div className="w-16 h-16 bg-[#3cb371] rounded-full mx-auto flex items-center justify-center">
+                    <div className="w-16 h-16 bg-[#28a745] rounded-full mx-auto flex items-center justify-center">
                       <svg
                         className="w-14 h-14 text-white"
                         fill="none"
@@ -463,14 +463,14 @@ const ThankYouModal = ({
                     </div>
                   </div>
 
-                  <p className="text-xl mb-10 text-[#1a3c61]">
+                  <p className="text-xl mb-10 text-white">
                     Your estimator from <strong>{companyName}</strong> will call
                     you within the next 5-10 minutes.
                   </p>
 
                   {/* What to Expect Section */}
                   <div className="mb-6">
-                    <h2 className="text-xl text-left md:text-center font-bold mb-4 text-[#1a3c61]">
+                    <h2 className="text-xl text-left md:text-center font-bold mb-4 text-white">
                       What to Expect:
                     </h2>
                     <div className="space-y-4 text-left max-w-md mx-auto">
@@ -480,7 +480,7 @@ const ThankYouModal = ({
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="currentColor"
-                            className="w-6 h-6"
+                            className="w-6 h-6 text-white"
                           >
                             <path
                               fillRule="evenodd"
@@ -489,7 +489,9 @@ const ThankYouModal = ({
                             />
                           </svg>
                         </div>
-                        <span className="text-xl">Quick 10-minute call</span>
+                        <span className="text-xl text-white">
+                          Quick 10-minute call
+                        </span>
                       </div>
                       <div className="flex items-center">
                         <div className="w-6 h-6 mr-2 flex-shrink-0">
@@ -497,7 +499,7 @@ const ThankYouModal = ({
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="currentColor"
-                            className="w-6 h-6"
+                            className="w-6 h-6 text-white"
                           >
                             <path
                               fillRule="evenodd"
@@ -506,7 +508,9 @@ const ThankYouModal = ({
                             />
                           </svg>
                         </div>
-                        <span className="text-xl">Confirm project goals</span>
+                        <span className="text-xl text-white">
+                          Confirm project goals
+                        </span>
                       </div>
                       <div className="flex items-center">
                         <div className="w-6 h-6 mr-2 flex-shrink-0">
@@ -514,7 +518,7 @@ const ThankYouModal = ({
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="currentColor"
-                            className="w-6 h-6"
+                            className="w-6 h-6 text-white"
                           >
                             <path d="M12.75 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM7.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8.25 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9.75 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM10.5 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12.75 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14.25 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 13.5a.75.75 0 100-1.5.75.75 0 000 1.5z" />
                             <path
@@ -524,7 +528,7 @@ const ThankYouModal = ({
                             />
                           </svg>
                         </div>
-                        <span className="text-xl">
+                        <span className="text-xl text-white">
                           Schedule your free in-home estimate
                         </span>
                       </div>
@@ -552,13 +556,13 @@ const ThankYouModal = ({
 
                   {/* Contact Information */}
                   {contactPhone && (
-                    <p className="text-lg mb-8">{contactPhone}</p>
+                    <p className="text-lg mb-8 text-white">{contactPhone}</p>
                   )}
 
                   {/* Return Button */}
                   <p
                     onClick={() => window.location.reload()}
-                    className="bg-[#1a3c61] text-white px-8 py-3 rounded-lg text-xl font-semibold hover:bg-[#2a4c71] transition-colors inline-block cursor-pointer mb-4"
+                    className="bg-[#28a745] text-white  mt-4 px-8 py-3 rounded-lg text-xl font-semibold hover:bg-[#2a4c71] transition-colors inline-block cursor-pointer mb-4"
                   >
                     Return to Home
                   </p>
@@ -715,7 +719,7 @@ const SubmitForm = ({
             state: zipLocation?.state,
             Zip_code: zipCode,
             // Service: projectTitle,
-            landing_page:projectTitle,
+            landing_page: projectTitle,
             xxTrustedFormCertUrl: values.xxTrustedFormCertUrl,
           },
         ])
