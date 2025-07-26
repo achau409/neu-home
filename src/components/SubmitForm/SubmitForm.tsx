@@ -398,7 +398,7 @@ const ThankYouModal = ({
   customerLogo,
 }: ThankYouModalProps) => {
   return (
-    <Dialog open={true} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="max-w-full w-full h-[100dvh] p-0 rounded-lg text-[#0b1b3f] overflow-y-auto ">
         <div className="min-h-full bg-white">
           <section className="relative min-h-full">
