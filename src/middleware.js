@@ -17,7 +17,7 @@ const DEFAULT_SLUGS = [
   "go-flooring",
   "123-wrep",
   "wis",
-  "everdry-basement-waterproofing",
+  "everdry-basement",
   "tranquility-wit",
   "tranquility-wis",
   "everdry-foundation-repair",
