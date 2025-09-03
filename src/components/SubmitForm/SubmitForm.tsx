@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import posthog from "posthog-js";
 import {
   Formik,
   Form as FormikForm,
@@ -777,6 +778,30 @@ const SubmitForm = ({
 
         // Show thank you modal instead of redirecting
         setShowThankYouModal(true);
+
+        // PostHog: fire form_submit success with experiment/variant
+        try {
+          const pathname =
+            typeof window !== "undefined" ? window.location.pathname : "/";
+          const slug = pathname.split("/").filter(Boolean)[0] || "";
+          const expKey = slug ? `exp__${slug}__v1` : null;
+          const match = (
+            typeof document !== "undefined" ? document.cookie : ""
+          ).match(new RegExp("(^| )ab_" + slug + "=([^;]+)"));
+          const variant = match ? decodeURIComponent(match[2]) : undefined;
+          (posthog as any).capture(
+            "form_submit",
+            {
+              form_id: serviceData?.form_id || "lead-form",
+              client_id: companyName,
+              path: pathname,
+              experiment_key: expKey || undefined,
+              variant,
+              success: true,
+            },
+            { send_feature_flags: true }
+          );
+        } catch {}
       }
     } catch (err) {
       console.error("Unexpected error:", err);
@@ -873,6 +898,9 @@ const SubmitForm = ({
                   as={Input}
                   placeholder={field.placeholder}
                   className="mb-4 p-6 rounded-md placeholder:font-semibold"
+                  {...(field.name === "fullName" || field.name === "Email"
+                    ? { "data-ph-no-capture": true }
+                    : {})}
                 />
                 <ErrorMessage
                   name={field.name}
@@ -934,6 +962,7 @@ const SubmitForm = ({
                   placeholder="Enter Your Phone Number"
                   pattern="\(\d{3}\)\d{3}-\d{4}"
                   className="p-6 pl-12 w-full rounded-md placeholder:font-semibold"
+                  data-ph-no-capture
                   onInput={(e: any) => {
                     const value = e.target.value.replace(/\D/g, "");
                     if (value.length <= 10) {

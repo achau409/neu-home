@@ -148,3 +148,20 @@ export async function getServicesBySlug(slug: string) {
     return null;
   }
 }
+export async function fetchLandingVariant(slug: string, variant: string) {
+  try {
+    const response = await axiosInstance.get(`/services`, {
+      params: {
+        "where[slug][equals]": slug,
+        "where[variant][equals]": variant,
+      },
+    });
+    return response.data.docs[0];
+  } catch (error: any) {
+    console.error(
+      `Error fetching services by slug:`,
+      error.response?.data || error.message
+    );
+    return null;
+  }
+}

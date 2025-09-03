@@ -10,6 +10,7 @@ import {
   getAllServices,
 } from "@/lib/api";
 import Script from "next/script";
+import { PostHogProvider } from "@/providers/PostHogProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -84,14 +85,16 @@ export default async function RootLayout({
       <body
         className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Navbar
-          header={header}
-          services={services}
-          publishedServices={publishedServices}
-        />
-        <main className="flex-grow">{children}</main>
-        <Footer footer={footer} />
-        <Toaster />
+        <PostHogProvider>
+          <Navbar
+            header={header}
+            services={services}
+            publishedServices={publishedServices}
+          />
+          <main className="flex-grow">{children}</main>
+          <Footer footer={footer} />
+          <Toaster />
+        </PostHogProvider>
       </body>
     </html>
   );
