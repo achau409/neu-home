@@ -1,15 +1,20 @@
 import React from "react";
 import Image from "next/image";
 
-interface ImageType {
-  url?: string;
+interface ApiImage {
+  id: number;
+  url: string;
   alt?: string;
-  // Add other properties as needed
+}
+
+interface ImageWrapper {
+  id: string;
+  image: ApiImage | null;
 }
 
 interface ManyImagesBlockProps {
   id: string;
-  images: ImageType[];
+  images: ImageWrapper[];
   blockName?: string | null;
   backgroundColor?: string | null;
   isTopPosition?: boolean;
@@ -25,6 +30,7 @@ const ManyImagesBlock: React.FC<ManyImagesBlockProps> = ({
   if (!images || images.length === 0) {
     return null;
   }
+
   return (
     <section
       id={blockName || `block-${id}`}
@@ -32,23 +38,29 @@ const ManyImagesBlock: React.FC<ManyImagesBlockProps> = ({
       style={{ backgroundColor: backgroundColor || "transparent" }}
     >
       <div className="flex flex-wrap gap-4 justify-center items-center">
-        {images.map((image: any, index) => (
-          <div key={index} className="relative overflow-hidden rounded-lg">
-            {image.image.url ? (
-              <Image
-                src={image.image.url}
-                alt={image.image.alt || "Project image"}
-                width={500}
-                height={500}
-                className="w-[150px] h-[150px] object-contain"
-              />
-            ) : (
-              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                <p className="text-gray-500">Image not available</p>
-              </div>
-            )}
-          </div>
-        ))}
+        {images.map((item, index) => {
+          const img = item.image; // could be null
+          return (
+            <div
+              key={index}
+              className="relative overflow-hidden rounded-lg"
+            >
+              {img && img.url ? (
+                <Image
+                  src={img.url}
+                  alt={img.alt || "Project image"}
+                  width={500}
+                  height={500}
+                  className="w-[150px] h-[150px] object-contain"
+                />
+              ) : (
+                <div className="w-[150px] h-[150px] bg-gray-200 flex items-center justify-center">
+                  <p className="text-gray-500">Image not available</p>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </section>
   );
