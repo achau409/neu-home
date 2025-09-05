@@ -1,10 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import supabase from "@/utils/supabase/client";
 import { CircleCheckBig, X } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import SubmitForm from "@/components/SubmitForm/SubmitForm";
 import { getAllServices } from "@/lib/api";
+import posthog from "posthog-js";
 
 interface Project {
   id: string;
@@ -43,6 +44,7 @@ const ZipSearchForm = ({
   const [companyName, setCompanyName] = useState<string>("");
   const [product, setProduct] = useState<string>("");
   const [zipLocations, setZipLocations] = useState<Locations | null>(null);
+  const intentFiredRef = useRef(false);
   // access project title-----------------
   useEffect(() => {
     setProjectTitle(serviceData.title);
@@ -99,6 +101,31 @@ const ZipSearchForm = ({
   // Open modal when ZIP code is matched----------------
   const handleStartEstimate = () => {
     if (isMatched) {
+      // Fire form_intent once per page view when user advances from ZIP
+      if (!intentFiredRef.current) {
+        intentFiredRef.current = true;
+        try {
+          const pathname =
+            typeof window !== "undefined" ? window.location.pathname : "/";
+          const slug = pathname.split("/").filter(Boolean)[0] || "";
+          const expKey = slug ? `exp__${slug}__v1` : null;
+          const match = (
+            typeof document !== "undefined" ? document.cookie : ""
+          ).match(new RegExp("(^| )ab_" + slug + "=([^;]+)"));
+          const variant = match ? decodeURIComponent(match[2]) : undefined;
+          posthog.capture(
+            "form_intent",
+            {
+              form_id: "lead-form",
+              client_id: companyName,
+              path: pathname,
+              experiment_key: expKey || undefined,
+              variant,
+            },
+            { send_feature_flags: true } as any
+          );
+        } catch {}
+      }
       setIsModalOpen(true);
     }
   };

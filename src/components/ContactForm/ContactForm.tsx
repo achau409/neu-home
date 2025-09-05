@@ -88,6 +88,7 @@ ${formData.message}
             value={formData.name}
             onChange={handleChange}
             required
+            data-ph-no-capture
           />
         </div>
 
@@ -100,6 +101,7 @@ ${formData.message}
             value={formData.email}
             onChange={handleChange}
             required
+            data-ph-no-capture
           />
         </div>
 
@@ -111,6 +113,7 @@ ${formData.message}
             value={formData.message}
             onChange={handleChange}
             required
+            data-ph-no-capture
           />
         </div>
 
