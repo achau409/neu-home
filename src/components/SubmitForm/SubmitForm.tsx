@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import posthog from "posthog-js";
 import {
   Formik,
@@ -690,6 +690,53 @@ const SubmitForm = ({
       console.error("Error sending emails:", err);
     }
   };
+  const [info, setInfo] = useState({ os: "", browser: "" });
+  const [serverIp, setServerIp] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const detectAndFetch = async () => {
+      try {
+        const userAgent = navigator.userAgent;
+
+        // Simple detection
+        let os = "Unknown OS";
+        if (/windows/i.test(userAgent)) os = "Windows";
+        else if (/mac/i.test(userAgent)) os = "MacOS";
+        else if (/linux/i.test(userAgent)) os = "Linux";
+        else if (/android/i.test(userAgent)) os = "Android";
+        else if (/iphone|ipad/i.test(userAgent)) os = "iOS";
+
+        let browser = "Unknown Browser";
+        if (/edg/i.test(userAgent)) browser = "Edge";
+        else if (/chrome/i.test(userAgent)) browser = "Chrome";
+        else if (/safari/i.test(userAgent)) browser = "Safari";
+        else if (/firefox/i.test(userAgent)) browser = "Firefox";
+
+        if (isMounted) setInfo({ os, browser });
+
+        const response = await fetch("/api/getIP", {
+          signal: controller.signal,
+          cache: "no-store",
+        });
+        if (!response.ok) throw new Error("Failed to fetch IP");
+        const data = await response.json();
+        console.log("IP details", data);
+        if (isMounted) setServerIp(data?.ip ?? "");
+      } catch (_error) {
+        // Ignore fetch abort and failures silently for UI stability
+      }
+    };
+
+    detectAndFetch();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
 
   const handleSubmit = async (values: any) => {
     // Sync TrustedForm value from DOM before submit
@@ -720,6 +767,9 @@ const SubmitForm = ({
             state: zipLocation?.state,
             Zip_code: zipCode,
             // Service: projectTitle,
+            ip_address: serverIp,
+            os: info.os,
+            browser: info.browser,
             landing_page: projectTitle,
             xxTrustedFormCertUrl: values.xxTrustedFormCertUrl,
           },
