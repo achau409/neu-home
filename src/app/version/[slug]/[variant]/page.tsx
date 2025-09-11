@@ -15,9 +15,13 @@ import ManyImagesBlock from "@/components/blocks/ManyImagesBlock";
 export const dynamic = "force-dynamic";
 
 // Add generateMetadata function to handle dynamic params
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const id = await Promise.resolve(params.id);
-  const serviceData = await getServicesBySlug(id);
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const slug = await Promise.resolve(params.slug);
+  const serviceData = await getServicesBySlug(slug);
 
   if (!serviceData) {
     return {
@@ -28,7 +32,8 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
   return {
     title: serviceData.seo?.metaTitle || serviceData.title,
-    description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
+    description:
+      serviceData.seo?.metaDescription || `Project Details - ${slug}`,
     keywords: serviceData.seo?.metaKeywords,
   };
 }
@@ -44,16 +49,15 @@ export default async function VariantPage({
 }) {
   const { slug, variant } = params;
 
-  const [serviceData] = await Promise.all([fetchLandingVariant(slug, variant)]);
+  // Try requested variant first, fall back to 'lp1' if not found
+  let serviceData = await fetchLandingVariant(slug, variant);
+  if (!serviceData && variant !== "lp1") {
+    serviceData = await fetchLandingVariant(slug, "lp1");
+  }
 
   if (!serviceData) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-gray-50 text-gray-700">
-        <h1 className="text-2xl font-bold">
-          Project not found. Please check the URL.
-        </h1>
-      </div>
-    );
+    // As an extra safety, avoid rendering empty state per requirement; fall back to base service
+    serviceData = await getServicesBySlug(slug);
   }
   const howItWorkBlock = serviceData.content.find(
     (block: { blockType: string }) => block.blockType === "workflow"
