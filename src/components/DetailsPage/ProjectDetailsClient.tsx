@@ -36,14 +36,11 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
 
     const fetchLocation = async () => {
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/ipinfo`,
-          {
-            headers: {
-              "Cache-Control": "max-age=3600",
-            },
-          }
-        );
+        const response = await fetch("/api/ipinfo", {
+          headers: {
+            "Cache-Control": "max-age=3600",
+          },
+        });
 
         if (!response.ok) {
           console.error("Failed to fetch location data:", response.statusText);
