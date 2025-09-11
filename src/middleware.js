@@ -51,12 +51,13 @@ function getOrCreateVisitorId(req) {
 async function getVariantForSlug(slug, req, vid) {
   const experimentKey = expKeyFromSlug(slug);
   const controller = new AbortController();
+  const timeoutMs = Number(process.env.NEXT_PUBLIC_AB_TIMEOUT_MS || 800);
   const t = setTimeout(() => {
     console.warn(
-      `⏱️ Timeout reached (400ms) for slug=${slug}, aborting fetch...`
+      `⏱️ Timeout reached (${timeoutMs}ms) for slug=${slug}, aborting fetch...`
     );
     controller.abort();
-  }, 400);
+  }, timeoutMs);
 
   try {
     const origin = req.nextUrl.origin;
@@ -80,7 +81,7 @@ async function getVariantForSlug(slug, req, vid) {
     const variant = json.variant;
     console.log("📦 Variant received:", variant);
 
-    return variant === "lp1" || variant === "lp2" ? variant : "lp1";
+    return variant === "control" ? "lp1" : variant;
   } catch (err) {
     clearTimeout(t);
     console.error("⚠️ Fetch error for slug:", slug, {

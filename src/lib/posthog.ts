@@ -1,11 +1,16 @@
-import { PostHog } from "posthog-node"
+import { PostHog } from "posthog-node";
 
 // NOTE: This is a Node.js client, so you can use it for sending events from the server side to PostHog.
-export default function PostHogClient() {
-  const posthogClient = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-    host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-    flushAt: 1,
-    flushInterval: 0,
-  })
-  return posthogClient
+// Make the client a singleton to avoid connection setup cost on every request.
+let singletonClient: PostHog | null = null;
+
+export default function PostHogClient(): PostHog {
+  if (!singletonClient) {
+    singletonClient = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+      host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+      flushAt: 1,
+      flushInterval: 0,
+    });
+  }
+  return singletonClient;
 }
