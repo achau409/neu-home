@@ -25,8 +25,8 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
   const [zipStatus, setZipStatus] = useState<string | null>(null);
   const [zipDetails, setZipDetails] = useState<ZipDetails | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [userState, setUserState] = useState<string>("in your area");
-  const [userCity, setUserCity] = useState<string>("in your area");
+  const [userState, setUserState] = useState<string>("your area");
+  const [userCity, setUserCity] = useState<string>("your area");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,7 +49,7 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
         }
 
         const data = await response.json();
-        if (data.state && data.state !== "in your area") {
+        if (data.state && data.state !== "your area") {
           setUserState(data.state);
           setUserCity(data.city);
         }
