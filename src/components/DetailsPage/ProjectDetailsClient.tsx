@@ -71,7 +71,7 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
           <h1 className="text-3xl lg:text-[56px] font-bold mb-4 lg:leading-snug text-white">
             {serviceData.heroHeading}
             {serviceData.hasLocation && (
-              <span className="font-extrabold text-white"> {userState}</span>
+              <span className="font-extrabold text-white"> {userCity}</span>
             )}
             {serviceData.hasQuestionMark ? "?" : ""}
           </h1>
