@@ -95,7 +95,21 @@ async function getVariantForSlug(slug, req, vid) {
 
 export default async function middleware(req) {
   const url = req.nextUrl;
-  const slug = publicSlug(url.pathname);
+  let slug = publicSlug(url.pathname);
+  const host = url.hostname || req.headers.get("host") || "";
+
+  // Host-based root mapping: serve /go-flooring at goflooroffers.com root while keeping URL clean
+  if (
+    !slug &&
+    (host === "goflooroffers.com" || host === "www.goflooroffers.com")
+  ) {
+    console.log(
+      "🌐 Host mapping active for:",
+      host,
+      "→ using slug: go-flooring"
+    );
+    slug = "go-flooring";
+  }
 
   console.log("➡️ Incoming request:", url.pathname, "Slug detected:", slug);
 
