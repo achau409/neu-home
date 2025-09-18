@@ -113,14 +113,16 @@ const ZipSearchForm = ({
             typeof document !== "undefined" ? document.cookie : ""
           ).match(new RegExp("(^| )ab_" + slug + "=([^;]+)"));
           const variant = match ? decodeURIComponent(match[2]) : undefined;
-          posthog.capture(
+          (posthog as any).capture(
             "form_intent",
             {
-              form_id: "lead-form",
+              form_id: serviceData?.form_id || "lead-form",
               client_id: companyName,
               path: pathname,
               experiment_key: expKey || undefined,
               variant,
+              service,
+              zip_code: zipCode,
             },
             { send_feature_flags: true } as any
           );

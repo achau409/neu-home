@@ -595,6 +595,7 @@ const SubmitForm = ({
   const router = useRouter();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showThankYouModal, setShowThankYouModal] = useState(false);
+  const [submitInFlight, setSubmitInFlight] = useState(false);
 
   const allSteps = [...questions, ...COMMON_STEPS];
 
@@ -739,6 +740,8 @@ const SubmitForm = ({
   }, []);
 
   const handleSubmit = async (values: any) => {
+    if (submitInFlight) return; // guard duplicate clicks / retries
+    setSubmitInFlight(true);
     // Sync TrustedForm value from DOM before submit
     const tfInput = document.getElementById(
       "xxTrustedFormCertUrl"
@@ -848,6 +851,8 @@ const SubmitForm = ({
               experiment_key: expKey || undefined,
               variant,
               success: true,
+              service,
+              zip_code: zipCode,
             },
             { send_feature_flags: true }
           );
@@ -860,6 +865,7 @@ const SubmitForm = ({
         description: "Something went wrong. Please try again later.",
       });
     }
+    setSubmitInFlight(false);
   };
   const renderStep = (step: Step, setFieldValue: any, values: any) => {
     switch (step.type) {
