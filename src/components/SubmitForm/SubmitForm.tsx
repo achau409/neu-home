@@ -1048,7 +1048,7 @@ const SubmitForm = ({
             </div>
             <p className="my-6 text-center text-[10px] text-gray-500 font-semibold">
               {serviceData.neuMediaText ||
-                "Neu Media Group, the operator of this website, and/or our local partner will contact you via a call, text, or email using manual or automated technology at the telephone number provided, including your wireless number, to arrange a convenient time to do an in-home estimate for you. You understand that your consent is not required to purchase products or services, and you understand that you may revoke your consent at any time."}
+                " Neu Media Group, the operator of this website, and/or our local partner will contact you via a call, text, or email using manual or automated technology at the telephone number provided, including your wireless number, to arrange a convenient time to do an in-home estimate for you. You understand that your consent is not required to purchase products or services, and you understand that you may revoke your consent at any time."}
             </p>
           </div>
         );
