@@ -113,7 +113,7 @@ export default async function middleware(req) {
 
   console.log("➡️ Incoming request:", url.pathname, "Slug detected:", slug);
 
-  if (!LANDING_SLUGS.has(slug)) {
+  if (!LANDING_SLUGS.has('/')) {
     console.log("⏭️ Slug not in LANDING_SLUGS, skipping middleware.");
     return NextResponse.next();
   }

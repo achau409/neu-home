@@ -773,6 +773,7 @@ const SubmitForm = ({
             ip_address: serverIp,
             os: info.os,
             browser: info.browser,
+            utm_source: window.location.href,
             landing_page: projectTitle,
             xxTrustedFormCertUrl: values.xxTrustedFormCertUrl,
           },

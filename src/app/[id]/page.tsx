@@ -42,6 +42,8 @@ export default async function ProjectDetails({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  console.log('location',window.location.href)
+
   const { id } = await params;
 
   const [serviceData] = await Promise.all([getServiceData(id)]);
@@ -67,7 +69,6 @@ export default async function ProjectDetails({
     (block: { blockType: string; isTopPosition: boolean }) =>
       block.blockType === "manyImages" && block.isTopPosition === true
   );
-
   return (
     <div className="overflow-hidden">
       <section className="relative bg-gray-50 py-6 md:py-12">
