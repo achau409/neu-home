@@ -42,8 +42,6 @@ export default async function ProjectDetails({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  console.log('location',window.location.href)
-
   const { id } = await params;
 
   const [serviceData] = await Promise.all([getServiceData(id)]);
@@ -122,7 +120,10 @@ export default async function ProjectDetails({
         {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
 
         {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
-        <ProjectContent content={serviceData?.content} serviceData={serviceData} />
+        <ProjectContent
+          content={serviceData?.content}
+          serviceData={serviceData}
+        />
 
         {serviceData.testimonials && (
           <TestimonialsSlider
