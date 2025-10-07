@@ -24,7 +24,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
-import Link from "next/link";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 type FieldType =
@@ -56,12 +55,6 @@ interface Step {
     condition: string | string[] | ((values: any) => boolean);
     message: string;
     buttons?: boolean;
-  };
-}
-
-interface ServiceConfig {
-  [key: string]: {
-    steps: Step[];
   };
 }
 
@@ -108,259 +101,6 @@ const COMMON_STEPS: Step[] = [
   },
 ];
 
-// Service-specific configurations-------------
-const SERVICES: ServiceConfig = {
-  "walk-in-shower": {
-    steps: [
-      {
-        name: "HomeOwner",
-        title: "Are you the homeowner or authorized to make property changes?",
-        type: "radio",
-        options: ["Yes", "No"],
-        validation: Yup.string().required("You must select an option"),
-        warningMessage: {
-          condition: "No",
-          message:
-            "Our installers require the homeowner or someone authorized to make property changes be present during the estimate. Would you like to continue?",
-          buttons: true,
-        },
-      },
-      {
-        name: "MobileHome",
-        title: "Is it a mobile, modular or manufactured home?",
-        type: "radio",
-        options: ["Yes", "No"],
-        validation: Yup.string().required("You must select an optiojhn"),
-        warningMessage: {
-          condition: "Yes",
-          message:
-            "Unfortunately, our installers do not work with mobile, modular or manufactured homes. Would you still like to continue?",
-          buttons: true,
-        },
-      },
-    ],
-  },
-  "window-replacement": {
-    steps: [
-      {
-        name: "ExistingWindows",
-        title: "What do you need help with??",
-        type: "radio",
-        options: [
-          "Replace Existing Windows",
-          "Repair Existing Windows",
-          "Other",
-        ],
-        validation: Yup.string().required("You must select an option"),
-        warningMessage: {
-          condition: "Repair Existing Windows",
-          message:
-            "Unfortunately, our installers only offer window replacement at this time. Would you like to continue?",
-          buttons: true,
-        },
-      },
-      {
-        name: "windows_count",
-        title: "How many windows need replacement?",
-        type: "radio",
-        options: ["1-2", "3-5", "6-9", "10+"],
-        validation: Yup.string().required("You must select an option"),
-        warningMessage: {
-          condition: "1-2",
-          message:
-            "Unfortunately, our installers can only work on projects where 3 or more windows are replaced. Would you like to continue?",
-          buttons: true,
-        },
-      },
-      {
-        name: "HomeOwner",
-        title: "Are you the homeowner or authorized to make property changes?",
-        type: "radio",
-        options: ["Yes", "No"],
-        validation: Yup.string().required("You must select an option"),
-        warningMessage: {
-          condition: "No",
-          message:
-            "Our installers require the homeowner or someone authorized to make property changes be present during the estimate. Would you like to continue?",
-          buttons: true,
-        },
-      },
-    ],
-  },
-  "walk-in-tub": {
-    steps: [
-      {
-        name: "HomeOwner",
-        title: "Are you the homeowner or authorized to make property changes?",
-        type: "radio",
-        options: ["Yes", "No"],
-        validation: Yup.string().required("You must select an option"),
-        warningMessage: {
-          condition: "No",
-          message:
-            "Our installers require the homeowner or someone authorized to make property changes be present during the estimate. Would you like to continue?",
-          buttons: true,
-        },
-      },
-      {
-        name: "installLocation",
-        title: "Where is the tub going to be installed?",
-        type: "radio",
-        options: [
-          "Owned Home",
-          "Mobile Home",
-          "Rent or Lease",
-          "Manufactured Home",
-        ],
-        validation: Yup.string().required("You must select an option"),
-        warningMessage: {
-          condition: ["Mobile Home", "Manufactured Home", "Rent or Lease"],
-          message:
-            "Unfortunately, our installers do not work with {selection}. Would you still like to continue?",
-          buttons: true,
-        },
-      },
-      {
-        name: "ExistingTub",
-        title: "How would you describe your project?",
-        type: "radio",
-        options: [
-          "Walk-in Tub Install",
-          "Install Only",
-          "Walk-in Tub Only",
-          "Walk-in Tubs",
-          "Bathroom Remodeling",
-          "Other",
-        ],
-        validation: Yup.string().required("You must select an option"),
-        warningMessage: {
-          condition: ["Install Only", "Walk-in Tub Only", "Other"],
-          message:
-            "Unfortunately, we offer only tub + installation. Would you still like to continue?",
-          buttons: true,
-        },
-      },
-    ],
-  },
-  "kitchen-remodeling": {
-    steps: [
-      {
-        name: "element_upgrade",
-        title: "Which elements of the Kitchen would you like to upgrade?",
-        subtitle: "(select all that apply)",
-        type: "checkbox",
-        options: [
-          "Kitchen Cabinets",
-          "Countertop",
-          "Sink and faucets",
-          "Backsplash",
-          "Lighting",
-          "Flooring",
-          "Plumbing",
-          "Change layout",
-        ],
-        validation: Yup.array().min(1, "Select at least one option"),
-        warningMessage: {
-          condition: (values) => {
-            if (
-              !values.element_upgrade ||
-              !Array.isArray(values.element_upgrade)
-            ) {
-              return false;
-            }
-
-            return !values.element_upgrade.includes("Kitchen Cabinets");
-          },
-          message:
-            "Unfortunately, our installers don't work with clients who are not replacing kitchen cabinets. Would you like to continue with your request?",
-          buttons: true,
-        },
-      },
-      {
-        name: "whatToDo",
-        title: "What would you like to do with your kitchen cabinets?",
-        type: "radio",
-        options: [
-          "Replace most of cabinets",
-          "Couple of Cabinets",
-          "I am not sure",
-        ],
-        validation: Yup.string().required("You must select an option"),
-        warningMessage: {
-          condition: "Couple of Cabinets",
-          message:
-            "Unfortunately, our installers are unable to assist with partial cabinet replacements. Would you like to continue with your request?",
-          buttons: true,
-        },
-      },
-      {
-        name: "layoutChange",
-        title: "What kind of layout changes would you like to make?",
-        type: "radio",
-        options: [
-          "Add or reconfigure kitchen island",
-          "Add more cabinets",
-          "Move kitchen sink",
-          "Move appliances",
-          "Add or remove walls",
-          "Move doors or windows",
-        ],
-        validation: Yup.string().required("You must select an option"),
-        warningMessage: {
-          condition: [
-            "Move kitchen sink",
-            "Move appliances",
-            "Add or remove walls",
-            "Move doors or windows",
-          ],
-          message:
-            "Unfortunately, our installers are unable to assist with structural changes. Would you like to continue with your request?",
-          buttons: true,
-        },
-      },
-      {
-        name: "propertyType",
-        title: "What type of property is this?",
-        type: "radio",
-        options: [
-          "Single family house",
-          "Mobile or manufactured",
-          "Multi-family building",
-          "Commercial building",
-        ],
-        validation: Yup.string().required("You must select an option"),
-        warningMessage: {
-          condition: ["Mobile or manufactured", "Commercial building"],
-          message:
-            "Unfortunately, our installers are unable to assist with this type of property. Would you like to continue with your request?",
-          buttons: true,
-        },
-      },
-      {
-        name: "HomeOwner",
-        title: "Are you the owner or authorized to make changes?",
-        type: "radio",
-        options: ["Yes", "No"],
-        validation: Yup.string().required("You must select an option"),
-        warningMessage: {
-          condition: "No",
-          message:
-            "Unfortunately, our installers require the homeowner or someone authorized to make property changes to be present. Would you like to continue with your request?",
-          buttons: true,
-        },
-      },
-      {
-        name: "kitchenSize",
-        title: "What is the approximate size of your kitchen in sqft?",
-        type: "input",
-        validation: Yup.number()
-          .required("Kitchen size is required")
-          .min(1, "Kitchen size must be greater than 0"),
-      },
-    ],
-  },
-};
-
 interface SubmitFormProps {
   projectTitle: string;
   zipCode: string;
@@ -395,7 +135,6 @@ const ThankYouModal = ({
   companyName,
   heroImage,
   contactPhone,
-  service,
   customerLogo,
 }: ThankYouModalProps) => {
   return (
@@ -592,10 +331,13 @@ const SubmitForm = ({
   const [progress, setProgress] = useState<number>(0);
   const [isWarningVisible, setIsWarningVisible] = useState(false);
   const { toast } = useToast();
-  const router = useRouter();
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [showThankYouModal, setShowThankYouModal] = useState(false);
   const [submitInFlight, setSubmitInFlight] = useState(false);
+  const [phoneValidation, setPhoneValidation] = useState<{
+    status: "idle" | "verifying" | "pass" | "fail";
+    score?: number;
+    lineType?: string;
+  }>({ status: "idle" });
 
   const allSteps = [...questions, ...COMMON_STEPS];
 
@@ -640,6 +382,55 @@ const SubmitForm = ({
     return acc;
   }, {} as Record<string, string>);
   initialValues.xxTrustedFormCertUrl = "";
+  initialValues.phone_validation_status = "";
+  initialValues.phone_activity_score = "";
+  initialValues.phone_line_type = "";
+
+  const validatePhoneInline = async (
+    inputValue: string,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void
+  ) => {
+    const digitsOnly = (inputValue || "").replace(/\D/g, "");
+    if (!digitsOnly || digitsOnly.length < 10) {
+      setPhoneValidation({ status: "idle" });
+      return;
+    }
+
+    try {
+      setPhoneValidation({ status: "verifying" });
+      const res = await fetch("/api/validate-phone", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: digitsOnly }),
+      });
+
+      if (!res.ok) {
+        setPhoneValidation({ status: "fail" });
+        setFieldValue("phone_validation_status", "fail");
+        return;
+      }
+
+      const data = await res.json();
+      const is_valid = data?.is_valid;
+      const activity_score = data?.activity_score;
+      const line_type = data?.line_type;
+      const validation_status = is_valid ? "pass" : "fail";
+
+      setPhoneValidation({
+        status: validation_status as "pass" | "fail",
+        score: typeof activity_score === "number" ? activity_score : undefined,
+        lineType: typeof line_type === "string" ? line_type : undefined,
+      });
+
+      setFieldValue("phone_validation_status", validation_status);
+      if (activity_score != null)
+        setFieldValue("phone_activity_score", String(activity_score));
+      if (line_type != null) setFieldValue("phone_line_type", line_type);
+    } catch (_err) {
+      setPhoneValidation({ status: "fail" });
+      setFieldValue("phone_validation_status", "fail");
+    }
+  };
 
   const handleNext = (values: any) => {
     // Sync TrustedForm value from DOM before next step or submit
@@ -776,6 +567,9 @@ const SubmitForm = ({
             utm_source: window.location.href,
             landing_page: projectTitle,
             xxTrustedFormCertUrl: values.xxTrustedFormCertUrl,
+            phone_validation_status: phoneValidation.status,
+            phone_activity_score: phoneValidation.score,
+            phone_line_type: phoneValidation.lineType,
           },
         ])
         .select();
@@ -1009,44 +803,76 @@ const SubmitForm = ({
       case "input-number":
         return (
           <div>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-2 w-full lg:w-1/2 mx-auto">
-              <div className="relative w-full">
-                <Field
-                  name={step.name}
-                  type="tel"
-                  as={Input}
-                  maxLength={10}
-                  placeholder="Enter Your Phone Number"
-                  pattern="\(\d{3}\)\d{3}-\d{4}"
-                  className="p-6 pl-12 w-full rounded-md placeholder:font-semibold"
-                  data-ph-no-capture
-                  onInput={(e: any) => {
-                    const value = e.target.value.replace(/\D/g, "");
-                    if (value.length <= 10) {
-                      const formattedValue = value.replace(
-                        /(\d{3})(\d{3})(\d{4})/,
-                        "($1)$2-$3"
-                      );
-                      e.target.value = formattedValue;
-                    }
-                  }}
-                />
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  <LockKeyhole
-                    size={20}
-                    strokeWidth={3}
-                    className="text-[#fa8c16]"
-                  />
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-2 w-full lg:w-1/2 mx-auto">
+                <div className="relative w-full">
+                  <Field name={step.name}>
+                    {({ field, form }: any) => (
+                      <Input
+                        {...field}
+                        type="tel"
+                        maxLength={10}
+                        placeholder="Enter Your Phone Number"
+                        pattern="\(\d{3}\)\d{3}-\d{4}"
+                        className="p-6 pl-12 w-full rounded-md placeholder:font-semibold"
+                        data-ph-no-capture
+                        onInput={(e: any) => {
+                          const value = e.target.value.replace(/\D/g, "");
+                          if (value.length <= 10) {
+                            const formattedValue = value.replace(
+                              /(\d{3})(\d{3})(\d{4})/,
+                              "($1)$2-$3"
+                            );
+                            e.target.value = formattedValue;
+                          }
+                          field.onChange(e);
+                        }}
+                        onChange={(e: any) => {
+                          field.onChange(e);
+                            validatePhoneInline(
+                              e.target.value,
+                              form.setFieldValue
+                            );
+                        }}
+                      />
+                    )}
+                  </Field>
+                  <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <LockKeyhole
+                      size={20}
+                      strokeWidth={3}
+                      className="text-[#fa8c16]"
+                    />
+                  </div>
                 </div>
+                <Button
+                  type="submit"
+                  variant="default"
+                  className="w-full md:max-w-48 bg-[#28a745] p-6 text-white hover:bg-[#28a745] disabled:bg-green-300"
+                >
+                  Submit my request
+                </Button>
+                {/* Inline phone validation feedback */}
               </div>
-              <Button
-                type="submit"
-                variant="default"
-                className="w-full md:max-w-48 bg-[#28a745] p-6 text-white hover:bg-[#28a745] disabled:bg-green-300"
-              >
-                Submit my request
-              </Button>
+              <div>
+                {phoneValidation.status === "verifying" && (
+                  <div className="text-xs text-gray-500">Verifying...</div>
+                )}
+                {phoneValidation.status === "pass" && (
+                  <div className="text-xs text-green-600">
+                    ✅ Verified number — we’ll text or call to confirm your
+                    appointment.
+                  </div>
+                )}
+                {phoneValidation.status === "fail" && (
+                  <div className="text-xs text-amber-600">
+                    ⚠️ We couldn’t verify this number, but you can still submit
+                    your request.
+                  </div>
+                )}
+              </div>
             </div>
+
             <p className="my-6 text-center text-[10px] text-gray-500 font-semibold">
               {serviceData.neuMediaText ||
                 " Neu Media Group, the operator of this website, and/or our local partner will contact you via a call, text, or email using manual or automated technology at the telephone number provided, including your wireless number, to arrange a convenient time to do an in-home estimate for you. You understand that your consent is not required to purchase products or services, and you understand that you may revoke your consent at any time."}
