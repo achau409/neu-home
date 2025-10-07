@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
 
+function getLandingSlugsFromEnv() {
+  const raw = process.env.EXP_LANDING_SLUGS || "";
+  return raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
 const DEFAULT_SLUGS = [
   "ez-step-wit",
   "ez-step-wis",
@@ -15,7 +22,10 @@ const DEFAULT_SLUGS = [
   "tranquility-wis",
   "everdry-foundation-repair",
 ];
-const DEFAULT_SLUGS_SET =  DEFAULT_SLUGS;
+const LANDING_SLUGS = new Set(
+  getLandingSlugsFromEnv().length ? getLandingSlugsFromEnv() : DEFAULT_SLUGS
+);
+console.log("LANDING_SLUGS", LANDING_SLUGS);
 
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 90; // 90 days
 
@@ -104,9 +114,8 @@ export default async function middleware(req) {
 
   console.log("➡️ Incoming request:", url.pathname, "Slug detected:", slug);
 
-  const landingSlugs = await loadLandingSlugs(req);
-  if (!landingSlugs.has(slug)) {
-    console.log("⏭️ Slug not in landingSlugs, skipping middleware.");
+  if (!LANDING_SLUGS.has(slug)) {
+    console.log("⏭️ Slug not in LANDING_SLUGS, skipping middleware.");
     return NextResponse.next();
   }
 
@@ -172,25 +181,3 @@ export const config = {
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
 };
-
-async function loadLandingSlugs(req) {
-  const controller = new AbortController();
-  const timeoutMs = Number(process.env.NEXT_PUBLIC_AB_TIMEOUT_MS || 800);
-  const t = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const origin = req.nextUrl.origin;
-    const url = `${origin}/api/experiments/slugs`;
-    const res = await fetch(url, {
-      signal: controller.signal,
-      cache: "force-cache",
-    });
-    clearTimeout(t);
-    if (!res.ok) throw new Error(`bad status ${res.status}`);
-    const data = await res.json();
-    const slugs = Array.isArray(data?.slugs) ? data.slugs : [];
-    return new Set(slugs);
-  } catch (_e) {
-    clearTimeout(t);
-    return DEFAULT_SLUGS_SET;
-  }
-}
