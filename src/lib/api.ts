@@ -165,3 +165,19 @@ export async function fetchLandingVariant(slug: string, variant: string) {
     return null;
   }
 }
+export async function getAllExperiments() {
+  try {
+    const response = await axiosInstance.get("/experiments", {
+      params: {
+        limit: 0,
+      },
+    });
+    return response.data.docs;
+  } catch (error: any) {
+    console.error(
+      `Error fetching experiments:`,
+      error.response?.data || error.message
+    );
+    return null;
+  }
+}
