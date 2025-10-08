@@ -829,10 +829,10 @@ const SubmitForm = ({
                         }}
                         onChange={(e: any) => {
                           field.onChange(e);
-                            validatePhoneInline(
-                              e.target.value,
-                              form.setFieldValue
-                            );
+                          validatePhoneInline(
+                            e.target.value,
+                            form.setFieldValue
+                          );
                         }}
                       />
                     )}
@@ -860,13 +860,13 @@ const SubmitForm = ({
                 )}
                 {phoneValidation.status === "pass" && (
                   <div className="text-xs text-green-600">
-                    ✅ Verified number — we’ll text or call to confirm your
-                    appointment.
+                    Verified number confirmed. We'll text or call you to
+                    schedule your appointment time.{" "}
                   </div>
                 )}
                 {phoneValidation.status === "fail" && (
                   <div className="text-xs text-amber-600">
-                    ⚠️ We couldn’t verify this number, but you can still submit
+                    We couldn’t verify this number, but you can still submit
                     your request.
                   </div>
                 )}
