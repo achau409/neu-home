@@ -848,6 +848,7 @@ const SubmitForm = ({
                 <Button
                   type="submit"
                   variant="default"
+                  disabled={phoneValidation.status === "verifying"}
                   className="w-full md:max-w-48 bg-[#28a745] p-6 text-white hover:bg-[#28a745] disabled:bg-green-300"
                 >
                   Submit my request
