@@ -64,7 +64,7 @@ const Navbar = ({
     }
     // Handle regular service pages
     const matchedService = services.find((service) =>
-      pathname.includes(service.slug)
+      pathname === `/${service.slug}`
     );
     return matchedService || null;
   };
