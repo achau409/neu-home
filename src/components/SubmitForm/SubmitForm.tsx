@@ -385,6 +385,9 @@ const SubmitForm = ({
   initialValues.phone_validation_status = "";
   initialValues.phone_activity_score = "";
   initialValues.phone_line_type = "";
+  // Honeypot fields (bots may fill these)
+  initialValues.honeypot = "";
+  initialValues.honeypot_field_name = "website";
 
   const validatePhoneInline = async (
     inputValue: string,
@@ -441,6 +444,15 @@ const SubmitForm = ({
     if (tfValue && values.xxTrustedFormCertUrl !== tfValue) {
       values.xxTrustedFormCertUrl = tfValue;
     }
+    // Sync honeypot from DOM (off-screen input named "website")
+    const hpInput = document.getElementById(
+      "hp_website"
+    ) as HTMLInputElement | null;
+    const hpValue = hpInput?.value || "";
+    if (values.honeypot !== hpValue) {
+      values.honeypot = hpValue;
+    }
+    values.honeypot_field_name = "website";
     if (stepIndex === allSteps.length - 1) {
       handleSubmit(values);
     } else {
@@ -541,6 +553,15 @@ const SubmitForm = ({
     if (tfValue && values.xxTrustedFormCertUrl !== tfValue) {
       values.xxTrustedFormCertUrl = tfValue;
     }
+    // Sync honeypot from DOM (off-screen input named "website")
+    const hpInput = document.getElementById(
+      "hp_website"
+    ) as HTMLInputElement | null;
+    const hpValue = hpInput?.value || "";
+    if (values.honeypot !== hpValue) {
+      values.honeypot = hpValue;
+    }
+    values.honeypot_field_name = "website";
     // Split fullName into firstName and lastName for Supabase
     let firstName = "";
     let lastName = "";
@@ -596,7 +617,11 @@ const SubmitForm = ({
 
         const commonFields = ["fullName", "Email", "phoneNumber"];
         const otherFields = Object.keys(values).filter(
-          (key) => !commonFields.includes(key) && key !== "xxTrustedFormCertUrl"
+          (key) =>
+            !commonFields.includes(key) &&
+            key !== "xxTrustedFormCertUrl" &&
+            key !== "honeypot" &&
+            key !== "honeypot_field_name"
         );
 
         for (const key of commonFields) {
@@ -952,6 +977,16 @@ const SubmitForm = ({
                 type="hidden"
                 name="xxTrustedFormCertUrl"
                 id="xxTrustedFormCertUrl"
+              />
+              {/* Honeypot input (off-screen) */}
+              <input
+                id="hp_website"
+                name="website"
+                type="text"
+                autoComplete="off"
+                tabIndex={-1}
+                aria-hidden="true"
+                className="absolute -left-[9999px] w-px h-px opacity-0 pointer-events-none"
               />
 
               <div
