@@ -18,8 +18,8 @@ const Benefits = ({ serviceData }: BenefitsSectionProps) => {
 
       <div className="flex flex-col md:flex-row justify-between items-center gap-6 w-full">
         {/* Benefits list Section ----------------*/}
-        <Card className="p-2 py-4 md:p-6 w-full md:w-1/2 min:h-80">
-          <CardContent>
+        <div className="p-2 py-4 md:p-6 w-full md:w-1/2 min:h-80">
+          <div>
             <ul className="space-y-4">
               {serviceData.benefits.benefitsList.map(
                 (benefit: any, index: any) => (
@@ -37,8 +37,8 @@ const Benefits = ({ serviceData }: BenefitsSectionProps) => {
                 )
               )}
             </ul>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Image Section-------------------- */}
         <div className="w-full md:w-1/2 h-80">

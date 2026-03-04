@@ -1,3 +1,4 @@
+import { SquareCheckBig } from "lucide-react";
 
 interface AdvantagesProps {
   advantageData: any;
@@ -18,7 +19,11 @@ const Advantages = ({ advantageData, title }: AdvantagesProps) => {
               key={index}
               className="flex flex-col md:flex-row md:items-start gap-4"
             >
-              <p className="hidden lg:block bg-[#d9d9d9] p-[13px] rounded-full mt-1 md:mt-0" />
+              <SquareCheckBig
+                strokeWidth={2.5}
+                size={28}
+                className="text-[#0B1B3F] mr-3 !min-w-[28px] mt-1"
+              />
               <div>
                 <h2 className="text-xl font-bold mb-2 text-gray-800">
                   {advantage.title}
