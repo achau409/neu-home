@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { Check, SquareCheckBig } from "lucide-react";
 import Image from "next/image";
 
 type BenefitsSectionProps = {
@@ -27,7 +27,11 @@ const Benefits = ({ serviceData }: BenefitsSectionProps) => {
                     key={index}
                     className="flex items-center space-x-3 font-bold text-lg"
                   >
-                    <Check className="text-[#28a745] w-5 h-5" />
+                    <SquareCheckBig
+                      strokeWidth={2.5}
+                      size={28}
+                      className="text-[#55bc7e] mr-3 !min-w-[28px] mt-1"
+                    />
                     <span className="text-gray-800">{benefit.title}</span>
                   </li>
                 )

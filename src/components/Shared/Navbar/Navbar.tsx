@@ -87,14 +87,10 @@ const Navbar = ({
       }`}
     >
       <div className="container mx-auto px-4 py-2 max-w-[1180px]">
-        <div className="py-3 flex justify-between items-center">
-          {matchedService ? (
-            <Image
-              src={header.headerLogo.url}
-              alt="Neu-Logo"
-              width={142}
-              height={142}
-            />
+        <div className={`py-3 flex items-center ${matchedService ? "justify-center" : "justify-between"}`}>
+          {matchedService && shouldShowCustomerLogo ? (
+            <div className="w-0">
+            </div>
           ) : (
             <Link href="/">
               <Image
