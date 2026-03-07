@@ -42,7 +42,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
         {/* Heading Section */}
         <div className="mb-16 flex flex-col items-center justify-center">
           <div className=" h-[28px] mt-12 my-4 rounded-full"></div>
-          <h1 className="text-3xl md:text-[56px] font-bold leading-tight mb-2 max-w-[500px] text-center text-white">
+          <h1 className="text-3xl md:text-[56px] font-bold leading-tight mb-2 max-w-5xl text-center text-white">
             {heroData.heading}
           </h1>
           <p className="text-sm md:text-3xl text-gray-200 leading-normal mb-6 ">
