@@ -15,43 +15,59 @@ export interface PageData {
 
 const BASE_URL = process.env.PAYLOAD_URL;
 
-function buildUrl(path: string, params: Record<string, string | number | boolean> = {}): string {
-  const url = new URL(`${BASE_URL}${path}`);
-  Object.entries(params).forEach(([key, value]) => {
-    url.searchParams.set(key, String(value));
-  });
-  return url.toString();
-}
-
-  const DEFAULT_FETCH_OPTIONS = {
-  revalidate: 60,
-  tags: ["cms"],
-};
-  
-const STATIC_FETCH_OPTIONS = {
-    revalidate: 3600,
-  tags: ["cms", "cms-static"],
-};
-
-  async function cmsFetch<T = unknown>(url: string, options: typeof DEFAULT_FETCH_OPTIONS = DEFAULT_FETCH_OPTIONS): Promise<T | null> {
+function buildUrl(
+  path: string,
+  params: Record<string, string | number | boolean> = {}
+): string | null {
+  if (!BASE_URL) {
+    console.error("PAYLOAD_URL environment variable is not set");
+    return null;
+  }
   try {
-    const response = await fetch(url, { ...options } as RequestInit);
-    if (!response.ok) {
-      throw new Error(`CMS fetch failed [${response.status}]: ${response.statusText}`);
-    }
-    return response.json();
-  } catch (error) {
-    console.error("CMS fetch error:", url, error);
-    throw error;
+    const url = new URL(`${BASE_URL}${path}`);
+    Object.entries(params).forEach(([key, value]) => {
+      url.searchParams.set(key, String(value));
+    });
+    return url.toString();
+  } catch {
+    console.error("Failed to build CMS URL — invalid PAYLOAD_URL:", BASE_URL);
+    return null;
   }
 }
+
+async function cmsFetch<T = unknown>(
+  url: string | null,
+  options: RequestInit = { next: { revalidate: 60, tags: ["cms"] } } as RequestInit
+): Promise<T | null> {
+  if (!url) return null;
+  try {
+    const res = await fetch(url, options);
+    if (!res.ok) {
+      console.error(`CMS fetch failed [${res.status}]:`, url);
+      return null;
+    }
+    return res.json();
+  } catch (error) {
+    console.error("CMS fetch error:", url, error);
+    return null;
+  }
+}
+
+const DEFAULT_OPTIONS: RequestInit = {
+  next: { revalidate: 60, tags: ["cms"] },
+} as RequestInit;
+
+const STATIC_OPTIONS: RequestInit = {
+  next: { revalidate: 3600, tags: ["cms", "cms-static"] },
+} as RequestInit;
+
 export async function fetchPage(slug: string): Promise<PageData | null> {
   const url = buildUrl("/pages", {
     "where[slug][equals]": slug,
     "where[isHomePage][equals]": "false",
     "where[status][equals]": "published",
   });
-  const data = await cmsFetch<{ docs: PageData[] }>(url);
+  const data = await cmsFetch<{ docs: PageData[] }>(url, DEFAULT_OPTIONS);
   const pages = data?.docs || [];
   return pages.length > 0 ? pages[0] : null;
 }
@@ -61,7 +77,7 @@ export async function fetchPrivacyPolicy(): Promise<PageData | null> {
     "where[slug][equals]": "privacy-policy",
     "where[status][equals]": "published",
   });
-  const data = await cmsFetch<{ docs: PageData[] }>(url, STATIC_FETCH_OPTIONS);
+  const data = await cmsFetch<{ docs: PageData[] }>(url, STATIC_OPTIONS);
   return data?.docs?.[0] ?? null;
 }
 
@@ -70,7 +86,7 @@ export async function fetchTermsOfUse(): Promise<PageData | null> {
     "where[slug][equals]": "terms",
     "where[status][equals]": "published",
   });
-  const data = await cmsFetch<{ docs: PageData[] }>(url, STATIC_FETCH_OPTIONS);
+  const data = await cmsFetch<{ docs: PageData[] }>(url, STATIC_OPTIONS);
   return data?.docs?.[0] ?? null;
 }
 
@@ -79,7 +95,7 @@ export async function fetchHomePage(): Promise<PageData | null> {
     "where[isHomePage][equals]": "true",
     "where[status.status][equals]": "published",
   });
-  const data = await cmsFetch<{ docs: PageData[] }>(url);
+  const data = await cmsFetch<{ docs: PageData[] }>(url, DEFAULT_OPTIONS);
   const pages = data?.docs || [];
   return pages.length > 0 ? pages[0] : null;
 }
@@ -88,7 +104,7 @@ export async function fetchHomePage(): Promise<PageData | null> {
 export async function fetchHeader(): Promise<any> {
   const url = buildUrl("/header");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data = await cmsFetch<{ docs: any[] }>(url, STATIC_FETCH_OPTIONS);
+  const data = await cmsFetch<{ docs: any[] }>(url, STATIC_OPTIONS);
   return data?.docs?.[0] ?? null;
 }
 
@@ -96,7 +112,7 @@ export async function fetchHeader(): Promise<any> {
 export async function fetchFooter(): Promise<any> {
   const url = buildUrl("/footer");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data = await cmsFetch<{ docs: any[] }>(url, STATIC_FETCH_OPTIONS);
+  const data = await cmsFetch<{ docs: any[] }>(url, STATIC_OPTIONS);
   return data?.docs?.[0] ?? null;
 }
 
@@ -105,13 +121,13 @@ export async function getServices() {
     "where[status][equals]": "published",
     limit: 0,
   });
-  const data = await cmsFetch<{ docs: unknown[] }>(url);
+  const data = await cmsFetch<{ docs: unknown[] }>(url, DEFAULT_OPTIONS);
   return data?.docs ?? null;
 }
 
 export async function getAllServices() {
   const url = buildUrl("/services", { limit: 0 });
-  const data = await cmsFetch<{ docs: unknown[] }>(url);
+  const data = await cmsFetch<{ docs: unknown[] }>(url, DEFAULT_OPTIONS);
   return data?.docs ?? null;
 }
 
@@ -119,21 +135,24 @@ export async function getServicesBySlug(slug: string): Promise<ServiceData | nul
   const url = buildUrl("/services", {
     "where[slug][equals]": slug,
   });
-  const data = await cmsFetch<{ docs: ServiceData[] }>(url);
+  const data = await cmsFetch<{ docs: ServiceData[] }>(url, DEFAULT_OPTIONS);
   return data?.docs?.[0] ?? null;
 }
 
-export async function fetchLandingVariant(slug: string, variant: string): Promise<ServiceData | null> {
+export async function fetchLandingVariant(
+  slug: string,
+  variant: string
+): Promise<ServiceData | null> {
   const url = buildUrl("/services", {
     "where[slug][equals]": slug,
     "where[variant][equals]": variant,
   });
-  const data = await cmsFetch<{ docs: ServiceData[] }>(url);
+  const data = await cmsFetch<{ docs: ServiceData[] }>(url, DEFAULT_OPTIONS);
   return data?.docs?.[0] ?? null;
 }
 
 export async function getAllExperiments() {
   const url = buildUrl("/experiments", { limit: 0 });
-  const data = await cmsFetch<{ docs: unknown[] }>(url);
+  const data = await cmsFetch<{ docs: unknown[] }>(url, DEFAULT_OPTIONS);
   return data?.docs ?? null;
 }
