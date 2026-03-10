@@ -12,15 +12,16 @@ import Features from "@/components/DetailsPage/Features/Features";
 import Advantages from "@/components/DetailsPage/Advantages/Advantages";
 import Benefits from "@/components/DetailsPage/Benefits/Benefits";
 import ManyImagesBlock from "@/components/blocks/ManyImagesBlock";
-export const dynamic = "force-dynamic";
+import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 
-// Add generateMetadata function to handle dynamic params
+export const revalidate = 60;
+
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string; variant: string }>;
 }) {
-  const slug = await Promise.resolve(params.slug);
+  const { slug } = await params;
   const serviceData = await getServicesBySlug(slug);
 
   if (!serviceData) {
@@ -37,39 +38,40 @@ export async function generateMetadata({
     keywords: serviceData.seo?.metaKeywords,
   };
 }
-async function getServiceData(id: string) {
-  const response = await getServicesBySlug(id);
-  return response;
-}
 
 export default async function VariantPage({
   params,
 }: {
-  params: { slug: string; variant: string };
+  params: Promise<{ slug: string; variant: string }>;
 }) {
-  const { slug, variant } = params;
+  const { slug, variant } = await params;
 
-  // Try requested variant first, fall back to 'lp1' if not found
   let serviceData = await fetchLandingVariant(slug, variant);
   if (!serviceData && variant !== "lp1") {
     serviceData = await fetchLandingVariant(slug, "lp1");
   }
-
   if (!serviceData) {
-    // As an extra safety, avoid rendering empty state per requirement; fall back to base service
     serviceData = await getServicesBySlug(slug);
   }
-  const howItWorkBlock = serviceData.content.find(
+
+  if (!serviceData) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-50 text-gray-700">
+        <h1 className="text-2xl font-bold">
+          Service not found. Please check the URL.
+        </h1>
+      </div>
+    );
+  }
+
+  const howItWorkBlock = serviceData.content?.find(
     (block: { blockType: string }) => block.blockType === "workflow"
   );
-  const statisticBlock = serviceData.content.find(
+  const statisticBlock = serviceData.content?.find(
     (block: { blockType: string }) => block.blockType === "statistic"
   );
-
-  // Find ManyImagesBlock with isTopPosition = true
-  const topManyImagesBlock = serviceData.content.find(
-    (block: { blockType: string; isTopPosition: boolean }) =>
-      block.blockType === "manyImages" && block.isTopPosition === true
+  const topManyImagesBlock = serviceData.content?.find(
+    (block) => block.blockType === "manyImages" && block.isTopPosition === true
   );
 
   return (
@@ -78,12 +80,12 @@ export default async function VariantPage({
         <Image
           src={serviceData.heroImage.url}
           alt="Background Image"
-          layout="fill"
-          objectFit="cover"
+          fill
+          className="object-cover"
           quality={75}
           priority
           placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAMYAAAAAAIAAABtbnRyUkdCIFhZWiAH3AAIAA4AFgAyADdhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANv/bAEMAFA4PEg8NFBIQEhcVFBgeMCEcGBgeMCMiJSIgIiAtMCosLC4yKiAtLzU2NzVfPTcyNDhBNUZBY2NjSE5hbmRwbf/bAEMBFRcXHhoeNBwcNHxEOER8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fP/AABEIABQAFAMBIgACEQEDEQH/xAAVAAEBAAAAAAAAAAAAAAAAAAAABf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AKMABjP/2Q=="
+          blurDataURL={HERO_BLUR_DATA_URL}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0b1b3fd5] to-[#0b1b3f97] z-10" />
 
@@ -93,13 +95,12 @@ export default async function VariantPage({
       <Suspense fallback={<DetailPageLoader />}>
         {serviceData.benefits && <Benefits serviceData={serviceData} />}
 
-        {/* Render ManyImagesBlock with isTopPosition = true before advantages */}
         {topManyImagesBlock && (
           <div className="bg-[#f5f7fa]">
             <ManyImagesBlock
-              key={topManyImagesBlock.id}
-              {...topManyImagesBlock}
-              images={topManyImagesBlock.images}
+              key={topManyImagesBlock.id as string}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              {...(topManyImagesBlock as any)}
             />
           </div>
         )}
@@ -126,7 +127,8 @@ export default async function VariantPage({
 
         {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
         <ProjectContent
-          content={serviceData?.content}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          content={serviceData?.content as any}
           serviceData={serviceData}
         />
 

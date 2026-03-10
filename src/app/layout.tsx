@@ -32,10 +32,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const header = await fetchHeader();
-  const footer = await fetchFooter();
-  const services = await getAllServices();
-  const publishedServices = await getServices();
+  const [header, footer, services, publishedServices] = await Promise.all([
+    fetchHeader(),
+    fetchFooter(),
+    getAllServices(),
+    getServices(),
+  ]);
+
+  const pixelId = process.env.FACEBOOK_PIXEL_ID || "811967330404772";
+
   return (
     <html lang="en">
       <head>
@@ -50,16 +55,17 @@ export default async function RootLayout({
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '811967330404772');
+            fbq('init', '${pixelId}');
             fbq('track', 'PageView');
           `}
         </Script>
         <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             height="1"
             width="1"
             style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=811967330404772&ev=PageView&noscript=1"
+            src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
             alt=""
           />
         </noscript>
@@ -69,18 +75,6 @@ export default async function RootLayout({
           src="https://cdn.trustedform.com/tf.min.js"
           strategy="afterInteractive"
         />
-        <Script id="trustedform-init" strategy="afterInteractive">
-          {`
-            (function(){
-              var tf = document.createElement('script');
-              tf.type = 'text/javascript';
-              tf.async = true;
-              tf.src = 'https://cdn.trustedform.com/your_script.js&field=xxTrustedFormCertUrl';
-              var s = document.getElementsByTagName('script')[0];
-              s.parentNode.insertBefore(tf, s);
-            })();
-          `}
-        </Script>
       </head>
       <body
         className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col`}
@@ -88,8 +82,10 @@ export default async function RootLayout({
         <PostHogProvider>
           <Navbar
             header={header}
-            services={services}
-            publishedServices={publishedServices}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            services={(services ?? []) as any}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            publishedServices={(publishedServices ?? []) as any}
           />
           <main className="flex-grow">{children}</main>
           <Footer footer={footer} />

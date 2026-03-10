@@ -2,7 +2,7 @@ import React from "react";
 import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
 import { fetchTermsOfUse } from "@/lib/api";
 import parse from "html-react-parser";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Use - Neu Home Services",
@@ -13,7 +13,8 @@ export const dynamic = "force-static";
 
 export default async function Page() {
   const termsOfUse = await fetchTermsOfUse();
-  const content = termsOfUse?.content[0].html || "";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const content: string = (termsOfUse?.content?.[0] as any)?.html || "";
 
   return (
     <>

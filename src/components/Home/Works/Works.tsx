@@ -1,36 +1,6 @@
 import React from "react";
 import Image from "next/image";
 
-interface Work {
-  id: number;
-  title: string;
-  description: string;
-  img: string;
-}
-
-// Fake data----------
-const works: Work[] = [
-  {
-    id: 1,
-    title: "Share",
-    description: "Share a few things about your home improvement project.",
-    img: "/images/icon/icon-share.svg",
-  },
-  {
-    id: 2,
-    title: "Match",
-    description: "Get matched with one of our friendly local contractors.",
-    img: "/images/icon/icon-match.svg",
-  },
-  {
-    id: 3,
-    title: "Free Estimate",
-    description:
-      "One of our local contractors will get in touch to set up a 100% free estimate.",
-    img: "/images/icon/icon-estimate.svg",
-  },
-];
-
 const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
   const cards = howItWorkBlock.cards;
   return (
@@ -63,7 +33,7 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
                   {card.subheading}
                 </p>
               </div>
-              {index < works.length - 1 && (
+              {index < cards.length - 1 && (
                 <Image
                   src="/images/icon/angle-right.svg"
                   width={50}

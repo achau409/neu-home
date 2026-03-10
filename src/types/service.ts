@@ -6,14 +6,56 @@ export interface Service {
   description: string;
   serviceIcon: Media;
   serviceImage: Media;
-  benefits: any[];
-  advantages: any[];
+  benefits: unknown[];
+  advantages: unknown[];
   customerLogo: Media;
   features: {
     description: string | null;
-    images: any[];
-    featureList: any[];
+    images: unknown[];
+    featureList: unknown[];
   };
-  inspirationImages: any[];
+  inspirationImages: unknown[];
   questions: null;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface ServiceData {
+  title: string;
+  slug: string;
+  heroImage: { url: string };
+  customerLogo?: { url: string };
+  contactPhone?: string;
+  serviceRequest: string;
+  zipCodes: string;
+  neuMediaText?: string;
+  form_id?: string;
+  CTAText?: string;
+  heroSubHeading?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  questions: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  content: ContentBlock[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  benefits?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  advantages?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  features?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  testimonials?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  inspirationImages?: any;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    metaKeywords?: string;
+  };
+}
+
+export interface ContentBlock {
+  id?: string;
+  blockType: string;
+  blockName?: string | null;
+  isTopPosition?: boolean;
+  [key: string]: unknown;
 }

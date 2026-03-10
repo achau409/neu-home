@@ -28,10 +28,11 @@ const HeroSection = ({ heroData, services }: AllData) => {
         <Image
           src={heroData.heroImage.url}
           alt="Background"
-          width={1920}
-          height={1080}
-          quality={100}
-          className="object-cover  object-center md:object-center w-full h-full"
+          fill
+          priority
+          quality={85}
+          sizes="100vw"
+          className="object-cover object-center"
         />
       </div>
 

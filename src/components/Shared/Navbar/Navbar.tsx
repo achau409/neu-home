@@ -3,32 +3,20 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Service } from "@/types/service";
 
 const Navbar = ({
   header,
   services,
-  publishedServices,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   header: any;
   services: Service[];
   publishedServices: Service[];
 }) => {
-  const [selectedValue, setSelectedValue] = useState<string>("");
   const [isScrolled, setIsScrolled] = useState(false);
-  const searchParams = useSearchParams();
   const [customerLogoUrl, setCustomerLogoUrl] = useState<string | null>(null);
-
-  const handleSelect = (id: string) => {
-    setSelectedValue(id);
-  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -36,42 +24,31 @@ const Navbar = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Read query params after hydration — avoids useSearchParams / Suspense issues
   useEffect(() => {
-    const logoParam = searchParams.get("customerLogo");
+    const logoParam = new URLSearchParams(window.location.search).get("customerLogo");
     if (logoParam) {
       try {
-        const parsedLogo = JSON.parse(logoParam);
-        setCustomerLogoUrl(parsedLogo);
-      } catch (e) {
-        console.error("Error parsing customer logo:", e);
+        setCustomerLogoUrl(JSON.parse(logoParam));
+      } catch {
+        // ignore invalid JSON
       }
     }
-  }, [searchParams]);
+  }, []);
 
   const pathname = usePathname();
   const hiddenNavPaths = ["/terms", "/contact-us", "/privacy-policy"];
-  // Check if current path is home page
   const isHomePage = pathname === "/";
 
-  const getMatchService = (services: Service[], pathname: string) => {
-    // Handle thank you page path
-    if (pathname.startsWith("/thank-you/")) {
-      const pathParts = pathname.split("/");
-      const serviceSlug = pathParts[2];
-      if (serviceSlug) {
-        return services.find((service) => service.slug === serviceSlug);
-      }
+  const getMatchService = (svcs: Service[], path: string) => {
+    if (path.startsWith("/thank-you/")) {
+      const slug = path.split("/")[2];
+      if (slug) return svcs.find((s) => s.slug === slug);
     }
-    // Handle regular service pages
-    const matchedService = services.find((service) =>
-      pathname === `/${service.slug}`
-    );
-    return matchedService || null;
+    return svcs.find((s) => path === `/${s.slug}`) || null;
   };
 
-  const matchedService = !isHomePage
-    ? getMatchService(services, pathname)
-    : null;
+  const matchedService = !isHomePage ? getMatchService(services, pathname) : null;
 
   const shouldShowCustomerLogo =
     !isHomePage &&
@@ -82,15 +59,16 @@ const Navbar = ({
 
   return (
     <nav
-      className={` px-4 w-full  ${
-        isScrolled ? "bg-white shadow-md" : "bg-[#0b1b3f]"
-      }`}
+      className={`px-4 w-full ${isScrolled ? "bg-white shadow-md" : "bg-[#0b1b3f]"}`}
     >
       <div className="container mx-auto px-4 py-2 max-w-[1180px]">
-        <div className={`py-3 flex items-center ${matchedService ? "justify-center" : "justify-between"}`}>
+        <div
+          className={`py-3 flex items-center ${
+            matchedService ? "justify-center" : "justify-between"
+          }`}
+        >
           {matchedService && shouldShowCustomerLogo ? (
-            <div className="w-0">
-            </div>
+            <div className="w-0" />
           ) : (
             <Link href="/">
               <Image
@@ -104,20 +82,10 @@ const Navbar = ({
           {shouldShowCustomerLogo && logoUrl && (
             <div className="flex items-center gap-4">
               {matchedService ? (
-                <Image
-                  src={logoUrl}
-                  alt="Customer-Logo"
-                  width={142}
-                  height={142}
-                />
+                <Image src={logoUrl} alt="Customer-Logo" width={142} height={142} />
               ) : (
                 <Link href="/">
-                  <Image
-                    src={logoUrl}
-                    alt="Customer-Logo"
-                    width={142}
-                    height={142}
-                  />
+                  <Image src={logoUrl} alt="Customer-Logo" width={142} height={142} />
                 </Link>
               )}
             </div>

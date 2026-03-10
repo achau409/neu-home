@@ -1,69 +1,49 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
 
+type ContactFormValues = z.infer<typeof contactSchema>;
+
+export default function ContactForm() {
   const [loading, setLoading] = useState(false);
   const [popup, setPopup] = useState<{ show: boolean; success: boolean }>({
     show: false,
     success: false,
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    const success = await sendEmail();
-    setLoading(false);
-
-    if (success) {
-      setFormData({ name: "", email: "", message: "" });
-    }
-
-    setPopup({ show: true, success });
-  };
-
-  const sendEmail = async () => {
+  const sendEmail = async (data: ContactFormValues) => {
     try {
       const res = await fetch("/api/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          senderEmail: "nigma0001@gmail.com",
+          senderEmail: process.env.NEXT_PUBLIC_CONTACT_SENDER_EMAIL || "leads@neuhomeservices.com",
           senderName: "Neumediagroup",
           subject: "New Contact Form Message",
-          message: `
-Dear Admin,
-
-A new contact form submission has been received with the following details:
-
-Contact Information:
-
-Name: ${formData.name}
-Email: ${formData.email}
-
-Message Content:
-
-${formData.message}
-
-`,
-          recipientEmail: "achau409@mtroyal.ca",
+          message: `Dear Admin,\n\nA new contact form submission has been received:\n\nName: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`,
+          recipientEmail: process.env.NEXT_PUBLIC_CONTACT_RECIPIENT_EMAIL || "info@neuhomeservices.com",
         }),
       });
 
@@ -74,47 +54,58 @@ ${formData.message}
     }
   };
 
+  const onSubmit = async (data: ContactFormValues) => {
+    setLoading(true);
+    const success = await sendEmail(data);
+    setLoading(false);
+
+    if (success) {
+      reset();
+    }
+
+    setPopup({ show: true, success });
+  };
+
   return (
     <div className="max-w-md mx-auto p-6 mt-24">
       <h1 className="text-2xl font-bold mb-6">Contact Us</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="name">Name</Label>
           <Input
-            type="text"
             id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
+            {...register("name")}
             data-ph-no-capture
           />
+          {errors.name && (
+            <p className="text-red-500 text-sm">{errors.name.message}</p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input
-            type="email"
             id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
+            type="email"
+            {...register("email")}
             data-ph-no-capture
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="message">Message</Label>
           <Textarea
             id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            required
+            {...register("message")}
             data-ph-no-capture
           />
+          {errors.message && (
+            <p className="text-red-500 text-sm">{errors.message.message}</p>
+          )}
         </div>
 
         <Button type="submit" className="w-full" disabled={loading}>
@@ -147,7 +138,7 @@ ${formData.message}
                     Thank You!
                   </h2>
                   <p className="text-gray-600 mb-4">
-                    Your message has been successfully sent. We'll get back to
+                    Your message has been successfully sent. We&apos;ll get back to
                     you as soon as possible.
                   </p>
                 </>

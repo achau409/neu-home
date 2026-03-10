@@ -5,7 +5,15 @@ export async function GET(req: NextRequest) {
   const ip = forwarded ? forwarded.split(/, /)[0] : null;
 
   if (!ip) {
-    console.warn("No IP address found in request headers");
+    return NextResponse.json(
+      { city: "Unknown", state: "Unknown", country: "Unknown" },
+      { status: 200 }
+    );
+  }
+
+  const token = process.env.IPINFO_TOKEN;
+  if (!token) {
+    console.error("IPINFO_TOKEN env variable is not set");
     return NextResponse.json(
       { city: "Unknown", state: "Unknown", country: "Unknown" },
       { status: 200 }
@@ -13,7 +21,9 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const response = await fetch(`http://ipinfo.io/${ip}?token=0a2e451facf1d6`);
+    const response = await fetch(`https://ipinfo.io/${ip}?token=${token}`, {
+      next: { revalidate: 3600 },
+    });
 
     if (!response.ok) {
       console.error("IP info API error:", response.statusText);

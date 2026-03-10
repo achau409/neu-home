@@ -5,40 +5,39 @@ import WorksSections from "@/components/Home/Works/Works";
 import HTMLBlock from "@/components/blocks/HTMLBlock";
 import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
 import { fetchHomePage, getServices } from "@/lib/api";
+import type { ContentBlock } from "@/types/service";
 
-// Add this export to force dynamic rendering
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const HomePage = async () => {
-  const services = await getServices();
+  const [services, cmsData] = await Promise.all([
+    getServices(),
+    fetchHomePage(),
+  ]);
 
-  // Get CMS data
-  const cmsData = await fetchHomePage();
+  const content: ContentBlock[] = cmsData?.content ?? [];
 
-  // Find specific blocks from CMS data
-  const heroBlock = cmsData.content.find(
-    (block: { blockType: string }) => block.blockType === "hero"
-  );
-  const howItWorkBlock = cmsData.content.find(
-    (block: { blockType: string }) => block.blockType === "workflow"
-  );
-  const statisticBlock = cmsData.content.find(
-    (block: { blockType: string }) => block.blockType === "statistic"
-  );
-  const htmlBlock = cmsData.content.find(
-    (block: { blockType: string }) => block.blockType === "htmlblock"
-  );
+  const heroBlock = content.find((block) => block.blockType === "hero");
+  const howItWorkBlock = content.find((block) => block.blockType === "workflow");
+  const statisticBlock = content.find((block) => block.blockType === "statistic");
+  const htmlBlock = content.find((block) => block.blockType === "htmlblock");
 
   return (
     <div>
-      {/* Render sections only if their corresponding CMS data exists */}
-      {heroBlock && <HeroSection heroData={heroBlock} services={services} />}
-      {/* Projects section might be added to CMS later */}
-      <Projects services={services} />
+      {heroBlock && (
+        <HeroSection
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          heroData={heroBlock as any}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          services={(services ?? []) as any}
+        />
+      )}
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      <Projects services={(services ?? []) as any} />
       {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
       {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
-      {htmlBlock && <HTMLBlock content={htmlBlock.html} />}
-      <ScrollToTop /> 
+      {htmlBlock && <HTMLBlock content={(htmlBlock as { html?: string }).html ?? ""} />}
+      <ScrollToTop />
     </div>
   );
 };

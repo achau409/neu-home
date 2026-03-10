@@ -29,7 +29,8 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json({ variant });
-  } catch (e: any) {
-    return NextResponse.json({ error: e?.message || "flag error" }, { status: 500 });
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : "flag error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
