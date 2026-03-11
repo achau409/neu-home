@@ -110,7 +110,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col bg-[#f2f2f2]` }
+        className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col` }
       >
         <PostHogProvider>
           <Navbar
