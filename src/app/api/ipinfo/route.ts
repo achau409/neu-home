@@ -22,8 +22,8 @@ export async function GET(req: NextRequest) {
 
   try {
     const response = await fetch(`https://ipinfo.io/${ip}?token=${token}`, {
-      next: { revalidate: 3600 },
-    });
+      revalidate: 3600,
+    } as RequestInit);
 
     if (!response.ok) {
       console.error("IP info API error:", response.statusText);

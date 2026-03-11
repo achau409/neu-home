@@ -46,9 +46,9 @@ const HeroSection = ({ heroData, services }: AllData) => {
           <h1 className="text-3xl md:text-[56px] font-bold leading-tight mb-2 max-w-5xl text-center text-white">
             {heroData.heading}
           </h1>
-          <p className="text-sm md:text-3xl text-gray-200 leading-normal mb-6 ">
+          <h2 className="text-sm md:text-3xl text-gray-200 leading-normal mb-6 ">
             {heroData.subheading}
-          </p>
+          </h2>
         </div>
 
         {/* Dropdown and Button Section */}

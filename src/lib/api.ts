@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { ServiceData, ContentBlock } from "@/types/service";
 
 export interface PageData {
@@ -90,7 +91,7 @@ export async function fetchTermsOfUse(): Promise<PageData | null> {
   return data?.docs?.[0] ?? null;
 }
 
-export async function fetchHomePage(): Promise<PageData | null> {
+export const fetchHomePage = cache(async (): Promise<PageData | null> => {
   const url = buildUrl("/pages", {
     "where[isHomePage][equals]": "true",
     "where[status.status][equals]": "published",
@@ -98,7 +99,7 @@ export async function fetchHomePage(): Promise<PageData | null> {
   const data = await cmsFetch<{ docs: PageData[] }>(url, DEFAULT_OPTIONS);
   const pages = data?.docs || [];
   return pages.length > 0 ? pages[0] : null;
-}
+});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function fetchHeader(): Promise<any> {
@@ -120,13 +121,20 @@ export async function getServices() {
   const url = buildUrl("/services", {
     "where[status][equals]": "published",
     limit: 0,
+    depth: 1,
   });
   const data = await cmsFetch<{ docs: unknown[] }>(url, DEFAULT_OPTIONS);
   return data?.docs ?? null;
 }
 
 export async function getAllServices() {
-  const url = buildUrl("/services", { limit: 0 });
+  // depth=1 returns only direct relationships (icons, logos) without deeply
+  // nesting all content blocks — keeps the response well under 2MB for caching
+  const url = buildUrl("/services", {
+    "where[status][equals]": "published",
+    limit: 0,
+    depth: 1,
+  });
   const data = await cmsFetch<{ docs: unknown[] }>(url, DEFAULT_OPTIONS);
   return data?.docs ?? null;
 }

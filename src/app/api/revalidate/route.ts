@@ -9,8 +9,6 @@ import { NextRequest, NextResponse } from "next/server";
  *   GET /api/revalidate?secret=YOUR_SECRET&path=/       → revalidates a specific path
  *   GET /api/revalidate?secret=YOUR_SECRET&tag=cms      → revalidates a specific cache tag
  *
- * To test CMS UI changes immediately, hit this endpoint and the page will
- * re-fetch fresh data on the next request.
  */
 export async function GET(req: NextRequest) {
   const secret = req.nextUrl.searchParams.get("secret");

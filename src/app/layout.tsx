@@ -25,6 +25,40 @@ const robotoMono = Roboto_Mono({
 export const metadata = {
   title: "NEU Home Services",
   description: "A Neu way for Home Improvement Projects",
+  keywords: "NEU Home Services, Home Improvement, Home Services, Home Improvement Projects, Home Improvement Contractors, Home Improvement Companies, Home Improvement Services, Home Improvement Contractors Near Me, Home Improvement Companies Near Me, Home Improvement Services Near Me, Home Improvement Contractors Near Me, Home Improvement Companies Near Me, Home Improvement Services Near Me",
+  openGraph: {
+    title: "NEU Home Services",
+    description: "A Neu way for Home Improvement Projects",
+    images: [
+      { url: "https://www.neuhomeservices.com/images/logo.png" },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NEU Home Services",
+    description: "A Neu way for Home Improvement Projects",
+    images: [
+      { url: "https://www.neuhomeservices.com/images/logo.png" },
+    ],
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+  manifest: "/manifest.json",
+  apple: {
+    title: "NEU Home Services",
+    description: "A Neu way for Home Improvement Projects",
+    images: [
+      { url: "https://www.neuhomeservices.com/images/logo.png" },
+    ],
+  },
+  alternates: {
+    canonical: "https://www.neuhomeservices.com",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function RootLayout({
@@ -60,7 +94,6 @@ export default async function RootLayout({
           `}
         </Script>
         <noscript>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             height="1"
             width="1"
@@ -77,14 +110,12 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col bg-[#f2f2f2]` }
       >
         <PostHogProvider>
           <Navbar
             header={header}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             services={(services ?? []) as any}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             publishedServices={(publishedServices ?? []) as any}
           />
           <main className="flex-grow">{children}</main>
