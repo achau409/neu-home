@@ -1,69 +1,49 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
 
+type ContactFormValues = z.infer<typeof contactSchema>;
+
+export default function ContactForm() {
   const [loading, setLoading] = useState(false);
   const [popup, setPopup] = useState<{ show: boolean; success: boolean }>({
     show: false,
     success: false,
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    const success = await sendEmail();
-    setLoading(false);
-
-    if (success) {
-      setFormData({ name: "", email: "", message: "" });
-    }
-
-    setPopup({ show: true, success });
-  };
-
-  const sendEmail = async () => {
+  const sendEmail = async (data: ContactFormValues) => {
     try {
       const res = await fetch("/api/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          senderEmail: "nigma0001@gmail.com",
+          senderEmail: process.env.NEXT_PUBLIC_CONTACT_SENDER_EMAIL || "leads@neuhomeservices.com",
           senderName: "Neumediagroup",
           subject: "New Contact Form Message",
-          message: `
-Dear Admin,
-
-A new contact form submission has been received with the following details:
-
-Contact Information:
-
-Name: ${formData.name}
-Email: ${formData.email}
-
-Message Content:
-
-${formData.message}
-
-`,
-          recipientEmail: "achau409@mtroyal.ca",
+          message: `Dear Admin,\n\nA new contact form submission has been received:\n\nName: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`,
+          recipientEmail: process.env.NEXT_PUBLIC_CONTACT_RECIPIENT_EMAIL || "info@neuhomeservices.com",
         }),
       });
 
@@ -74,119 +54,159 @@ ${formData.message}
     }
   };
 
+  const onSubmit = async (data: ContactFormValues) => {
+    setLoading(true);
+    const success = await sendEmail(data);
+    setLoading(false);
+
+    if (success) {
+      reset();
+    }
+
+    setPopup({ show: true, success });
+  };
+
   return (
-    <div className="max-w-md mx-auto p-6 mt-24">
-      <h1 className="text-2xl font-bold mb-6">Contact Us</h1>
+    <div className="flex items-center justify-center px-4 py-24">
+      < div className="w-full max-w-lg" >
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-2">
-          <Label htmlFor="name">Name</Label>
-          <Input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            data-ph-no-capture
-          />
-        </div>
+        {/* Header */}
+        <div className="mb-10" >
+          <p className="text-xs font-semibold tracking-widest text-[#0b1b3f]/50 uppercase mb-2">
+            Get in touch
+          </p>
+          <h1 className="text-4xl font-bold text-[#0b1b3f] leading-tight">
+            Contact Us
+          </h1>
+          <p className="mt-3 text-gray-500 text-sm">
+            Fill out the form below and we&apos;ll get back to you as soon as possible.
+          </p>
+        </div >
 
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            data-ph-no-capture
-          />
-        </div>
+        {/* Form card */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8" >
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-        <div className="space-y-2">
-          <Label htmlFor="message">Message</Label>
-          <Textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            required
-            data-ph-no-capture
-          />
-        </div>
+            <div>
+              <Label htmlFor="name" className="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+                Full Name
+              </Label>
+              <Input
+                id="name"
+                placeholder="John Smith"
+                {...register("name")}
+                data-ph-no-capture
+                className={`mt-1.5 h-11 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-[#0b1b3f] transition-colors placeholder:text-gray-300 ${errors.name ? "border-red-400 focus:border-red-400" : ""
+                  }`}
+              />
+              {errors.name && (
+                <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
+                  <span>⚠</span> {errors.name.message}
+                </p>
+              )}
+            </div>
 
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? "Sending..." : "Send Message"}
-        </Button>
-      </form>
+            <div>
+              <Label htmlFor="email" className="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+                Email Address
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                {...register("email")}
+                data-ph-no-capture
+                className={`mt-1.5 h-11 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-[#0b1b3f] transition-colors placeholder:text-gray-300 ${errors.email ? "border-red-400 focus:border-red-400" : ""
+                  }`}
+              />
+              {errors.email && (
+                <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
+                  <span>⚠</span> {errors.email.message}
+                </p>
+              )}
+            </div>
 
-      {popup.show && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full mx-4">
-            <div className="text-center">
+            <div>
+              <Label htmlFor="message" className="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+                Message
+              </Label>
+              <Textarea
+                id="message"
+                placeholder="Tell us how we can help you..."
+                {...register("message")}
+                data-ph-no-capture
+                rows={5}
+                className={`mt-1.5 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-[#0b1b3f] transition-colors placeholder:text-gray-300 resize-none ${errors.message ? "border-red-400 focus:border-red-400" : ""
+                  }`}
+              />
+              {errors.message && (
+                <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
+                  <span>⚠</span> {errors.message.message}
+                </p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full h-11 rounded-lg bg-[#0b1b3f] hover:bg-[#162d63] text-white font-semibold tracking-wide transition-colors mt-2"
+            >
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z" />
+                  </svg>
+                  Sending...
+                </span>
+              ) : (
+                "Send Message"
+              )}
+            </Button>
+          </form>
+        </div >
+      </div >
+
+      {/* Success / Error modal */}
+      {
+        popup.show && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50 px-4">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 text-center">
               {popup.success ? (
                 <>
-                  <div className="mb-4 text-[#28a745]">
-                    <svg
-                      className="w-12 h-12 mx-auto"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 13l4 4L19 7"
-                      />
+                  <div className="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                    Thank You!
-                  </h2>
-                  <p className="text-gray-600 mb-4">
-                    Your message has been successfully sent. We'll get back to
-                    you as soon as possible.
+                  <h2 className="text-xl font-bold text-gray-900 mb-1">Message Sent!</h2>
+                  <p className="text-sm text-gray-500">
+                    Thank you for reaching out. We&apos;ll get back to you as soon as possible.
                   </p>
                 </>
               ) : (
                 <>
-                  <div className="mb-4 text-red-500">
-                    <svg
-                      className="w-12 h-12 mx-auto"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
+                  <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                    Message Not Sent
-                  </h2>
-                  <p className="text-gray-600 mb-4">
-                    There was an error sending your message. Please try again
-                    later.
+                  <h2 className="text-xl font-bold text-gray-900 mb-1">Failed to Send</h2>
+                  <p className="text-sm text-gray-500">
+                    Something went wrong. Please try again later.
                   </p>
                 </>
               )}
-              <Button
-                className="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 transition-colors"
+              <button
                 onClick={() => setPopup({ show: false, success: false })}
+                className="mt-6 w-full h-10 rounded-lg bg-[#0b1b3f] hover:bg-[#162d63] text-white text-sm font-semibold transition-colors"
               >
                 Close
-              </Button>
+              </button>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 }

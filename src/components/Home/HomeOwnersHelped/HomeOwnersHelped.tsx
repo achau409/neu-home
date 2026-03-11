@@ -1,37 +1,7 @@
 "use client";
 import React from "react";
 import CountUp from "react-countup";
-import { HousePlus, UserRoundPen, UsersRound } from "lucide-react";
 import Image from "next/image";
-interface Stat {
-  id: number;
-  value: number;
-  label: string;
-  bgColor?: string;
-  img: JSX.Element;
-}
-
-const stats: Stat[] = [
-  {
-    id: 1,
-    img: <UserRoundPen className="w-16 h-16 text-gray-300" />,
-    value: 10147,
-    label: "Requests submitted",
-  },
-  {
-    id: 2,
-    img: <UsersRound className="w-16 h-16  text-gray-300" />,
-    value: 2537,
-    label: "Estimates given",
-  },
-  {
-    id: 3,
-    img: <HousePlus className="w-16 h-16" />,
-    value: 761,
-    label: "Projects Completed",
-    bgColor: "bg-[#55bc7e] text-white",
-  },
-];
 
 const HomeOwnersHelped = ({ statisticBlock }: { statisticBlock: any }) => {
   const stats = statisticBlock.cards;

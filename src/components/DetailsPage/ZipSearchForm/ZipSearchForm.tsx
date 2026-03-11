@@ -4,7 +4,6 @@ import supabase from "@/utils/supabase/client";
 import { CircleCheckBig, X } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import SubmitForm from "@/components/SubmitForm/SubmitForm";
-import { getAllServices } from "@/lib/api";
 import posthog from "posthog-js";
 
 interface Project {
@@ -50,9 +49,9 @@ const ZipSearchForm = ({
     setProjectTitle(serviceData.title);
   }, [projectId]);
 
-  // Validate ZIP Code using Supabase----------------
+  // Validate ZIP Code using Supabase — only fires when 5 digits are entered
   const validateZipCode = async () => {
-    if (!zipCode) {
+    if (!zipCode || zipCode.length !== 5) {
       onStatusChange(null);
       onZipLocations(null);
       setIsMatched(false);

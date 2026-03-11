@@ -2,9 +2,8 @@ import React from "react";
 import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
 import { fetchPrivacyPolicy } from "@/lib/api";
 import parse from "html-react-parser";
-import { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Privacy Policy - Neu Home Services",
   description: "Read our privacy policy to understand how we handle your data.",
 };
@@ -13,7 +12,8 @@ export const dynamic = "force-static";
 
 export default async function Page() {
   const privacyPolicy = await fetchPrivacyPolicy();
-  const content = privacyPolicy?.content[0].html || "";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const content: string = (privacyPolicy?.content?.[0] as any)?.html || "";
 
   return (
     <>

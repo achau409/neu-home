@@ -59,7 +59,7 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    fetchLocation();
+    if (serviceData.hasLocation) fetchLocation();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);

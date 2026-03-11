@@ -3,19 +3,16 @@ import HeroSection from "@/components/Home/Hero/HeroSection";
 import HomeOwnersHelped from "@/components/Home/HomeOwnersHelped/HomeOwnersHelped";
 import WorksSections from "@/components/Home/Works/Works";
 import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
-import { fetchPage, getServices, getServicesBySlug } from "@/lib/api";
+import { fetchPage, getServices } from "@/lib/api";
 
-// Force dynamic rendering
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
-// Define props type for the page parameters
-interface TestPageProps {
-  params: {
-    slug: string;
-  };
-}
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const slug = await Promise.resolve(params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   const pageData = await fetchPage(slug);
 
   if (!pageData) {
@@ -32,14 +29,18 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-const SlugPage = async ({ params }: TestPageProps) => {
-  // Fetch data with caching strategy similar to home page
-  const services = await getServices();
+const SlugPage = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
+  const { slug } = await params;
 
-  // Get CMS data for this specific test page using the slug
-  const cmsData = await fetchPage(params.slug);
+  const [services, cmsData] = await Promise.all([
+    getServices(),
+    fetchPage(slug),
+  ]);
 
-  // Find specific blocks from CMS data
   const heroBlock = cmsData?.content.find(
     (block: { blockType: string }) => block.blockType === "hero"
   );
@@ -52,18 +53,12 @@ const SlugPage = async ({ params }: TestPageProps) => {
 
   return (
     <div>
-      {/* Render sections only if their corresponding CMS data exists */}
-      {heroBlock && (
-        <HeroSection
-          heroData={heroBlock}
-          services={services}
-        />
-      )}
-      {/* Projects section might be added to CMS later */}
-      {/* <Projects services={services} /> */}
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      {heroBlock && <HeroSection heroData={heroBlock as any} services={(services ?? []) as any} />}
       {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
       {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
-      <ProjectContent content={cmsData?.content} serviceData={cmsData} />
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      <ProjectContent content={cmsData?.content as any} serviceData={cmsData} />
       <ScrollToTop />
     </div>
   );

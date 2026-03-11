@@ -166,11 +166,14 @@ const RenderNode: React.FC<{ node: any; listType?: string }> = ({
           return (
             <div className="relationship-card page">
               {getImage() && (
-                <img
-                  src={getImage()}
-                  alt={getAltText()}
-                  className="card-image"
-                />
+                <div className="relative w-full h-48">
+                  <Image
+                    src={getImage()}
+                    alt={getAltText()}
+                    fill
+                    className="card-image object-cover"
+                  />
+                </div>
               )}
               <div className="card-content">
                 <h3 className="card-title">
@@ -192,11 +195,14 @@ const RenderNode: React.FC<{ node: any; listType?: string }> = ({
           return (
             <div className="relationship-card news">
               {getImage() && (
-                <img
-                  src={getImage()}
-                  alt={getAltText()}
-                  className="card-image"
-                />
+                <div className="relative w-full h-48">
+                  <Image
+                    src={getImage()}
+                    alt={getAltText()}
+                    fill
+                    className="card-image object-cover"
+                  />
+                </div>
               )}
               <div className="card-content">
                 <h3 className="card-title">
@@ -218,11 +224,14 @@ const RenderNode: React.FC<{ node: any; listType?: string }> = ({
           return (
             <div className="relationship-card products">
               {getImage() && (
-                <img
-                  src={getImage()}
-                  alt={getAltText()}
-                  className="card-image"
-                />
+                <div className="relative w-full h-48">
+                  <Image
+                    src={getImage()}
+                    alt={getAltText()}
+                    fill
+                    className="card-image object-cover"
+                  />
+                </div>
               )}
               <div className="card-content">
                 <h3 className="card-title">

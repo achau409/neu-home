@@ -12,11 +12,16 @@ import Features from "@/components/DetailsPage/Features/Features";
 import Advantages from "@/components/DetailsPage/Advantages/Advantages";
 import Benefits from "@/components/DetailsPage/Benefits/Benefits";
 import ManyImagesBlock from "@/components/blocks/ManyImagesBlock";
-export const dynamic = "force-dynamic";
+import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 
-// Add generateMetadata function to handle dynamic params
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const id = await Promise.resolve(params.id);
+export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const serviceData = await getServicesBySlug(id);
 
   if (!serviceData) {
@@ -32,10 +37,6 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     keywords: serviceData.seo?.metaKeywords,
   };
 }
-async function getServiceData(id: string) {
-  const response = await getServicesBySlug(id);
-  return response;
-}
 
 export default async function ProjectDetails({
   params,
@@ -44,7 +45,7 @@ export default async function ProjectDetails({
 }) {
   const { id } = await params;
 
-  const [serviceData] = await Promise.all([getServiceData(id)]);
+  const serviceData = await getServicesBySlug(id);
 
   if (!serviceData) {
     return (
@@ -55,30 +56,29 @@ export default async function ProjectDetails({
       </div>
     );
   }
+
   const howItWorkBlock = serviceData.content.find(
     (block: { blockType: string }) => block.blockType === "workflow"
   );
   const statisticBlock = serviceData.content.find(
     (block: { blockType: string }) => block.blockType === "statistic"
   );
-
-  // Find ManyImagesBlock with isTopPosition = true
   const topManyImagesBlock = serviceData.content.find(
-    (block: { blockType: string; isTopPosition: boolean }) =>
-      block.blockType === "manyImages" && block.isTopPosition === true
+    (block) => block.blockType === "manyImages" && block.isTopPosition === true
   );
+
   return (
     <div className="overflow-hidden">
       <section className="relative bg-gray-50 py-6 md:py-12">
         <Image
           src={serviceData.heroImage.url}
           alt="Background Image"
-          layout="fill"
-          objectFit="cover"
+          fill
+          className="object-cover"
           quality={75}
           priority
           placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAMYAAAAAAIAAABtbnRyUkdCIFhZWiAH3AAIAA4AFgAyADdhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANv/bAEMAFA4PEg8NFBIQEhcVFBgeMCEcGBgeMCMiJSIgIiAtMCosLC4yKiAtLzU2NzVfPTcyNDhBNUZBY2NjSE5hbmRwbf/bAEMBFRcXHhoeNBwcNHxEOER8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fP/AABEIABQAFAMBIgACEQEDEQH/xAAVAAEBAAAAAAAAAAAAAAAAAAAABf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AKMABjP/2Q=="
+          blurDataURL={HERO_BLUR_DATA_URL}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0b1b3fd5] to-[#0b1b3f97] z-10" />
 
@@ -88,13 +88,12 @@ export default async function ProjectDetails({
       <Suspense fallback={<DetailPageLoader />}>
         {serviceData.benefits && <Benefits serviceData={serviceData} />}
 
-        {/* Render ManyImagesBlock with isTopPosition = true before advantages */}
         {topManyImagesBlock && (
           <div className="bg-[#f5f7fa]">
             <ManyImagesBlock
-              key={topManyImagesBlock.id}
-              {...topManyImagesBlock}
-              images={topManyImagesBlock.images}
+              key={topManyImagesBlock.id as string}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              {...(topManyImagesBlock as any)}
             />
           </div>
         )}
@@ -121,7 +120,8 @@ export default async function ProjectDetails({
 
         {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
         <ProjectContent
-          content={serviceData?.content}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          content={serviceData?.content as any}
           serviceData={serviceData}
         />
 

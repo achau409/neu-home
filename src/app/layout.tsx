@@ -25,6 +25,40 @@ const robotoMono = Roboto_Mono({
 export const metadata = {
   title: "NEU Home Services",
   description: "A Neu way for Home Improvement Projects",
+  keywords: "NEU Home Services, Home Improvement, Home Services, Home Improvement Projects, Home Improvement Contractors, Home Improvement Companies, Home Improvement Services, Home Improvement Contractors Near Me, Home Improvement Companies Near Me, Home Improvement Services Near Me, Home Improvement Contractors Near Me, Home Improvement Companies Near Me, Home Improvement Services Near Me",
+  openGraph: {
+    title: "NEU Home Services",
+    description: "A Neu way for Home Improvement Projects",
+    images: [
+      { url: "https://www.neuhomeservices.com/images/logo.png" },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NEU Home Services",
+    description: "A Neu way for Home Improvement Projects",
+    images: [
+      { url: "https://www.neuhomeservices.com/images/logo.png" },
+    ],
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+  manifest: "/manifest.json",
+  apple: {
+    title: "NEU Home Services",
+    description: "A Neu way for Home Improvement Projects",
+    images: [
+      { url: "https://www.neuhomeservices.com/images/logo.png" },
+    ],
+  },
+  alternates: {
+    canonical: "https://www.neuhomeservices.com",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function RootLayout({
@@ -32,10 +66,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const header = await fetchHeader();
-  const footer = await fetchFooter();
-  const services = await getAllServices();
-  const publishedServices = await getServices();
+  const [header, footer, services, publishedServices] = await Promise.all([
+    fetchHeader(),
+    fetchFooter(),
+    getAllServices(),
+    getServices(),
+  ]);
+
+  const pixelId = process.env.FACEBOOK_PIXEL_ID || "811967330404772";
+
   return (
     <html lang="en">
       <head>
@@ -50,7 +89,7 @@ export default async function RootLayout({
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '811967330404772');
+            fbq('init', '${pixelId}');
             fbq('track', 'PageView');
           `}
         </Script>
@@ -59,7 +98,7 @@ export default async function RootLayout({
             height="1"
             width="1"
             style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=811967330404772&ev=PageView&noscript=1"
+            src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
             alt=""
           />
         </noscript>
@@ -69,27 +108,15 @@ export default async function RootLayout({
           src="https://cdn.trustedform.com/tf.min.js"
           strategy="afterInteractive"
         />
-        <Script id="trustedform-init" strategy="afterInteractive">
-          {`
-            (function(){
-              var tf = document.createElement('script');
-              tf.type = 'text/javascript';
-              tf.async = true;
-              tf.src = 'https://cdn.trustedform.com/your_script.js&field=xxTrustedFormCertUrl';
-              var s = document.getElementsByTagName('script')[0];
-              s.parentNode.insertBefore(tf, s);
-            })();
-          `}
-        </Script>
       </head>
       <body
-        className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col bg-[#f2f2f2]` }
       >
         <PostHogProvider>
           <Navbar
             header={header}
-            services={services}
-            publishedServices={publishedServices}
+            services={(services ?? []) as any}
+            publishedServices={(publishedServices ?? []) as any}
           />
           <main className="flex-grow">{children}</main>
           <Footer footer={footer} />
