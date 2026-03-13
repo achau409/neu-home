@@ -70,7 +70,6 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
                   width={1000}
                   height={1000}
                   sizes="(min-width: 1024px) 240px, (min-width: 768px) 25vw, 50vw"
-                  quality={75}
                   loading="lazy"
                 />
               </div>
@@ -101,8 +100,8 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
                 key={`dot-${index}`}
                 onClick={() => handleDotClick(index)}
                 className={`h-2 rounded-full transition-all duration-300 ${index === activeIndex
-                    ? "w-8 bg-[#28a745]"
-                    : "w-2 bg-gray-300 hover:bg-gray-400"
+                  ? "w-8 bg-[#28a745]"
+                  : "w-2 bg-gray-300 hover:bg-gray-400"
                   }`}
                 aria-label={`Go to image ${index + 1}`}
               />

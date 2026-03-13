@@ -7,7 +7,8 @@ import Image from "next/image";
 type ProjectListItem = {
   title: string;
   slug: string;
-  category?: "popular" | "interior" | "exterior" | null;
+  category?: "interior" | "exterior" | null;
+  popular?: boolean;
   serviceIconUrl?: string;
 };
 
@@ -24,9 +25,15 @@ type CategoryFilter = (typeof CATEGORY_OPTIONS)[number]["value"];
 const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>("popular");
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [visibleServices, setVisibleServices] = useState<ProjectListItem[]>(services);
+  const [visibleServices, setVisibleServices] = useState<ProjectListItem[]>(() =>
+    services.filter((service) => Boolean(service.popular)),
+  );
 
   const filteredServices = useMemo(() => {
+    if (activeCategory === "popular") {
+      return services.filter((service) => Boolean(service.popular));
+    }
+
     if (activeCategory === "all") {
       return services;
     }
@@ -47,7 +54,7 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
 
   return (
     <section className="mt-10 md:mb-10">
-      <div className="max-w-[1180px] mx-auto text-center px-4 sm:px-6 lg:px-0">
+      <div className="max-w-[1020px] mx-auto text-center px-4 sm:px-6 lg:px-0">
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           {CATEGORY_OPTIONS.map((option) => {
             const isActive = option.value === activeCategory;
@@ -67,14 +74,14 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
           })}
         </div>
 
-        <h2 className="text-3xl font-semibold text-gray-800 mt-6">
+        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mt-6">
           Home Improvement Projects We Can Help With
         </h2>
 
         <div
           className={`transition-opacity duration-300 ${isTransitioning ? "opacity-0" : "opacity-100"}`}
         >
-          <ul className="grid gap-0 md:gap-2 grid-cols-3 lg:grid-cols-7 mt-10">
+          <ul className="grid gap-0 md:gap-2 grid-cols-3 lg:grid-cols-3 mt-10">
             {visibleServices.map((service) => (
               <li key={service.slug}>
                 <Link href={`/${service.slug}`} className="group p-0 flex flex-col items-center">
@@ -88,9 +95,9 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
                         sizes="(min-width: 1024px) 240px, (min-width: 768px) 25vw, 50vw "
                         quality={75}
                         loading="lazy"
-                        className="w-16 h-16 object-contain hover:scale-110 transition-all duration-300"
+                        className="md:w-28 md:h-28 w-16 h-16 object-contain hover:scale-110 transition-all duration-300"
                       />
-                      <h3 className="font-bold text-black group-hover:text-gray-600 mb-8 text-xs ">
+                      <h3 className="font-bold text-black group-hover:text-gray-600 mb-8 text-xs md:text-base mt-2 ">
                         {service.title}
                       </h3>
                     </div>

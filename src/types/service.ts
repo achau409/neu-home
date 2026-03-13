@@ -3,7 +3,8 @@ import { Media } from "./hero";
 export interface Service {
   title: string;
   slug: string;
-  category?: "popular" | "interior" | "exterior" | null;
+  category?: "interior" | "exterior" | null;
+  popular?: boolean;
   description: string;
   serviceIcon: Media;
   serviceImage: Media;
