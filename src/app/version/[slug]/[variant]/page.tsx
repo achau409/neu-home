@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
 import DetailPageLoader from "@/components/DetailsPage/Dotloading";
-import { fetchLandingVariant, getServicesBySlug } from "@/lib/api";
+import { fetchHeader, fetchLandingVariant, getServicesBySlug } from "@/lib/api";
 import ProjectDetailsClient from "@/components/DetailsPage/ProjectDetailsClient";
 import WorksSections from "@/components/Home/Works/Works";
 import HomeOwnersHelped from "@/components/Home/HomeOwnersHelped/HomeOwnersHelped";
@@ -13,6 +13,7 @@ import Advantages from "@/components/DetailsPage/Advantages/Advantages";
 import Benefits from "@/components/DetailsPage/Benefits/Benefits";
 import ManyImagesBlock from "@/components/blocks/ManyImagesBlock";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
+import Link from "next/link";
 
 export const revalidate = 60;
 
@@ -102,72 +103,106 @@ export default async function VariantPage({
   const topManyImagesBlock = serviceData.content?.find(
     (block) => block.blockType === "manyImages" && block.isTopPosition === true
   );
+  const header = await fetchHeader() as any;
 
   return (
-    <main className="overflow-hidden">
-      <section className="relative bg-gray-50 py-6 md:py-12">
-        <Image
-          src={serviceData.heroImage.url}
-          alt=""
-          fill
-          className="object-cover"
-          quality={75}
-          priority
-          placeholder="blur"
-          blurDataURL={HERO_BLUR_DATA_URL}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0b1b3fd5] to-[#0b1b3f97] z-10" />
+    <>
+      <header className="bg-[#0b1b3f]">
+        <div className="py-5 flex justify-center items-center">
+          <div className="flex items-center justify-center">
+            {
+              serviceData.customerLogo?.url ? (
+                <Image
+                  src={serviceData.customerLogo?.url}
+                  alt={`${serviceData.title} logo`}
+                  width={142}
+                  height={142}
+                  sizes="142px"
+                  priority
+                  className="w-[142px] h-[65px] object-contain"
+                />) : (
+                <Link href="/">
+                  <Image
+                    src={header.headerLogo.url}
+                    alt="NEU Home Services logo"
+                    width={142}
+                    height={142}
+                    priority
+                    sizes="142px"
+                  />
+                </Link>
+              )
+            }
 
-        <ProjectDetailsClient serviceData={serviceData} />
-      </section>
-
-      <Suspense fallback={<DetailPageLoader />}>
-        {serviceData.benefits && <Benefits serviceData={serviceData} />}
-
-        {topManyImagesBlock && (
-          <div className="bg-[#f5f7fa]">
-            <ManyImagesBlock
-              key={topManyImagesBlock.id as string}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              {...(topManyImagesBlock as any)}
-            />
           </div>
-        )}
+        </div>
+      </header>
 
-        {serviceData.advantages && (
-          <Advantages
-            advantageData={serviceData.advantages}
-            title={serviceData.title}
+      <main className="overflow-hidden">
+        <section className="relative py-6 md:py-12">
+          <Image
+            src={serviceData.heroImage.url}
+            alt=""
+            fill
+            className="object-cover"
+            quality={75}
+            priority
+            placeholder="blur"
+            blurDataURL={HERO_BLUR_DATA_URL}
           />
-        )}
+          <div className="absolute inset-0 bg-[#0b1b3f]/50 z-10" />
 
-        {serviceData.features && (
-          <Features featuresData={serviceData.features} />
-        )}
+          <ProjectDetailsClient serviceData={serviceData} />
+        </section>
 
-        {serviceData.inspirationImages && (
-          <Inspirations
-            images={serviceData.inspirationImages.images}
-            sectionTitle={serviceData.inspirationImages.sectionTitle}
+        <Suspense fallback={<DetailPageLoader />}>
+          {serviceData.benefits && <Benefits serviceData={serviceData} />}
+
+          {topManyImagesBlock && (
+            <div className="bg-[#f5f7fa]">
+              <ManyImagesBlock
+                key={topManyImagesBlock.id as string}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                {...(topManyImagesBlock as any)}
+              />
+            </div>
+          )}
+
+          {serviceData.advantages && (
+            <Advantages
+              advantageData={serviceData.advantages}
+              title={serviceData.title}
+            />
+          )}
+
+          {serviceData.features && (
+            <Features featuresData={serviceData.features} />
+          )}
+
+          {serviceData.inspirationImages && (
+            <Inspirations
+              images={serviceData.inspirationImages.images}
+              sectionTitle={serviceData.inspirationImages.sectionTitle}
+            />
+          )}
+
+          {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
+
+          {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
+          <ProjectContent
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            content={serviceData?.content as any}
+            serviceData={serviceData}
           />
-        )}
 
-        {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
-
-        {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
-        <ProjectContent
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          content={serviceData?.content as any}
-          serviceData={serviceData}
-        />
-
-        {serviceData.testimonials && (
-          <TestimonialsSlider
-            testimonials={serviceData.testimonials.testimonialList}
-            sectionTitle={serviceData.testimonials.sectionTitle}
-          />
-        )}
-      </Suspense>
-    </main>
+          {serviceData.testimonials && (
+            <TestimonialsSlider
+              testimonials={serviceData.testimonials.testimonialList}
+              sectionTitle={serviceData.testimonials.sectionTitle}
+            />
+          )}
+        </Suspense>
+      </main>
+    </>
   );
 }
