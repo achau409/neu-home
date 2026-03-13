@@ -374,6 +374,8 @@ const ZipSearchForm = ({
                     height={142}
                     priority
                     sizes="142px"
+                    className="w-[142px] h-[65px] object-contain"
+
                   />
                 </button>
               ) : (
@@ -390,6 +392,8 @@ const ZipSearchForm = ({
                     height={142}
                     priority
                     sizes="142px"
+                    className="w-[142px] h-[65px] object-contain"
+  
                   />
                 </button>
               )
