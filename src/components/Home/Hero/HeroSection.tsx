@@ -58,7 +58,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
             {/* Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger
-                className="w-full sm:w-[250px] px-2 py-2 text-left bg-white text-sm  
+                className="w-full sm:w-[250px] px-2 py-2 text-left bg-white text-sm md:text-base  
               rounded-sm md:rounded-l-sm md:rounded-r-none "
               >
                 {selectedValue
@@ -66,7 +66,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
                     ?.title
                   : "Select project type"}
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-full sm:w-[250px] text-xs">
+              <DropdownMenuContent className="w-full sm:w-[250px] text-xs md:text-lg">
                 {services.map((service: any) => (
                   <DropdownMenuItem
                     key={service.slug}
@@ -82,7 +82,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
             {/* Button */}
             <Button
               asChild
-              className="w-full sm:w-auto min-w-[150px] px-4 !py-5 bg-[#28a745] text-white rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-[#28a745]"
+              className="w-full sm:w-auto text-base min-w-[150px] px-4 !py-[21px] bg-[#28a745] text-white rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-[#28a745]"
             >
               <Link href={selectedValue ? `/${selectedValue}` : "/"} aria-disabled={!selectedValue}>
                 Get Estimate
