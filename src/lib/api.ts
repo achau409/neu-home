@@ -73,6 +73,16 @@ export async function fetchPage(slug: string): Promise<PageData | null> {
   return pages.length > 0 ? pages[0] : null;
 }
 
+export async function getAllPages(): Promise<PageData[] | null> {
+  const url = buildUrl("/pages", {
+    "where[isHomePage][equals]": "false",
+    "where[status][equals]": "published",
+    limit: 0,
+  });
+  const data = await cmsFetch<{ docs: PageData[] }>(url, DEFAULT_OPTIONS);
+  return data?.docs ?? null;
+}
+
 export async function fetchPrivacyPolicy(): Promise<PageData | null> {
   const url = buildUrl("/pages", {
     "where[slug][equals]": "privacy-policy",

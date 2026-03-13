@@ -305,7 +305,7 @@ const ZipSearchForm = ({
         <div className="relative border border-gray-300 flex items-center gap-2 bg-white px-2 rounded-sm w-full md:w-auto">
           <MapPin className="text-gray-600 w-6 h-6" />
           <input
-            type="number"
+            type="text"
             placeholder="Enter ZIP code"
             aria-label="ZIP code"
             maxLength={5}

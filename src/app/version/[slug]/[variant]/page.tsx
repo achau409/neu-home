@@ -24,7 +24,7 @@ export async function generateMetadata({
 }) {
   const { slug, variant } = await params;
   const serviceData = await getServicesBySlug(slug);
-  const canonicalUrl = `https://www.neuhomeservices.com/${slug}`;
+  const canonicalUrl = `https://www.neuhomeservices.com/version/${slug}/${variant}`;
 
   if (!serviceData) {
     return {
@@ -60,7 +60,7 @@ export async function generateMetadata({
       ],
     },
     robots: {
-      index: false,
+      index: true,
       follow: true,
     },
     other: {

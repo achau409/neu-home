@@ -137,7 +137,7 @@ export default async function ProjectDetails({
         <section className="relative py-6 md:py-12">
           <Image
             src={serviceData.heroImage.url}
-            alt=""
+            alt={serviceData.title}
             fill
             className="object-cover"
             quality={75}
