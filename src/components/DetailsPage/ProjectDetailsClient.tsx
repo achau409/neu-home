@@ -42,7 +42,7 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
 
 
   return (
-    <div className="relative z-20 w-full max-w-[860px] mx-auto px-4 md:px-6 py-4 md:py-10 flex flex-col items-center text-center">
+    <div className="relative z-20 w-full  mx-auto px-4 md:px-6 py-4 md:py-10 flex flex-col items-center text-center">
 
       {/* Eyebrow pill */}
       <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-5">
@@ -53,7 +53,7 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
       </div>
 
       {/* Main heading */}
-      <h1 className="text-3xl  justify-center  md:text-5xl lg:text-[62px] font-extrabold lg:leading-[1.2] leading-tight text-white mb-3 max-w-3xl text-center">
+      <h1 className={`text-3xl  justify-center  md:text-5xl lg:text-[62px] font-extrabold lg:leading-[1.2] leading-tight text-white mb-3 max-w-${serviceData.heroTextWidth} text-center`}>
         {serviceData.heroHeading}
         {serviceData.hasLocation && (
           <span className="text-green-400"> {userCity}

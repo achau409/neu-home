@@ -28,7 +28,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
       <div className="absolute inset-0 z-0">
         <Image
           src={heroData.heroImage.url}
-          alt=""
+          alt={"Neu Home Service"}
           fill
           priority
           quality={85}
@@ -58,7 +58,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
             {/* Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger
-                className="w-full sm:w-[250px] px-4 py-2 text-left bg-white 
+                className="w-full sm:w-[250px] px-2 py-2 text-left bg-white text-sm  
               rounded-sm md:rounded-l-sm md:rounded-r-none "
               >
                 {selectedValue
@@ -66,7 +66,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
                     ?.title
                   : "Select project type"}
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-[250px]">
+              <DropdownMenuContent className="w-full sm:w-[250px] text-xs">
                 {services.map((service: any) => (
                   <DropdownMenuItem
                     key={service.slug}
