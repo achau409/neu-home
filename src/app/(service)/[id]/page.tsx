@@ -163,8 +163,9 @@ export default async function ProjectDetails({
                     alt="NEU Home Services logo"
                     width={142}
                     height={142}
-                    priority
                     sizes="142px"
+                    priority
+                    className="w-[142px] h-[65px] object-contain"
                   />
                 </Link>
               )
