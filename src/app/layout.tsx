@@ -102,7 +102,7 @@ export default async function RootLayout({
         className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <PostHogProvider>
-          <main className="flex-grow">{children}</main>
+          <div className="flex-grow">{children}</div>
           <Footer footer={footer} />
           <Toaster />
         </PostHogProvider>

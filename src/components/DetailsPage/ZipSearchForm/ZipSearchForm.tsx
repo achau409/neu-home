@@ -8,10 +8,19 @@ import {
   Clock3,
   Loader2,
   ArrowRight,
+  X,
 } from "lucide-react";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import SubmitForm from "@/components/SubmitForm/SubmitForm";
 import posthog from "posthog-js";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface ZipSearchFormProps {
   onStatusChange: (status: string | null) => void;
@@ -58,6 +67,7 @@ const ZipSearchForm = ({
 
   // ── Modal / wizard state ────────────────────────────────────────
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isExitConfirmOpen, setIsExitConfirmOpen] = useState(false);
   const [modalView, setModalView] = useState<ModalView>("zip");
   const [projectTitle, setProjectTitle] = useState<string>(serviceData.title);
   const [deliveryEmail, setDeliveryEmail] = useState<string>("");
@@ -81,6 +91,30 @@ const ZipSearchForm = ({
     setFormProgress(0);
     setFormStep(1);
     setFormTotalSteps(0);
+  };
+
+  const handleAttemptExit = () => {
+    setIsExitConfirmOpen(true);
+  };
+
+  const handleConfirmExit = () => {
+    setIsExitConfirmOpen(false);
+    setIsModalOpen(false);
+    setSessionKey((prev) => prev + 1);
+    intentFiredRef.current = false;
+    resetFormSession();
+    setModalView("zip");
+    setModalZipInput("");
+    setModalZipError("");
+    setModalZipMatched(false);
+    setZipLocations(null);
+    setDeliveryEmail("");
+    setCompanyName("");
+    setProduct("");
+    setZipCode("");
+    setIsMatched(false);
+    onStatusChange(null);
+    onZipLocations(null);
   };
 
   useEffect(() => {
@@ -268,7 +302,7 @@ const ZipSearchForm = ({
 
       {/* Hero ZIP input */}
       <div className="flex justify-center items-center gap-8 relative px-2">
-        <div className="relative border border-gray-300 flex items-center gap-2 bg-white px-2 rounded-xl w-full md:w-auto">
+        <div className="relative border border-gray-300 flex items-center gap-2 bg-white px-2 rounded-sm w-full md:w-auto">
           <MapPin className="text-gray-600 w-6 h-6" />
           <input
             type="text"
@@ -289,7 +323,17 @@ const ZipSearchForm = ({
       </div>
 
       {/* ── Full-screen wizard modal ── */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <Dialog
+        open={isModalOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            handleAttemptExit();
+            return;
+          }
+
+          setIsModalOpen(true);
+        }}
+      >
         <DialogContent
           className="flex flex-col overflow-hidden rounded-none border-0 p-0 shadow-none gap-0"
           style={{
@@ -307,11 +351,51 @@ const ZipSearchForm = ({
           }}
         >
           <DialogTitle className="sr-only">Get Your Free Estimate</DialogTitle>
+          <DialogDescription className="sr-only">
+            Complete the estimate form or confirm that you want to leave and lose your progress.
+          </DialogDescription>
 
           {/* ── Sticky header ── */}
           <div className="flex-shrink-0 bg-white z-10">
+            <div className="flex items-center justify-center py-2">
+              {serviceData.customerLogo?.url ? (
+                <button
+                  type="button"
+                  onClick={handleAttemptExit}
+                  className="cursor-pointer"
+                  aria-label="Exit form"
+                >
+                  <Image
+                    src={serviceData.customerLogo?.url}
+                    alt={`${companyName || serviceData.title} logo`}
+                    width={142}
+                    height={142}
+                    priority
+                    sizes="142px"
+                  />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleAttemptExit}
+                  className="cursor-pointer"
+                  aria-label="Exit form"
+                >
+                  <Image
+                    src='/images/logo.svg'
+                    alt="NEU Home Services logo"
+                    width={142}
+                    height={142}
+                    priority
+                    sizes="142px"
+                  />
+                </button>
+              )
+              }
+            </div>
 
-            <div className="flex items-center justify-center px-4 sm:px-6 py-7 border-t border-gray-100">
+
+            <div className="flex items-center justify-center px-4 sm:px-6 pb-7 ">
               {/* Trust signals — LEFT, larger */}
               <div className="flex items-center gap-2 sm:gap-6">
                 <span className="flex items-center gap-1.5 text-sm md:text-base text-gray-600 font-medium">
@@ -336,7 +420,7 @@ const ZipSearchForm = ({
             </div>
             {/* Progress bar — always visible; starts at 8% on ZIP screen */}
 
-            <div className="h-1 md:h-2  w-full bg-gray-100">
+            <div className="h-1 md:h-1  w-full bg-gray-50">
               <div
                 className="h-full bg-[#28a745] transition-all duration-500 ease-out rounded-r-full"
                 style={{
@@ -468,6 +552,42 @@ const ZipSearchForm = ({
                 onBackToZip={goBackToZip}
               />
             </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isExitConfirmOpen} onOpenChange={setIsExitConfirmOpen}>
+        <DialogContent className="w-[calc(100vw-2rem)] max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-xl sm:p-7 [&>button]:hidden">
+          <button
+            type="button"
+            onClick={() => setIsExitConfirmOpen(false)}
+            className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
+            aria-label="Close confirmation dialog"
+          >
+            <X className="h-6 w-6" />
+          </button>
+          <DialogTitle className="pr-8 text-left text-2xl font-bold text-[#0b1b3f]">
+            Are you sure?
+          </DialogTitle>
+          <DialogDescription className="mt-2 text-left text-base text-gray-600">
+            If you exit this page, you&apos;ll lose your progress.
+          </DialogDescription>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsExitConfirmOpen(false)}
+              className="h-11 flex-1 rounded-md border-gray-300 bg-white text-sm font-semibold text-[#0b1b3f] hover:bg-gray-50"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={handleConfirmExit}
+              className="h-11 flex-1 rounded-md bg-[#28a745] text-sm font-semibold text-white hover:bg-[#28a746dc]"
+            >
+              Leave page
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

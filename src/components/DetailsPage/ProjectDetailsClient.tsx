@@ -24,8 +24,6 @@ interface ProjectDetailsClientProps {
 const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
   const [zipStatus, setZipStatus] = useState<string | null>(null);
   const [zipDetails, setZipDetails] = useState<ZipDetails | null>(null);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [showFloating, setShowFloating] = useState(false);
   const [userState, setUserState] = useState<string>("your area");
   const [userCity, setUserCity] = useState<string>("your area");
   const [floatingTrigger, setFloatingTrigger] = useState(false);
@@ -34,8 +32,6 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
   useEffect(() => {
     const handleScroll = () => {
       requestAnimationFrame(() => {
-        setIsScrolled(window.scrollY > 0);
-        setShowFloating(window.scrollY > 500);
       });
     };
 
@@ -76,7 +72,7 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
       <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-5">
         <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
         <span className="text-white text-[10px] md:text-xs font-semibold tracking-widest uppercase">
-         Available in your area
+          Available in your area
         </span>
       </div>
 
@@ -145,11 +141,11 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
       </div>
 
       {/* Disclaimer */}
-      {/* {serviceData.afterCTAText && (
+      {serviceData.afterCTAText && (
         <p className="text-xs text-white  leading-relaxed">
           {serviceData.afterCTAText}
         </p>
-      )} */}
+      )}
 
       {/* Floating "Get Free Quote" button — appears after scrolling past hero */}
       <div className="fixed bottom-6 right-5 z-50 flex flex-col items-end gap-2 transition-all duration-500 opacity-100 translate-y-0">
@@ -158,24 +154,15 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
         <span className="absolute inset-0 rounded-full bg-[#28a745] opacity-10 animate-ping [animation-delay:0.4s]" />
 
         <button
-          className="relative flex items-center gap-2.5 bg-[#28a745] hover:bg-[#22963c] text-white text-sm font-bold px-5 py-3.5 rounded-full shadow-[0_8px_30px_rgba(40,167,69,0.5)] hover:shadow-[0_8px_40px_rgba(40,167,69,0.7)] transition-all duration-300 hover:scale-105 active:scale-95 group"
+          className="relative uppercase flex items-center gap-2 bg-[#28a745] hover:bg-[#22963c] text-white text-sm font-bold px-5 py-3.5 rounded-full shadow-[0_8px_30px_rgba(40,167,69,0.5)] hover:shadow-[0_8px_40px_rgba(40,167,69,0.7)] transition-all duration-300 hover:scale-105 active:scale-95 group"
           aria-label="Get Free Quote"
           onClick={() => setFloatingTrigger(true)}
         >
           {/* Tag icon */}
-          <svg
-            className="w-4 h-4 shrink-0 group-hover:rotate-12 transition-transform duration-300"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M3 3h8l9 9a2 2 0 010 2.83l-5.17 5.17a2 2 0 01-2.83 0L3 11V3z" />
-          </svg>
-          <span className="leading-none">Get Free Quote</span>
+          <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 640 512" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg" className="w-6 h-8" data-icon="svg"><path d="M320.7 352c8.1-89.7 83.5-160 175.3-160c8.9 0 17.6 .7 26.1 1.9L309.5 7c-6-5-14-7-21-7s-15 1-22 8L10 231.5c-7 7-10 15-10 24c0 18 14 32.1 32 32.1l32 0 0 69.7c-.1 .9-.1 1.8-.1 2.8l0 112c0 22.1 17.9 40 40 40l16 0c1.2 0 2.4-.1 3.6-.2c1.5 .1 3 .2 4.5 .2l31.9 0 24 0c22.1 0 40-17.9 40-40l0-24 0-64c0-17.7 14.3-32 32-32l64 0 .7 0zM640 368a144 144 0 1 0 -288 0 144 144 0 1 0 288 0zm-76.7-43.3c6.2 6.2 6.2 16.4 0 22.6l-72 72c-6.2 6.2-16.4 6.2-22.6 0l-40-40c-6.2-6.2-6.2-16.4 0-22.6s16.4-6.2 22.6 0L480 385.4l60.7-60.7c6.2-6.2 16.4-6.2 22.6 0z"></path></svg>          <span className="leading-none">Get Free Quote</span>
           {/* Arrow */}
           <svg
-            className="w-3.5 h-3.5 -rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300"
+            className="w-4 h-4 -rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300"
             fill="none"
             stroke="currentColor"
             strokeWidth="2.5"

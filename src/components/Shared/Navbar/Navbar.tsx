@@ -12,6 +12,7 @@ const Navbar = ({
 
   return (
     <nav
+      aria-label="Primary"
       className={` px-4 w-full bg-[#0b1b3f]`}
     >
       <div className="container mx-auto px-4 py-2 max-w-[1180px]">
@@ -19,7 +20,7 @@ const Navbar = ({
           <Link href="/">
             <Image
               src={header?.headerLogo?.url || ""}
-              alt="Neu-Logo"
+              alt="NEU Home Services logo"
               width={142}
               height={142}
             />

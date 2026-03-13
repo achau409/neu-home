@@ -9,7 +9,7 @@ const Footer = ({ footer }: { footer: any }) => {
           <Link href="/">
             <Image
               src={footer?.footerLogo?.url}
-              alt="footerLogo"
+              alt="NEU Home Services logo"
               width={180}
               height={180}
             />

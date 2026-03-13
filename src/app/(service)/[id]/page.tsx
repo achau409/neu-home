@@ -36,14 +36,19 @@ export async function generateMetadata({
     title: serviceData.seo?.metaTitle || serviceData.title,
     description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
     keywords: serviceData.seo?.metaKeywords,
+    alternates: {
+      canonical: `https://www.neuhomeservices.com/${id}`,
+    },
     openGraph: {
       title: serviceData.seo?.metaTitle || serviceData.title,
       description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
+      url: `https://www.neuhomeservices.com/${id}`,
       images: [
         { url: serviceData.heroImage.url },
       ],
     },
     twitter: {
+      card: "summary_large_image",
       title: serviceData.seo?.metaTitle || serviceData.title,
       description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
       images: [
@@ -57,9 +62,6 @@ export async function generateMetadata({
     apple: {
       title: serviceData.seo?.metaTitle || serviceData.title,
       description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
-    },
-    alternates: {
-      canonical: `https://www.neuhomeservices.com/${id}`,
     },
     robots: {
       index: true,
@@ -80,11 +82,11 @@ export default async function ProjectDetails({
 
   if (!serviceData) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-50 text-gray-700">
+      <main className="flex items-center justify-center h-screen bg-gray-50 text-gray-700">
         <h1 className="text-2xl font-bold">
           Project not found. Please check the URL.
         </h1>
-      </div>
+      </main>
     );
   }
 
@@ -99,15 +101,15 @@ export default async function ProjectDetails({
   );
 
   return (
-    <div className="overflow-hidden">
-      <nav className="bg-[#0b1b3f]">
+    <>
+      <header className="bg-[#0b1b3f]">
         <div className="py-5 flex justify-center items-center">
           <div className="flex items-center justify-center">
             {
               serviceData.customerLogo?.url ? (
                 <Image
                   src={serviceData.customerLogo?.url}
-                  alt="Customer-Logo"
+                  alt={`${serviceData.title} logo`}
                   width={142}
                   height={142}
                   sizes="142px"
@@ -117,7 +119,7 @@ export default async function ProjectDetails({
                 <Link href="/">
                   <Image
                     src={header.headerLogo.url}
-                    alt="Neu-Logo"
+                    alt="NEU Home Services logo"
                     width={142}
                     height={142}
                     priority
@@ -129,72 +131,73 @@ export default async function ProjectDetails({
 
           </div>
         </div>
+      </header>
 
-      </nav>
+      <main className="overflow-hidden">
+        <section className="relative py-6 md:py-12">
+          <Image
+            src={serviceData.heroImage.url}
+            alt=""
+            fill
+            className="object-cover"
+            quality={75}
+            priority
+            placeholder="blur"
+            blurDataURL={HERO_BLUR_DATA_URL}
+          />
+          <div className="absolute inset-0 bg-[#0b1b3f]/50 z-10" />
 
-      <section className="relative py-6 md:py-12">
-        <Image
-          src={serviceData.heroImage.url}
-          alt="Background Image"
-          fill
-          className="object-cover"
-          quality={75}
-          priority
-          placeholder="blur"
-          blurDataURL={HERO_BLUR_DATA_URL}
-        />
-        <div className="absolute inset-0 bg-[#0b1b3f]/50 z-10" />
+          <ProjectDetailsClient serviceData={serviceData} />
+        </section>
 
-        <ProjectDetailsClient serviceData={serviceData} />
-      </section>
+        <Suspense fallback={<DetailPageLoader />}>
+          {serviceData.benefits && <Benefits serviceData={serviceData} />}
 
-      <Suspense fallback={<DetailPageLoader />}>
-        {serviceData.benefits && <Benefits serviceData={serviceData} />}
+          {topManyImagesBlock && (
+            <div className="bg-[#f5f7fa]">
+              <ManyImagesBlock
+                key={topManyImagesBlock.id as string}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                {...(topManyImagesBlock as any)}
+              />
+            </div>
+          )}
 
-        {topManyImagesBlock && (
-          <div className="bg-[#f5f7fa]">
-            <ManyImagesBlock
-              key={topManyImagesBlock.id as string}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              {...(topManyImagesBlock as any)}
+          {serviceData.advantages && (
+            <Advantages
+              advantageData={serviceData.advantages}
+              title={serviceData.title}
             />
-          </div>
-        )}
+          )}
 
-        {serviceData.advantages && (
-          <Advantages
-            advantageData={serviceData.advantages}
-            title={serviceData.title}
+          {serviceData.features && (
+            <Features featuresData={serviceData.features} />
+          )}
+
+          {serviceData.inspirationImages && (
+            <Inspirations
+              images={serviceData.inspirationImages.images}
+              sectionTitle={serviceData.inspirationImages.sectionTitle}
+            />
+          )}
+
+          {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
+
+          {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
+          <ProjectContent
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            content={serviceData?.content as any}
+            serviceData={serviceData}
           />
-        )}
 
-        {serviceData.features && (
-          <Features featuresData={serviceData.features} />
-        )}
-
-        {serviceData.inspirationImages && (
-          <Inspirations
-            images={serviceData.inspirationImages.images}
-            sectionTitle={serviceData.inspirationImages.sectionTitle}
-          />
-        )}
-
-        {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
-
-        {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
-        <ProjectContent
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          content={serviceData?.content as any}
-          serviceData={serviceData}
-        />
-
-        {serviceData.testimonials && (
-          <TestimonialsSlider
-            testimonials={serviceData.testimonials.testimonialList}
-            sectionTitle={serviceData.testimonials.sectionTitle}
-          />
-        )}
-      </Suspense>
-    </div>
+          {serviceData.testimonials && (
+            <TestimonialsSlider
+              testimonials={serviceData.testimonials.testimonialList}
+              sectionTitle={serviceData.testimonials.sectionTitle}
+            />
+          )}
+        </Suspense>
+      </main>
+    </>
   );
 }

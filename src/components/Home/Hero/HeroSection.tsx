@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +28,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
       <div className="absolute inset-0 z-0">
         <Image
           src={heroData.heroImage.url}
-          alt="Background"
+          alt=""
           fill
           priority
           quality={85}
@@ -46,9 +47,9 @@ const HeroSection = ({ heroData, services }: AllData) => {
           <h1 className="text-3xl md:text-[56px] font-bold leading-tight mb-2 max-w-5xl text-center text-white">
             {heroData.heading}
           </h1>
-          <h2 className="text-sm md:text-3xl text-gray-200 leading-normal mb-6 ">
+          <p className="text-sm md:text-3xl text-gray-200 leading-normal mb-6 ">
             {heroData.subheading}
-          </h2>
+          </p>
         </div>
 
         {/* Dropdown and Button Section */}
@@ -62,7 +63,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
               >
                 {selectedValue
                   ? services.find((item: any) => item.slug === selectedValue)
-                      ?.title
+                    ?.title
                   : "Select project type"}
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-[250px]">
@@ -70,6 +71,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
                   <DropdownMenuItem
                     key={service.slug}
                     onClick={() => handleSelect(service.slug)}
+                    className="cursor-pointer"
                   >
                     {service.title}
                   </DropdownMenuItem>
@@ -78,14 +80,14 @@ const HeroSection = ({ heroData, services }: AllData) => {
             </DropdownMenu>
 
             {/* Button */}
-            <Link href={`/${selectedValue}`} passHref>
-              <button
-                className="w-full sm:w-auto min-w-[150px] px-4 py-2 bg-[#28a745] text-white
-              rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-[#28a745]"
-              >
+            <Button
+              asChild
+              className="w-full sm:w-auto min-w-[150px] px-4 !py-5 bg-[#28a745] text-white rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-[#28a745]"
+            >
+              <Link href={selectedValue ? `/${selectedValue}` : "/"} aria-disabled={!selectedValue}>
                 Get Estimate
-              </button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </div>

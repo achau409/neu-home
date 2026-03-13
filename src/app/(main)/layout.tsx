@@ -15,11 +15,13 @@ export default async function RootLayout({
   ]);
 
   return (
-      <div>
-          <Navbar
-            header={header}
-          />
-          {children}
-      </div>
+    <>
+      <header>
+        <Navbar
+          header={header}
+        />
+      </header>
+      {children}
+    </>
   );
 }

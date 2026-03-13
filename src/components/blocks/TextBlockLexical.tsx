@@ -45,7 +45,7 @@ const RenderNode: React.FC<{ node: any; listType?: string }> = ({
     case "heading":
       switch (contentNode.tag) {
         case "h1":
-          return <h1>{children}</h1>;
+          return <h2>{children}</h2>;
         case "h2":
           return <h2>{children}</h2>;
         case "h3":
@@ -160,6 +160,8 @@ const RenderNode: React.FC<{ node: any; listType?: string }> = ({
         value.cardImage?.alt || value.meta?.image?.alt || "Image";
       const getExcerpt = () =>
         value.cardExcerpt || value.meta?.description || "";
+      const getDestinationLabel = () =>
+        value.pageTitle || value.newsTitle || value.productName || "this item";
 
       switch (relationTo) {
         case "pages":
@@ -185,7 +187,7 @@ const RenderNode: React.FC<{ node: any; listType?: string }> = ({
                   className="bg8-btn bg8-btn-primary"
                   target="_self"
                 >
-                  Learn More
+                  Learn more about {getDestinationLabel()}
                 </a>
               </div>
             </div>
@@ -214,7 +216,7 @@ const RenderNode: React.FC<{ node: any; listType?: string }> = ({
                   className="bg8-btn bg8-btn-primary"
                   target="_self"
                 >
-                  Read More
+                  Read more about {getDestinationLabel()}
                 </a>
               </div>
             </div>
@@ -243,7 +245,7 @@ const RenderNode: React.FC<{ node: any; listType?: string }> = ({
                   className="bg8-btn bg8-btn-primary"
                   target="_self"
                 >
-                  View Product
+                  View details for {getDestinationLabel()}
                 </a>
               </div>
             </div>

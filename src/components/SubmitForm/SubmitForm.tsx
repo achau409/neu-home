@@ -231,6 +231,23 @@ const SubmitForm = ({
 
   const values = watch();
 
+  const currentStepFieldNames = useMemo(() => {
+    if (currentStep.type === "composite") {
+      return currentStep.fields?.map((field) => field.name) ?? [];
+    }
+
+    return [currentStep.name];
+  }, [currentStep]);
+
+  const isCurrentStepValid = useMemo(() => {
+    const stepValues = currentStepFieldNames.reduce<Record<string, unknown>>((acc, fieldName) => {
+      acc[fieldName] = values[fieldName];
+      return acc;
+    }, {});
+
+    return buildSchema(currentStep).safeParse(stepValues).success;
+  }, [buildSchema, currentStep, currentStepFieldNames, values]);
+
   useEffect(() => {
     const subscription = watch((formValues) => {
       onPersistValuesChange?.(formValues as Record<string, string | string[]>);
@@ -365,7 +382,13 @@ const SubmitForm = ({
     if (submitInFlight) return;
     setSubmitInFlight(true);
 
-    const enrichedValues = syncHiddenFields({ ...formValues });
+    // The per-step resolver only returns the current step's parsed fields.
+    // Use the full form state here so earlier answers are preserved on final submit.
+    const completeValues = getValues();
+    const enrichedValues = syncHiddenFields({
+      ...completeValues,
+      ...formValues,
+    });
 
     let firstName = "";
     let lastName = "";
@@ -476,13 +499,15 @@ const SubmitForm = ({
     switch (step.type) {
       case "radio":
         return (
-          <>
+          <fieldset>
+            <legend className="sr-only">{step.title}</legend>
             <Controller
               name={step.name}
               control={control}
               defaultValue={(getValues(step.name) as string) || ""}
               render={({ field }) => (
                 <RadioGroup
+                  aria-label={step.title}
                   className="flex flex-col items-center space-y-1 mt-4"
                   value={field.value as string}
                   onValueChange={field.onChange}
@@ -531,7 +556,7 @@ const SubmitForm = ({
                   )}
                 </div>
               )}
-          </>
+          </fieldset>
         );
 
       case "composite":
@@ -541,6 +566,7 @@ const SubmitForm = ({
               <div key={field.name}>
                 <Input
                   {...register(field.name)}
+                  aria-label={field.placeholder || field.name}
                   placeholder={field.placeholder}
                   className="mb-4 p-6 rounded-md placeholder:font-semibold"
                   {...(field.name === "fullName" || field.name === "Email"
@@ -559,7 +585,8 @@ const SubmitForm = ({
 
       case "checkbox":
         return (
-          <div className="flex flex-col items-center space-y-4 max-h-96 overflow-y-auto">
+          <fieldset className="flex flex-col items-center space-y-4 max-h-96 overflow-y-auto">
+            <legend className="sr-only">{step.title}</legend>
             <Controller
               name={step.name}
               control={control}
@@ -588,18 +615,19 @@ const SubmitForm = ({
                 </>
               )}
             />
-          </div>
+          </fieldset>
         );
 
       case "input-number":
         return (
           <div>
             <div className="flex flex-col gap-2">
-              <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-2 w-full lg:w-1/2 mx-auto">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-2 w-full  mx-auto">
                 <div className="relative w-full">
                   <Input
                     {...register(step.name)}
                     type="tel"
+                    aria-label={step.title}
                     maxLength={10}
                     placeholder="Enter Your Phone Number"
                     className="p-6 pl-12 w-full rounded-md placeholder:font-semibold"
@@ -650,6 +678,7 @@ const SubmitForm = ({
             <div className="relative w-full">
               <Input
                 {...register(step.name)}
+                aria-label={step.title}
                 placeholder={step.placeholder || "Kitchen size"}
                 className="p-6 pl-12 w-full rounded-md placeholder:font-semibold"
               />
@@ -666,7 +695,7 @@ const SubmitForm = ({
               defaultValue={(getValues(step.name) as string) || ""}
               render={({ field }) => (
                 <Select value={(field.value as string) || ""} onValueChange={field.onChange}>
-                  <SelectTrigger className="w-full p-6 rounded-md">
+                  <SelectTrigger aria-label={step.title} className="w-full p-6 rounded-md">
                     <SelectValue placeholder={step.placeholder || "Select an option"} />
                   </SelectTrigger>
                   <SelectContent>
@@ -688,6 +717,7 @@ const SubmitForm = ({
             <Input
               {...register(step.name)}
               type="text"
+              aria-label={step.title}
               placeholder={step.placeholder || "Enter text"}
               className="mb-4 p-6 rounded-md placeholder:font-semibold"
             />
@@ -721,9 +751,9 @@ const SubmitForm = ({
 
           <h2 className="text-2xl font-extrabold text-center mb-12 px-6 md:px-0">{currentStep.title}</h2>
           {currentStep.subtitle && (
-            <p className="mb-6 text-center text-sm text-gray-500 font-semibold">
+            <h2 className="mb-6 text-center text-sm text-gray-500 font-semibold">
               {currentStep.subtitle}
-            </p>
+            </h2>
           )}
 
           <div
@@ -753,7 +783,7 @@ const SubmitForm = ({
                 type="submit"
                 className="p-6 w-full bg-[#28a745] text-white hover:bg-[#22963c] disabled:bg-green-300 font-bold"
                 disabled={
-                  !isValid ||
+                  !isCurrentStepValid ||
                   submitInFlight ||
                   (isLastStep && phoneValidation.status === "verifying")
                 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 
@@ -32,14 +32,17 @@ const ThankYouModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-full w-full h-[100dvh] p-0 rounded-lg text-[#0b1b3f] overflow-y-auto">
+      <DialogContent className="max-w-full w-full h-[100dvh] p-0 rounded-lg text-[#0b1b3f] overflow-y-auto [&>button]:hidden">
         <DialogTitle className="sr-only">Thank You</DialogTitle>
+        <DialogDescription className="sr-only">
+          Your request was submitted successfully and a team member will contact you shortly.
+        </DialogDescription>
         <div className="min-h-full bg-white">
           <section className="relative min-h-full">
             <div className="relative w-full h-screen">
               <Image
                 src={heroImage}
-                alt="Background Image"
+                alt=""
                 fill
                 className="object-cover"
                 quality={75}
@@ -55,14 +58,14 @@ const ThankYouModal = ({
                 <div className="flex items-center justify-between">
                   <Image
                     src="/images/logo_in.svg"
-                    alt="Logo"
+                    alt="NEU Home Services logo"
                     width={140}
                     height={140}
                   />
                   {customerLogo && (
                     <Image
                       src={customerLogo}
-                      alt="Customer Logo"
+                      alt={`${companyName} logo`}
                       width={150}
                       height={150}
                     />
@@ -72,9 +75,9 @@ const ThankYouModal = ({
 
               <div className="flex-grow flex items-center justify-center py-4">
                 <div className="max-w-2xl mx-auto text-center">
-                  <h1 className="text-4xl font-bold mb-6 text-white">
+                  <h2 className="text-4xl font-bold mb-6 text-white">
                     Thank You!
-                  </h1>
+                  </h2>
 
                   <div className="mb-4">
                     <div className="w-16 h-16 bg-[#28a745] rounded-full mx-auto flex items-center justify-center">

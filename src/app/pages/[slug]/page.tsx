@@ -26,6 +26,19 @@ export async function generateMetadata({
     title: pageData.seo?.metaTitle || pageData.title,
     description: pageData.seo?.metaDescription || `Project Details - ${slug}`,
     keywords: pageData.seo?.metaKeywords,
+    alternates: {
+      canonical: `https://www.neuhomeservices.com/pages/${slug}`,
+    },
+    openGraph: {
+      title: pageData.seo?.metaTitle || pageData.title,
+      description: pageData.seo?.metaDescription || `Project Details - ${slug}`,
+      url: `https://www.neuhomeservices.com/pages/${slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: pageData.seo?.metaTitle || pageData.title,
+      description: pageData.seo?.metaDescription || `Project Details - ${slug}`,
+    },
   };
 }
 
@@ -52,7 +65,7 @@ const SlugPage = async ({
   );
 
   return (
-    <div>
+    <main>
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       {heroBlock && <HeroSection heroData={heroBlock as any} services={(services ?? []) as any} />}
       {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
@@ -60,7 +73,7 @@ const SlugPage = async ({
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <ProjectContent content={cmsData?.content as any} serviceData={cmsData} />
       <ScrollToTop />
-    </div>
+    </main>
   );
 };
 
