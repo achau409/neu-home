@@ -1,14 +1,13 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
 import { headers } from "next/headers";
+import dynamic from "next/dynamic";
 import DetailPageLoader from "@/components/DetailsPage/Dotloading";
 import { fetchHeader, fetchLandingVariant, getServicesBySlug } from "@/lib/api";
 import ProjectDetailsClient from "@/components/DetailsPage/ProjectDetailsClient";
 import WorksSections from "@/components/Home/Works/Works";
 import HomeOwnersHelped from "@/components/Home/HomeOwnersHelped/HomeOwnersHelped";
 import ProjectContent from "@/components/DetailsPage/ProjectContent";
-import Inspirations from "@/components/DetailsPage/Inspirations/Inspirations";
-import TestimonialsSlider from "@/components/DetailsPage/Reviews/Reviews";
 import Features from "@/components/DetailsPage/Features/Features";
 import Advantages from "@/components/DetailsPage/Advantages/Advantages";
 import Benefits from "@/components/DetailsPage/Benefits/Benefits";
@@ -17,6 +16,20 @@ import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 import Link from "next/link";
 
 export const revalidate = 60;
+
+const DeferredInspirations = dynamic(
+  () => import("@/components/DetailsPage/Inspirations/Inspirations"),
+  {
+    loading: () => <div className="h-[320px] bg-gray-100 animate-pulse" />,
+  }
+);
+
+const DeferredTestimonialsSlider = dynamic(
+  () => import("@/components/DetailsPage/Reviews/Reviews"),
+  {
+    loading: () => <div className="h-[260px] bg-gray-100 animate-pulse" />,
+  }
+);
 
 const getIpLocation = async (): Promise<{ city: string; state: string } | null> => {
   const forwarded = (await headers()).get("x-forwarded-for");
@@ -100,9 +113,13 @@ export default async function VariantPage({
   params: Promise<{ slug: string; variant: string }>;
 }) {
   const { slug, variant } = await params;
-  const ipLocation = await getIpLocation();
+  const [ipLocation, header, primaryVariant] = await Promise.all([
+    getIpLocation(),
+    fetchHeader() as Promise<any>,
+    fetchLandingVariant(slug, variant),
+  ]);
 
-  let serviceData = await fetchLandingVariant(slug, variant);
+  let serviceData = primaryVariant;
   if (!serviceData && variant !== "lp1") {
     serviceData = await fetchLandingVariant(slug, "lp1");
   }
@@ -129,7 +146,6 @@ export default async function VariantPage({
   const topManyImagesBlock = serviceData.content?.find(
     (block) => block.blockType === "manyImages" && block.isTopPosition === true
   );
-  const header = await fetchHeader() as any;
 
   return (
     <>
@@ -165,7 +181,7 @@ export default async function VariantPage({
       </header>
 
       <main className="overflow-hidden">
-        <section className="relative py-6 md:py-12">
+        <section className="relative py-6 md:py-4">
           <Image
             src={serviceData.heroImage.url}
             alt=""
@@ -173,8 +189,10 @@ export default async function VariantPage({
             className="object-cover"
             quality={75}
             priority
+            sizes="100vw"
             placeholder="blur"
             blurDataURL={HERO_BLUR_DATA_URL}
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-[#0b1b3f]/50 z-10" />
 
@@ -209,7 +227,7 @@ export default async function VariantPage({
           )}
 
           {serviceData.inspirationImages && (
-            <Inspirations
+            <DeferredInspirations
               images={serviceData.inspirationImages.images}
               sectionTitle={serviceData.inspirationImages.sectionTitle}
             />
@@ -225,7 +243,7 @@ export default async function VariantPage({
           />
 
           {serviceData.testimonials && (
-            <TestimonialsSlider
+            <DeferredTestimonialsSlider
               testimonials={serviceData.testimonials.testimonialList}
               sectionTitle={serviceData.testimonials.sectionTitle}
             />
