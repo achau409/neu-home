@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import posthog from "posthog-js";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -104,6 +104,14 @@ interface SubmitFormProps {
   questions: Step[];
   serviceData: Record<string, unknown>;
   product: string;
+  onProgressChange?: (progress: number) => void;
+  onStepChange?: (step: number, total: number) => void;
+  persistedValues?: Record<string, string | string[]>;
+  persistedStepIndex?: number;
+  onPersistValuesChange?: (values: Record<string, string | string[]>) => void;
+  onPersistStepIndexChange?: (stepIndex: number) => void;
+  /** Called when user clicks Back on the first wizard step */
+  onBackToZip?: () => void;
 }
 
 const SubmitForm = ({
@@ -116,9 +124,15 @@ const SubmitForm = ({
   questions,
   serviceData,
   product,
+  onProgressChange,
+  onStepChange,
+  persistedValues,
+  persistedStepIndex,
+  onPersistValuesChange,
+  onPersistStepIndexChange,
+  onBackToZip,
 }: SubmitFormProps) => {
-  const [stepIndex, setStepIndex] = useState<number>(0);
-  const [progress, setProgress] = useState<number>(0);
+  const [stepIndex, setStepIndex] = useState<number>(persistedStepIndex ?? 0);
   const { toast } = useToast();
   const [showThankYouModal, setShowThankYouModal] = useState(false);
   const [submitInFlight, setSubmitInFlight] = useState(false);
@@ -130,9 +144,26 @@ const SubmitForm = ({
   const [info, setInfo] = useState({ os: "", browser: "" });
   const [serverIp, setServerIp] = useState("");
 
-  const allSteps = [...questions, ...COMMON_STEPS];
+  const allSteps = useMemo(() => [...questions, ...COMMON_STEPS], [questions]);
   const currentStep = allSteps[stepIndex];
   const isLastStep = stepIndex === allSteps.length - 1;
+
+  useEffect(() => {
+    const prog = allSteps.length > 1
+      ? Math.round((stepIndex / (allSteps.length - 1)) * 100)
+      : 0;
+    onProgressChange?.(prog);
+    onStepChange?.(stepIndex + 1, allSteps.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepIndex]);
+
+  const handleBackStep = () => {
+    if (stepIndex > 0) {
+      setStepIndex((prev) => prev - 1);
+    } else {
+      onBackToZip?.();
+    }
+  };
 
   const buildSchema = (step: Step): z.ZodObject<Record<string, z.ZodTypeAny>> => {
     if (step.type === "composite" && step.fields) {
@@ -158,22 +189,30 @@ const SubmitForm = ({
     return z.object({ [step.name]: z.string() });
   };
 
-  const defaultValues: Record<string, string | string[]> = {};
-  allSteps.forEach((step) => {
-    if (step.type === "composite") {
-      step.fields?.forEach((field) => { defaultValues[field.name] = ""; });
-    } else if (step.type === "checkbox") {
-      defaultValues[step.name] = [];
-    } else {
-      defaultValues[step.name] = "";
-    }
-  });
-  defaultValues.xxTrustedFormCertUrl = "";
-  defaultValues.phone_validation_status = "";
-  defaultValues.phone_activity_score = "";
-  defaultValues.phone_line_type = "";
-  defaultValues.honeypot = "";
-  defaultValues.honeypot_field_name = "website";
+  const defaultValues = useMemo<Record<string, string | string[]>>(() => {
+    const values: Record<string, string | string[]> = {};
+    allSteps.forEach((step) => {
+      if (step.type === "composite") {
+        step.fields?.forEach((field) => {
+          values[field.name] = "";
+        });
+      } else if (step.type === "checkbox") {
+        values[step.name] = [];
+      } else {
+        values[step.name] = "";
+      }
+    });
+    values.xxTrustedFormCertUrl = "";
+    values.phone_validation_status = "";
+    values.phone_activity_score = "";
+    values.phone_line_type = "";
+    values.honeypot = "";
+    values.honeypot_field_name = "website";
+    return {
+      ...values,
+      ...persistedValues,
+    };
+  }, [allSteps, persistedValues]);
 
   const {
     register,
@@ -181,14 +220,28 @@ const SubmitForm = ({
     control,
     watch,
     setValue,
+    getValues,
     formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(buildSchema(currentStep)),
     defaultValues,
     mode: "onChange",
+    shouldUnregister: false,
   });
 
   const values = watch();
+
+  useEffect(() => {
+    const subscription = watch((formValues) => {
+      onPersistValuesChange?.(formValues as Record<string, string | string[]>);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [onPersistValuesChange, watch]);
+
+  useEffect(() => {
+    onPersistStepIndexChange?.(stepIndex);
+  }, [onPersistStepIndexChange, stepIndex]);
 
   useEffect(() => {
     let isMounted = true;
@@ -306,7 +359,6 @@ const SubmitForm = ({
   const handleFormSubmit = async (formValues: Record<string, unknown>) => {
     if (stepIndex < allSteps.length - 1) {
       setStepIndex((prev) => prev + 1);
-      setProgress(((stepIndex + 1) / (allSteps.length - 1)) * 100);
       return;
     }
 
@@ -428,6 +480,7 @@ const SubmitForm = ({
             <Controller
               name={step.name}
               control={control}
+              defaultValue={(getValues(step.name) as string) || ""}
               render={({ field }) => (
                 <RadioGroup
                   className="flex flex-col items-center space-y-1 mt-4"
@@ -437,16 +490,14 @@ const SubmitForm = ({
                   {step.options?.map((option) => (
                     <div
                       key={option}
-                      className={`flex items-center justify-between w-full max-w-sm border rounded-lg p-4 cursor-pointer ${
-                        field.value === option ? "border-[#28a745] bg-green-50" : "border-gray-300"
-                      }`}
+                      className={`flex items-center justify-between w-full max-w-sm border rounded-lg p-3 cursor-pointer ${field.value === option ? "border-[#28a745] bg-green-50" : "border-gray-300"
+                        }`}
                       onClick={() => field.onChange(option)}
                     >
                       <div className="flex items-center space-x-4">
                         <div
-                          className={`h-6 w-6 rounded-full border-2 flex justify-center items-center ${
-                            field.value === option ? "border-[#28a745] bg-[#28a745]" : "border-gray-300"
-                          }`}
+                          className={`h-6 w-6 rounded-full border-2 flex justify-center items-center ${field.value === option ? "border-[#28a745] bg-[#28a745]" : "border-gray-300"
+                            }`}
                         >
                           {field.value === option && (
                             <div className="h-3 w-3 bg-white rounded-full" />
@@ -485,7 +536,7 @@ const SubmitForm = ({
 
       case "composite":
         return (
-          <div className="w-full lg:w-1/3 mx-auto">
+          <div className="w-full  mx-auto">
             {step.fields?.map((field) => (
               <div key={field.name}>
                 <Input
@@ -512,6 +563,7 @@ const SubmitForm = ({
             <Controller
               name={step.name}
               control={control}
+              defaultValue={(getValues(step.name) as string[]) || []}
               render={({ field }) => (
                 <>
                   {step.options?.map((option) => {
@@ -519,9 +571,8 @@ const SubmitForm = ({
                     return (
                       <div
                         key={option}
-                        className={`flex items-center justify-between w-full max-w-[300px] rounded-xl p-3 border-2 cursor-pointer transition-colors hover:border-green-300 ${
-                          checked ? "border-[#28a745] bg-green-50" : "border-gray-300"
-                        }`}
+                        className={`flex items-center justify-between w-full max-w-[300px] rounded-xl p-3 border-2 cursor-pointer transition-colors hover:border-green-300 ${checked ? "border-[#28a745] bg-green-50" : "border-gray-300"
+                          }`}
                         onClick={() => {
                           const current = Array.isArray(field.value) ? field.value : [];
                           field.onChange(
@@ -529,7 +580,7 @@ const SubmitForm = ({
                           );
                         }}
                       >
-                        <input type="checkbox" checked={checked} onChange={() => {}} className="hidden" />
+                        <input type="checkbox" checked={checked} onChange={() => { }} className="hidden" />
                         <label>{option}</label>
                       </div>
                     );
@@ -569,14 +620,6 @@ const SubmitForm = ({
                     <LockKeyhole size={20} strokeWidth={3} className="text-[#fa8c16]" />
                   </div>
                 </div>
-                <Button
-                  type="submit"
-                  variant="default"
-                  disabled={phoneValidation.status === "verifying" || submitInFlight}
-                  className="w-full md:max-w-48 bg-[#28a745] p-6 text-white hover:bg-[#28a745] disabled:bg-green-300"
-                >
-                  Submit my request
-                </Button>
               </div>
               <div>
                 {phoneValidation.status === "verifying" && (
@@ -616,12 +659,13 @@ const SubmitForm = ({
 
       case "dropdown":
         return (
-          <div className="w-full lg:w-1/3 mx-auto mt-4">
+          <div className="w-full mx-auto mt-4">
             <Controller
               name={step.name}
               control={control}
+              defaultValue={(getValues(step.name) as string) || ""}
               render={({ field }) => (
-                <Select value={field.value as string} onValueChange={field.onChange} defaultValue={step.options?.[0]}>
+                <Select value={(field.value as string) || ""} onValueChange={field.onChange}>
                   <SelectTrigger className="w-full p-6 rounded-md">
                     <SelectValue placeholder={step.placeholder || "Select an option"} />
                   </SelectTrigger>
@@ -640,7 +684,7 @@ const SubmitForm = ({
 
       case "string":
         return (
-          <div className="w-full lg:w-1/3 mx-auto mt-4">
+          <div className="w-full mx-auto mt-4">
             <Input
               {...register(step.name)}
               type="text"
@@ -660,7 +704,7 @@ const SubmitForm = ({
       <div className="flex justify-center items-center w-full">
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
-          className="w-full p-6 bg-white rounded-2xl relative overflow-hidden"
+          className="max-w-lg w-full md:p-6 py-6 bg-white rounded-2xl relative overflow-hidden"
         >
           {/* TrustedForm hidden input */}
           <input type="hidden" name="xxTrustedFormCertUrl" id="xxTrustedFormCertUrl" />
@@ -675,34 +719,48 @@ const SubmitForm = ({
             className="absolute -left-[9999px] w-px h-px opacity-0 pointer-events-none"
           />
 
-          <div
-            className="absolute bottom-0 left-0 h-[5px] bg-[#28a745] transition-all duration-500"
-            style={{ width: `${progress}%` }}
-          />
-
-          <h2 className="text-2xl font-semibold text-center">{currentStep.title}</h2>
+          <h2 className="text-2xl font-extrabold text-center mb-12 px-6 md:px-0">{currentStep.title}</h2>
           {currentStep.subtitle && (
             <p className="mb-6 text-center text-sm text-gray-500 font-semibold">
               {currentStep.subtitle}
             </p>
           )}
 
-          <div className="text-center font-semibold">
+          <div
+            key={currentStep.name}
+            className="text-center font-semibold max-w-md md:px-12 px-4 pb-[calc(7rem+env(safe-area-inset-bottom))]"
+          >
             {renderStep(currentStep)}
             {currentStep.name !== "fullName" && errors[currentStep.name] && (
               <p className="text-red-500 text-sm mb-2">
                 {(errors[currentStep.name] as { message?: string })?.message}
               </p>
             )}
-            {!isLastStep && (
+          </div>
+
+          {/* Persistent bottom action bar (mobile + desktop) */}
+          <div className="fixed md:bottom-0 bottom-5 left-0 right-0 z-30 border-t border-gray-100 bg-white/95 px-4 md:py-10 py-6 pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:px-6">
+            <div className="mx-auto flex max-w-md items-center justify-center gap-3">
+              <Button
+                type="button"
+                onClick={handleBackStep}
+                variant="outline"
+                className="p-6 md:w-full border-gray-200 text-gray-600 hover:bg-gray-50"
+              >
+                Back
+              </Button>
               <Button
                 type="submit"
-                className="mt-4 p-6 bg-green-400 text-white hover:bg-[#28a745] disabled:bg-green-300"
-                disabled={!isValid}
+                className="p-6 w-full bg-[#28a745] text-white hover:bg-[#22963c] disabled:bg-green-300 font-bold"
+                disabled={
+                  !isValid ||
+                  submitInFlight ||
+                  (isLastStep && phoneValidation.status === "verifying")
+                }
               >
-                Next
+                {isLastStep ? "Submit my request" : "Next"}
               </Button>
-            )}
+            </div>
           </div>
         </form>
       </div>

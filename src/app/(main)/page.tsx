@@ -56,10 +56,10 @@ export default async function HomePage() {
 
   const content: ContentBlock[] = cmsData?.content ?? [];
 
-  const heroBlock      = content.find((b) => b.blockType === "hero");
+  const heroBlock = content.find((b) => b.blockType === "hero");
   const howItWorkBlock = content.find((b) => b.blockType === "workflow");
   const statisticBlock = content.find((b) => b.blockType === "statistic");
-  const htmlBlock      = content.find((b) => b.blockType === "htmlblock");
+  const htmlBlock = content.find((b) => b.blockType === "htmlblock");
 
   const serviceList = (services ?? []) as any;
 
@@ -72,12 +72,12 @@ export default async function HomePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "HomeAndConstructionBusiness",
-            name: SITE_NAME,
-            url: SITE_URL,
-            logo: DEFAULT_OG_IMAGE,
+            name: "NEU Home Services",
+            url: "https://www.neuhomeservices.com",
+            logo: "https://www.neuhomeservices.com/images/logo.png",
             description: "A Neu way for Home Improvement Projects",
             areaServed: "US",
-            sameAs: [SITE_URL],
+            sameAs: ["https://www.neuhomeservices.com"],
           }),
         }}
       />

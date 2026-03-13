@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
 import DetailPageLoader from "@/components/DetailsPage/Dotloading";
-import { getServicesBySlug } from "@/lib/api";
+import { fetchHeader, getServicesBySlug } from "@/lib/api";
 import ProjectDetailsClient from "@/components/DetailsPage/ProjectDetailsClient";
 import WorksSections from "@/components/Home/Works/Works";
 import HomeOwnersHelped from "@/components/Home/HomeOwnersHelped/HomeOwnersHelped";
@@ -13,6 +13,7 @@ import Advantages from "@/components/DetailsPage/Advantages/Advantages";
 import Benefits from "@/components/DetailsPage/Benefits/Benefits";
 import ManyImagesBlock from "@/components/blocks/ManyImagesBlock";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
+import Link from "next/link";
 
 export const revalidate = 60;
 
@@ -35,6 +36,35 @@ export async function generateMetadata({
     title: serviceData.seo?.metaTitle || serviceData.title,
     description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
     keywords: serviceData.seo?.metaKeywords,
+    openGraph: {
+      title: serviceData.seo?.metaTitle || serviceData.title,
+      description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
+      images: [
+        { url: serviceData.heroImage.url },
+      ],
+    },
+    twitter: {
+      title: serviceData.seo?.metaTitle || serviceData.title,
+      description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
+      images: [
+        { url: serviceData.heroImage.url },
+      ],
+    },
+    icons: {
+      icon: "/favicon.ico",
+    },
+    manifest: "/manifest.json",
+    apple: {
+      title: serviceData.seo?.metaTitle || serviceData.title,
+      description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
+    },
+    alternates: {
+      canonical: `https://www.neuhomeservices.com/${id}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 
@@ -46,6 +76,7 @@ export default async function ProjectDetails({
   const { id } = await params;
 
   const serviceData = await getServicesBySlug(id);
+  const header = await fetchHeader() as any;
 
   if (!serviceData) {
     return (
@@ -69,7 +100,39 @@ export default async function ProjectDetails({
 
   return (
     <div className="overflow-hidden">
-      <section className="relative bg-gray-50 py-6 md:py-12">
+      <nav className="bg-[#0b1b3f]">
+        <div className="py-5 flex justify-center items-center">
+          <div className="flex items-center justify-center">
+            {
+              serviceData.customerLogo?.url ? (
+                <Image
+                  src={serviceData.customerLogo?.url}
+                  alt="Customer-Logo"
+                  width={142}
+                  height={142}
+                  sizes="142px"
+                  priority
+                  className="w-[142px] h-[65px] object-contain"
+                />) : (
+                <Link href="/">
+                  <Image
+                    src={header.headerLogo.url}
+                    alt="Neu-Logo"
+                    width={142}
+                    height={142}
+                    priority
+                    sizes="142px"
+                  />
+                </Link>
+              )
+            }
+
+          </div>
+        </div>
+
+      </nav>
+
+      <section className="relative py-6 md:py-12">
         <Image
           src={serviceData.heroImage.url}
           alt="Background Image"
@@ -80,7 +143,7 @@ export default async function ProjectDetails({
           placeholder="blur"
           blurDataURL={HERO_BLUR_DATA_URL}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0b1b3fd5] to-[#0b1b3f97] z-10" />
+        <div className="absolute inset-0 bg-[#0b1b3f]/50 z-10" />
 
         <ProjectDetailsClient serviceData={serviceData} />
       </section>

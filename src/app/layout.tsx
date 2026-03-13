@@ -1,16 +1,10 @@
 import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import Navbar from "@/components/Shared/Navbar/Navbar";
 import Footer from "@/components/Shared/Footer/Footer";
-import {
-  fetchHeader,
-  getServices,
-  fetchFooter,
-  getAllServices,
-} from "@/lib/api";
 import Script from "next/script";
 import { PostHogProvider } from "@/providers/PostHogProvider";
+import { fetchFooter } from "@/lib/api";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -66,15 +60,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [header, footer, services, publishedServices] = await Promise.all([
-    fetchHeader(),
+  const [footer] = await Promise.all([
     fetchFooter(),
-    getAllServices(),
-    getServices(),
   ]);
-
   const pixelId = process.env.FACEBOOK_PIXEL_ID || "811967330404772";
-
   return (
     <html lang="en">
       <head>
@@ -110,14 +99,9 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col` }
+        className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <PostHogProvider>
-          <Navbar
-            header={header}
-            services={(services ?? []) as any}
-            publishedServices={(publishedServices ?? []) as any}
-          />
           <main className="flex-grow">{children}</main>
           <Footer footer={footer} />
           <Toaster />
