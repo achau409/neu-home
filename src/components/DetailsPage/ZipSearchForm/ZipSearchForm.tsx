@@ -471,6 +471,8 @@ const ZipSearchForm = ({
                       maxLength={5}
                       value={modalZipInput}
                       autoFocus
+                      inputMode="numeric"
+                      autoComplete="postal-code"
                       onChange={(e) =>
                         setModalZipInput(e.target.value.replace(/\D/g, ""))
                       }
@@ -574,7 +576,7 @@ const ZipSearchForm = ({
           <DialogDescription className="mt-2 text-left text-base text-gray-600">
             If you exit this page, you&apos;ll lose your progress.
           </DialogDescription>
-          <div className="mt-6 flex flex-col gap-6 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-2 sm:flex-row">
             <Button
               type="button"
               variant="outline"
