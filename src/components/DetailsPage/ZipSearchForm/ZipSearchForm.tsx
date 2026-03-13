@@ -305,12 +305,14 @@ const ZipSearchForm = ({
         <div className="relative border border-gray-300 flex items-center gap-2 bg-white px-2 rounded-sm w-full md:w-auto">
           <MapPin className="text-gray-600 w-6 h-6" />
           <input
-            type="text"
+            type="number"
             placeholder="Enter ZIP code"
             aria-label="ZIP code"
             maxLength={5}
             value={zipCode}
             onChange={(e) => setZipCode(e.target.value)}
+            autoComplete="postal-code"
+            inputMode="numeric"
             className="md:text-base text-sm px-0 pr-8 py-[14px] outline-none transition placeholder:text-gray-600"
           />
         </div>
@@ -356,8 +358,8 @@ const ZipSearchForm = ({
           </DialogDescription>
 
           {/* ── Sticky header ── */}
-          <div className="flex-shrink-0 bg-white z-10">
-            <div className="flex items-center justify-center py-2">
+          <div className="flex-shrink-0  z-10 bg-[#0b1b3f]">
+            <div className="flex items-center justify-center py-2 bg-[#0b1b3f]">
               {serviceData.customerLogo?.url ? (
                 <button
                   type="button"
@@ -382,7 +384,7 @@ const ZipSearchForm = ({
                   aria-label="Exit form"
                 >
                   <Image
-                    src='/images/logo.svg'
+                    src='/images/logo_in.svg'
                     alt="NEU Home Services logo"
                     width={142}
                     height={142}
@@ -395,10 +397,10 @@ const ZipSearchForm = ({
             </div>
 
 
-            <div className="flex items-center justify-center px-4 sm:px-6 pb-7 ">
+            <div className="flex items-center justify-center px-4 sm:px-6 pb-6 text-white ">
               {/* Trust signals — LEFT, larger */}
               <div className="flex items-center gap-2 sm:gap-6">
-                <span className="flex items-center gap-1.5 text-sm md:text-base text-gray-600 font-medium">
+                <span className="flex items-center gap-1.5 text-sm md:text-base  font-medium">
                   <ShieldCheck className="md:w-7 md:h-7 w-5 h-5 text-[#28a745] shrink-0" />
                   Secure
                 </span>
@@ -420,7 +422,7 @@ const ZipSearchForm = ({
             </div>
             {/* Progress bar — always visible; starts at 8% on ZIP screen */}
 
-            <div className="h-1 md:h-1  w-full bg-gray-50">
+            <div className="h-1 md:h-1.5  w-full bg-gray-50">
               <div
                 className="h-full bg-[#28a745] transition-all duration-500 ease-out rounded-r-full"
                 style={{
@@ -572,19 +574,19 @@ const ZipSearchForm = ({
           <DialogDescription className="mt-2 text-left text-base text-gray-600">
             If you exit this page, you&apos;ll lose your progress.
           </DialogDescription>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-6 sm:flex-row">
             <Button
               type="button"
               variant="outline"
               onClick={() => setIsExitConfirmOpen(false)}
-              className="h-11 flex-1 rounded-md border-gray-300 bg-white text-sm font-semibold text-[#0b1b3f] hover:bg-gray-50"
+              className="h-11 flex-1 rounded-md border-gray-300 p-3 bg-white text-sm font-semibold text-[#0b1b3f] hover:bg-gray-50"
             >
               Cancel
             </Button>
             <Button
               type="button"
               onClick={handleConfirmExit}
-              className="h-11 flex-1 rounded-md bg-[#28a745] text-sm font-semibold text-white hover:bg-[#28a746dc]"
+              className="h-11 flex-1 rounded-md bg-[#28a745] text-sm font-semibold text-white hover:bg-[#28a746dc] p-3"
             >
               Leave page
             </Button>
