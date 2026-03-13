@@ -19,13 +19,13 @@ interface ZipDetails {
 
 interface ProjectDetailsClientProps {
   serviceData: any;
+  initialUserCity?: string;
 }
 
-const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
+const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDetailsClientProps) => {
   const [zipStatus, setZipStatus] = useState<string | null>(null);
   const [zipDetails, setZipDetails] = useState<ZipDetails | null>(null);
-  const [userState, setUserState] = useState<string>("");
-  const [userCity, setUserCity] = useState<string>("");
+  const [userCity] = useState<string>(initialUserCity);
   const [floatingTrigger, setFloatingTrigger] = useState(false);
   const heroRef = React.useRef<HTMLDivElement>(null);
 
@@ -35,31 +35,7 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
       });
     };
 
-    const fetchLocation = async () => {
-      try {
-        const response = await fetch("/api/ipinfo", {
-          headers: {
-            "Cache-Control": "max-age=3600",
-          },
-        });
-
-        if (!response.ok) {
-          console.error("Failed to fetch location data:", response.statusText);
-          return;
-        }
-
-        const data = await response.json();
-        if (data.state && data.state !== "your area") {
-          setUserState(data.state);
-          setUserCity(data.city);
-        }
-      } catch (error) {
-        console.error("Error fetching location data:", error);
-      }
-    };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
-    if (serviceData.hasLocation) fetchLocation();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -80,7 +56,7 @@ const ProjectDetailsClient = ({ serviceData }: ProjectDetailsClientProps) => {
       <h1 className="text-3xl  justify-center  md:text-5xl lg:text-[62px] font-extrabold lg:leading-[1.2] leading-tight text-white mb-3 max-w-3xl text-center">
         {serviceData.heroHeading}
         {serviceData.hasLocation && (
-          <span className="inline-flex min-w-[7.5ch] justify-center text-green-400"> {userCity || "\u00A0"}
+          <span className="text-green-400"> {userCity}
           </span>
         )}
         {serviceData.hasQuestionMark ? "?" : ""}

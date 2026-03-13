@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
+import { headers } from "next/headers";
 import DetailPageLoader from "@/components/DetailsPage/Dotloading";
 import { fetchHeader, getServicesBySlug } from "@/lib/api";
 import ProjectDetailsClient from "@/components/DetailsPage/ProjectDetailsClient";
@@ -16,6 +17,30 @@ import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 import Link from "next/link";
 
 export const revalidate = 60;
+
+const getIpLocation = async (): Promise<{ city: string; state: string } | null> => {
+  const forwarded = (await headers()).get("x-forwarded-for");
+  const ip = forwarded ? forwarded.split(/,\s*/)[0] : null;
+  const token = process.env.IPINFO_TOKEN;
+
+  if (!ip || !token) return null;
+
+  try {
+    const response = await fetch(`https://ipinfo.io/${ip}?token=${token}`, {
+      next: { revalidate: 3600 },
+    });
+
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    return {
+      city: typeof data?.city === "string" ? data.city : "",
+      state: typeof data?.region === "string" ? data.region : "",
+    };
+  } catch {
+    return null;
+  }
+};
 
 export async function generateMetadata({
   params,
@@ -79,6 +104,7 @@ export default async function ProjectDetails({
 
   const serviceData = await getServicesBySlug(id);
   const header = await fetchHeader() as any;
+  const ipLocation = await getIpLocation();
 
   if (!serviceData) {
     return (
@@ -149,7 +175,10 @@ export default async function ProjectDetails({
           />
           <div className="absolute inset-0 bg-[#0b1b3f]/50 z-10" />
 
-          <ProjectDetailsClient serviceData={serviceData} />
+          <ProjectDetailsClient
+            serviceData={serviceData}
+            initialUserCity={ipLocation?.city || "Your Area"}
+          />
         </section>
 
         <Suspense fallback={<DetailPageLoader />}>
