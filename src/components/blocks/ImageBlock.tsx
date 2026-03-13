@@ -25,7 +25,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({
 }) => {
   // Check if image exists and has a URL
   if (!image || !image.url) {
-    console.log("Image not rendered:", image);
+    // console.log("Image not rendered:", image);
     return null;
   }
 

@@ -134,7 +134,7 @@ export default async function ProjectDetails({
       </header>
 
       <main className="overflow-hidden">
-        <section className="relative py-6 md:py-12">
+        <section className="relative py-6 md:py-4">
           <Image
             src={serviceData.heroImage.url}
             alt={serviceData.title}
@@ -143,6 +143,8 @@ export default async function ProjectDetails({
             quality={75}
             priority
             placeholder="blur"
+            sizes="100vw"
+            fetchPriority="high"
             blurDataURL={HERO_BLUR_DATA_URL}
           />
           <div className="absolute inset-0 bg-[#0b1b3f]/50 z-10" />

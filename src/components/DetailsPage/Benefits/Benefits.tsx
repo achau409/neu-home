@@ -48,6 +48,9 @@ const Benefits = ({ serviceData }: BenefitsSectionProps) => {
             height={1000}
             width={1000}
             className="rounded-lg shadow-md w-full h-full object-cover"
+            sizes="(min-width: 1024px) 240px, (min-width: 768px) 25vw, 50vw"
+            quality={75}
+            loading="lazy"
           />
         </div>
       </div>

@@ -12,6 +12,8 @@ const Footer = ({ footer }: { footer: any }) => {
               alt="NEU Home Services logo"
               width={180}
               height={180}
+              sizes="180px"
+              className="h-auto w-[180px]"
             />
           </Link>
         </div>

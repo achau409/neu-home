@@ -71,6 +71,9 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
                   width={1000}
                   height={1000}
                   priority={index === 0}
+                  sizes="(min-width: 1024px) 240px, (min-width: 768px) 25vw, 50vw"
+                  quality={75}
+                  loading="lazy"    
                 />
               </div>
             ))}
