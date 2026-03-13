@@ -8,7 +8,7 @@ interface AdvantagesProps {
 const Advantages = ({ advantageData, title }: AdvantagesProps) => {
 
   return (
-    <section className="mt-10  py-12 px-2">
+    <section className="mt-10  py-12 px-4">
       <div className="w-full lg:w-[1180px] mx-auto">
         <h2 className="text-4xl font-semibold mb-12 text-center">
           {advantageData.sectionTitle || `Advantages Of ${title}`}
@@ -17,7 +17,7 @@ const Advantages = ({ advantageData, title }: AdvantagesProps) => {
           {advantageData.advantageList.map((advantage: any, index: any) => (
             <li
               key={index}
-              className="flex flex-col md:flex-row md:items-start gap-4"
+              className="flex md:items-start items-center md:gap-4"
             >
               <SquareCheckBig
                 strokeWidth={2.5}

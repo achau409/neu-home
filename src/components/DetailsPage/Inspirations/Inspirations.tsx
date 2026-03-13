@@ -50,7 +50,7 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
   return (
     <section className="py-12 overflow-hidden md:px-6">
       <div className="max-w-[1180px] mx-auto px-2">
-        <h2 className="text-4xl font-semibold text-center mb-12 text-gray-800">
+        <h2 className="text-2xl md:text-4xl font-bold text-center mb-12 text-gray-800">
           {sectionTitle || "Inspirations"}
         </h2>
 
@@ -60,9 +60,8 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
             {images.map((image: any, index) => (
               <div
                 key={`image-${index}`}
-                className={`absolute inset-0 transition-opacity duration-500 ${
-                  index === activeIndex ? "opacity-100" : "opacity-0"
-                }`}
+                className={`absolute inset-0 transition-opacity duration-500 ${index === activeIndex ? "opacity-100" : "opacity-0"
+                  }`}
               >
                 <Image
                   src={image.image.url}
@@ -72,7 +71,7 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
                   height={1000}
                   sizes="(min-width: 1024px) 240px, (min-width: 768px) 25vw, 50vw"
                   quality={75}
-                  loading="lazy"    
+                  loading="lazy"
                 />
               </div>
             ))}
@@ -101,11 +100,10 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
               <button
                 key={`dot-${index}`}
                 onClick={() => handleDotClick(index)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  index === activeIndex
+                className={`h-2 rounded-full transition-all duration-300 ${index === activeIndex
                     ? "w-8 bg-[#28a745]"
                     : "w-2 bg-gray-300 hover:bg-gray-400"
-                }`}
+                  }`}
                 aria-label={`Go to image ${index + 1}`}
               />
             ))}
