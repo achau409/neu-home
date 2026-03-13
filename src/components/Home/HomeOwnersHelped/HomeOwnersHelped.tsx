@@ -6,41 +6,38 @@ import Image from "next/image";
 const HomeOwnersHelped = ({ statisticBlock }: { statisticBlock: any }) => {
   const stats = statisticBlock.cards;
   return (
-    <section className="bg-slate-100 py-16 px-4 sm:px-6 lg:px-0">
-      <div className="max-w-[1180px] mx-auto text-center">
-        <h2 className="text-4xl font-medium mb-12">
-          Homeowners We Have Helped
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {stats.map((stat: any) => (
+    <section className="pb-8 px-2 sm:px-6">
+      <div className="max-w-[1020px] mx-auto text-center">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          {stats.map((stat: any, index: number) => (
             <div
               key={stat.id}
-              className={`flex flex-col items-center justify-center px-6 py-10 ${
-                stat.backgroundColor || "bg-white text-gray-500"
-              }`}
+              className={`flex  rounded-xl flex-col items-center justify-center font-bold px-2 py-5 ${stat.backgroundColor || "bg-white text-gray-800 "} ${index === 2 ? "col-span-2 md:col-span-1" : ""}`}
               style={{
                 backgroundColor: stat.backgroundColor,
                 color: stat.backgroundColor ? "white" : "gray-500",
               }}
             >
-              <div>
+              <div className="flex gap-2 items-center">
                 <Image
                   src={stat.cardIcon.url}
                   alt={stat.cardIcon.alt}
-                  width={50}
-                  height={50}
+                  width={100}
+                  height={100}
+                  className="w-10 h-10 object-contain"
                 />
+                <h3 className="text-xl font-bold">
+                  <CountUp
+                    start={5}
+                    end={stat.total}
+                    duration={1.5}
+                    separator=","
+                    preserveValue={true}
+                  />
+                </h3>
+
               </div>
-              <h3 className="text-3xl font-bold">
-                <CountUp
-                  start={5}
-                  end={stat.total}
-                  duration={1.5}
-                  separator=","
-                  preserveValue={true}
-                />
-              </h3>
-              <p className="text-xl font-semibold mt-2">{stat.title}</p>
+              <p className="md:text-xl text-sm font-bold">{stat.title}</p>
             </div>
           ))}
         </div>

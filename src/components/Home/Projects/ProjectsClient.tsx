@@ -46,7 +46,7 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
   }, [filteredServices]);
 
   return (
-    <section className="mt-10 mb-20">
+    <section className="mt-10 md:mb-10">
       <div className="max-w-[1180px] mx-auto text-center px-4 sm:px-6 lg:px-0">
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           {CATEGORY_OPTIONS.map((option) => {
@@ -56,7 +56,7 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
                 key={option.value}
                 type="button"
                 onClick={() => setActiveCategory(option.value)}
-                className={`rounded-full border md:px-4 p-2 text-xs md:text-sm font-semibold transition-all duration-300 ${isActive
+                className={`rounded-full border md:px-4 p-2 text-xs md:text-sm font-semibold  shadow-sm transition-all duration-300 ${isActive
                   ? "border-[#28a745] bg-[#28a745] text-white shadow-sm scale-[1.02]"
                   : "border-gray-300 bg-white text-gray-700 hover:border-[#28a745] hover:text-[#28a745]"
                   }`}
@@ -79,18 +79,18 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
               <li key={service.slug}>
                 <Link href={`/${service.slug}`} className="group p-0 flex flex-col items-center">
                   {service.serviceIconUrl && (
-                    <div className="flex items-center justify-center flex-col gap-1 hover:scale-105 transition-all duration-300">
+                    <div className="flex items-center justify-center flex-col gap-1 ">
                       <Image
                         src={service.serviceIconUrl}
                         alt={service.title}
                         width={1000}
                         height={1000}
-                        sizes="(min-width: 1024px) 240px, (min-width: 768px) 25vw, 50vw"
+                        sizes="(min-width: 1024px) 240px, (min-width: 768px) 25vw, 50vw "
                         quality={75}
                         loading="lazy"
-                        className="w-16 h-16 object-contain"
+                        className="w-16 h-16 object-contain hover:scale-110 transition-all duration-300"
                       />
-                      <h3 className="font-bold text-black group-hover:text-gray-600 mb-8 text-xs">
+                      <h3 className="font-bold text-black group-hover:text-gray-600 mb-8 text-xs ">
                         {service.title}
                       </h3>
                     </div>
