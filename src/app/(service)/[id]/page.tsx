@@ -3,7 +3,7 @@ import Image from "next/image";
 import { headers } from "next/headers";
 import dynamic from "next/dynamic";
 import DetailPageLoader from "@/components/DetailsPage/Dotloading";
-import { fetchHeader, fetchLandingVariant, getServicesBySlug } from "@/lib/api";
+import { fetchHeader, getServicesBySlug } from "@/lib/api";
 import ProjectDetailsClient from "@/components/DetailsPage/ProjectDetailsClient";
 import WorksSections from "@/components/Home/Works/Works";
 import HomeOwnersHelped from "@/components/Home/HomeOwnersHelped/HomeOwnersHelped";
@@ -58,11 +58,10 @@ const getIpLocation = async (): Promise<{ city: string; state: string } | null> 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string; variant: string }>;
+  params: Promise<{ id: string }>;
 }) {
-  const { slug, variant } = await params;
-  const serviceData = await getServicesBySlug(slug);
-  const canonicalUrl = `https://www.neuhomeservices.com/version/${slug}/${variant}`;
+  const { id } = await params;
+  const serviceData = await getServicesBySlug(id);
 
   if (!serviceData) {
     return {
@@ -73,17 +72,15 @@ export async function generateMetadata({
 
   return {
     title: serviceData.seo?.metaTitle || serviceData.title,
-    description:
-      serviceData.seo?.metaDescription || `Project Details - ${slug}`,
+    description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
     keywords: serviceData.seo?.metaKeywords,
     alternates: {
-      canonical: canonicalUrl,
+      canonical: `https://www.neuhomeservices.com/${id}`,
     },
     openGraph: {
       title: serviceData.seo?.metaTitle || serviceData.title,
-      description:
-        serviceData.seo?.metaDescription || `Project Details - ${slug}`,
-      url: canonicalUrl,
+      description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
+      url: `https://www.neuhomeservices.com/${id}`,
       images: [
         { url: serviceData.heroImage.url },
       ],
@@ -91,59 +88,56 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: serviceData.seo?.metaTitle || serviceData.title,
-      description:
-        serviceData.seo?.metaDescription || `Project Details - ${slug}`,
+      description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
       images: [
         { url: serviceData.heroImage.url },
       ],
+    },
+    icons: {
+      icon: "/favicon.ico",
+    },
+    manifest: "/manifest.json",
+    apple: {
+      title: serviceData.seo?.metaTitle || serviceData.title,
+      description: serviceData.seo?.metaDescription || `Project Details - ${id}`,
     },
     robots: {
       index: true,
       follow: true,
     },
-    other: {
-      "x-landing-variant": variant,
-    },
   };
 }
 
-export default async function VariantPage({
+export default async function ProjectDetails({
   params,
 }: {
-  params: Promise<{ slug: string; variant: string }>;
+  params: Promise<{ id: string }>;
 }) {
-  const { slug, variant } = await params;
-  const [ipLocation, header, primaryVariant] = await Promise.all([
-    getIpLocation(),
-    fetchHeader() as Promise<any>,
-    fetchLandingVariant(slug, variant),
-  ]);
+  const { id } = await params;
 
-  let serviceData = primaryVariant;
-  if (!serviceData && variant !== "lp1") {
-    serviceData = await fetchLandingVariant(slug, "lp1");
-  }
-  if (!serviceData) {
-    serviceData = await getServicesBySlug(slug);
-  }
+  const [serviceData, header, ipLocation] = await Promise.all([
+    getServicesBySlug(id),
+    fetchHeader() as Promise<any>,
+    getIpLocation(),
+  ]);
 
   if (!serviceData) {
     return (
       <main className="flex items-center justify-center h-screen bg-gray-50 text-gray-700">
         <h1 className="text-2xl font-bold">
-          Service not found. Please check the URL.
+          Project not found. Please check the URL.
         </h1>
       </main>
     );
   }
 
-  const howItWorkBlock = serviceData.content?.find(
+  const howItWorkBlock = serviceData.content.find(
     (block: { blockType: string }) => block.blockType === "workflow"
   );
-  const statisticBlock = serviceData.content?.find(
+  const statisticBlock = serviceData.content.find(
     (block: { blockType: string }) => block.blockType === "statistic"
   );
-  const topManyImagesBlock = serviceData.content?.find(
+  const topManyImagesBlock = serviceData.content.find(
     (block) => block.blockType === "manyImages" && block.isTopPosition === true
   );
 
@@ -169,8 +163,9 @@ export default async function VariantPage({
                     alt="NEU Home Services logo"
                     width={142}
                     height={142}
-                    priority
                     sizes="142px"
+                    priority
+                    className="w-[142px] h-[65px] object-contain"
                   />
                 </Link>
               )
@@ -184,15 +179,15 @@ export default async function VariantPage({
         <section className="relative py-6 md:py-4">
           <Image
             src={serviceData.heroImage.url}
-            alt=""
+            alt={serviceData.title}
             fill
             className="object-cover"
             quality={75}
             priority
-            sizes="100vw"
             placeholder="blur"
-            blurDataURL={HERO_BLUR_DATA_URL}
+            sizes="100vw"
             fetchPriority="high"
+            blurDataURL={HERO_BLUR_DATA_URL}
           />
           <div className="absolute inset-0 bg-[#0b1b3f]/50 z-10" />
 

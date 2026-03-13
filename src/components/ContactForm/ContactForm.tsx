@@ -5,6 +5,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -68,23 +74,23 @@ export default function ContactForm() {
 
   return (
     <div className="flex items-center justify-center px-4 py-24">
-      < div className="w-full max-w-lg" >
+      <div className="w-full max-w-lg">
 
         {/* Header */}
-        <div className="mb-10" >
+        <div className="mb-10">
           <p className="text-xs font-semibold tracking-widest text-[#0b1b3f]/50 uppercase mb-2">
             Get in touch
           </p>
-          <h1 className="text-4xl font-bold text-[#0b1b3f] leading-tight">
+          <h1 id="contact-page-heading" className="text-4xl font-bold text-[#0b1b3f] leading-tight">
             Contact Us
           </h1>
           <p className="mt-3 text-gray-500 text-sm">
             Fill out the form below and we&apos;ll get back to you as soon as possible.
           </p>
-        </div >
+        </div>
 
         {/* Form card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8" >
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
             <div>
@@ -96,11 +102,13 @@ export default function ContactForm() {
                 placeholder="John Smith"
                 {...register("name")}
                 data-ph-no-capture
+                aria-invalid={Boolean(errors.name)}
+                aria-describedby={errors.name ? "contact-name-error" : undefined}
                 className={`mt-1.5 h-11 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-[#0b1b3f] transition-colors placeholder:text-gray-300 ${errors.name ? "border-red-400 focus:border-red-400" : ""
                   }`}
               />
               {errors.name && (
-                <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
+                <p id="contact-name-error" className="mt-1 text-xs text-red-500 flex items-center gap-1">
                   <span>⚠</span> {errors.name.message}
                 </p>
               )}
@@ -116,11 +124,13 @@ export default function ContactForm() {
                 placeholder="you@example.com"
                 {...register("email")}
                 data-ph-no-capture
+                aria-invalid={Boolean(errors.email)}
+                aria-describedby={errors.email ? "contact-email-error" : undefined}
                 className={`mt-1.5 h-11 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-[#0b1b3f] transition-colors placeholder:text-gray-300 ${errors.email ? "border-red-400 focus:border-red-400" : ""
                   }`}
               />
               {errors.email && (
-                <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
+                <p id="contact-email-error" className="mt-1 text-xs text-red-500 flex items-center gap-1">
                   <span>⚠</span> {errors.email.message}
                 </p>
               )}
@@ -136,11 +146,13 @@ export default function ContactForm() {
                 {...register("message")}
                 data-ph-no-capture
                 rows={5}
+                aria-invalid={Boolean(errors.message)}
+                aria-describedby={errors.message ? "contact-message-error" : undefined}
                 className={`mt-1.5 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-[#0b1b3f] transition-colors placeholder:text-gray-300 resize-none ${errors.message ? "border-red-400 focus:border-red-400" : ""
                   }`}
               />
               {errors.message && (
-                <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
+                <p id="contact-message-error" className="mt-1 text-xs text-red-500 flex items-center gap-1">
                   <span>⚠</span> {errors.message.message}
                 </p>
               )}
@@ -164,49 +176,59 @@ export default function ContactForm() {
               )}
             </Button>
           </form>
-        </div >
-      </div >
+        </div>
+      </div>
 
-      {/* Success / Error modal */}
-      {
-        popup.show && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50 px-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 text-center">
-              {popup.success ? (
-                <>
-                  <div className="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <h2 className="text-xl font-bold text-gray-900 mb-1">Message Sent!</h2>
-                  <p className="text-sm text-gray-500">
-                    Thank you for reaching out. We&apos;ll get back to you as soon as possible.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </div>
-                  <h2 className="text-xl font-bold text-gray-900 mb-1">Failed to Send</h2>
-                  <p className="text-sm text-gray-500">
-                    Something went wrong. Please try again later.
-                  </p>
-                </>
-              )}
-              <button
-                onClick={() => setPopup({ show: false, success: false })}
-                className="mt-6 w-full h-10 rounded-lg bg-[#0b1b3f] hover:bg-[#162d63] text-white text-sm font-semibold transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )
-      }
-    </div >
+      <Dialog
+        open={popup.show}
+        onOpenChange={(open) => {
+          if (!open) {
+            setPopup({ show: false, success: false });
+          }
+        }}
+      >
+        <DialogContent className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 text-center [&>button]:hidden">
+          <DialogTitle className="sr-only">
+            {popup.success ? "Message sent" : "Message failed"}
+          </DialogTitle>
+          <DialogDescription className="sr-only">
+            {popup.success
+              ? "Thank you for contacting us. We will get back to you soon."
+              : "Something went wrong while sending your message. Please try again later."}
+          </DialogDescription>
+          {popup.success ? (
+            <>
+              <div className="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 mb-1">Message Sent!</h2>
+              <p className="text-sm text-gray-500">
+                Thank you for reaching out. We&apos;ll get back to you as soon as possible.
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 mb-1">Failed to Send</h2>
+              <p className="text-sm text-gray-500">
+                Something went wrong. Please try again later.
+              </p>
+            </>
+          )}
+          <button
+            onClick={() => setPopup({ show: false, success: false })}
+            className="mt-6 w-full h-10 rounded-lg bg-[#0b1b3f] hover:bg-[#162d63] text-white text-sm font-semibold transition-colors"
+          >
+            Close
+          </button>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }

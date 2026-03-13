@@ -1,16 +1,10 @@
 import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import Navbar from "@/components/Shared/Navbar/Navbar";
 import Footer from "@/components/Shared/Footer/Footer";
-import {
-  fetchHeader,
-  getServices,
-  fetchFooter,
-  getAllServices,
-} from "@/lib/api";
 import Script from "next/script";
 import { PostHogProvider } from "@/providers/PostHogProvider";
+import { fetchFooter } from "@/lib/api";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -66,42 +60,43 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [header, footer, services, publishedServices] = await Promise.all([
-    fetchHeader(),
+  const [footer] = await Promise.all([
     fetchFooter(),
-    getAllServices(),
-    getServices(),
   ]);
-
-  const pixelId = process.env.FACEBOOK_PIXEL_ID || "811967330404772";
-
+  const pixelId = process.env.FACEBOOK_PIXEL_ID;
+  const shouldLoadFacebookPixel =
+    process.env.NODE_ENV === "production" && Boolean(pixelId);
   return (
     <html lang="en">
       <head>
         {/* Meta Pixel Code */}
-        <Script id="facebook-pixel" strategy="afterInteractive">
-          {`
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '${pixelId}');
-            fbq('track', 'PageView');
-          `}
-        </Script>
-        <noscript>
-          <img
-            height="1"
-            width="1"
-            style={{ display: "none" }}
-            src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
-            alt=""
-          />
-        </noscript>
+        {shouldLoadFacebookPixel && (
+          <>
+            <Script id="facebook-pixel" strategy="lazyOnload">
+              {`
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '${pixelId}');
+                fbq('track', 'PageView');
+              `}
+            </Script>
+            <noscript>
+              <img
+                height="1"
+                width="1"
+                style={{ display: "none" }}
+                src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
+                alt=""
+              />
+            </noscript>
+          </>
+        )}
         {/* End Meta Pixel Code */}
         {/* TrustedForm Web SDK */}
         <Script
@@ -110,15 +105,10 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col` }
+        className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <PostHogProvider>
-          <Navbar
-            header={header}
-            services={(services ?? []) as any}
-            publishedServices={(publishedServices ?? []) as any}
-          />
-          <main className="flex-grow">{children}</main>
+          <div className="flex-grow">{children}</div>
           <Footer footer={footer} />
           <Toaster />
         </PostHogProvider>

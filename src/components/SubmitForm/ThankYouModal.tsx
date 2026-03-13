@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 
@@ -32,14 +32,17 @@ const ThankYouModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-full w-full h-[100dvh] p-0 rounded-lg text-[#0b1b3f] overflow-y-auto">
+      <DialogContent className="max-w-full w-full h-[100dvh] p-0 rounded-lg text-[#0b1b3f] overflow-y-auto [&>button]:hidden">
         <DialogTitle className="sr-only">Thank You</DialogTitle>
+        <DialogDescription className="sr-only">
+          Your request was submitted successfully and a team member will contact you shortly.
+        </DialogDescription>
         <div className="min-h-full bg-white">
           <section className="relative min-h-full">
             <div className="relative w-full h-screen">
               <Image
                 src={heroImage}
-                alt="Background Image"
+                alt=""
                 fill
                 className="object-cover"
                 quality={75}
@@ -55,14 +58,14 @@ const ThankYouModal = ({
                 <div className="flex items-center justify-between">
                   <Image
                     src="/images/logo_in.svg"
-                    alt="Logo"
+                    alt="NEU Home Services logo"
                     width={140}
                     height={140}
                   />
                   {customerLogo && (
                     <Image
                       src={customerLogo}
-                      alt="Customer Logo"
+                      alt={`${companyName} logo`}
                       width={150}
                       height={150}
                     />
@@ -72,9 +75,9 @@ const ThankYouModal = ({
 
               <div className="flex-grow flex items-center justify-center py-4">
                 <div className="max-w-2xl mx-auto text-center">
-                  <h1 className="text-4xl font-bold mb-6 text-white">
+                  <h2 className="text-4xl font-bold mb-6 text-white">
                     Thank You!
-                  </h1>
+                  </h2>
 
                   <div className="mb-4">
                     <div className="w-16 h-16 bg-[#28a745] rounded-full mx-auto flex items-center justify-center">
@@ -120,7 +123,7 @@ const ThankYouModal = ({
                             />
                           </svg>
                         </div>
-                        <span className="text-xl text-white">Quick 10-minute call</span>
+                        <span className="md:text-xl text-base text-white">Quick 10-minute call</span>
                       </div>
                       <div className="flex items-center">
                         <div className="w-6 h-6 mr-2 flex-shrink-0">
@@ -137,7 +140,7 @@ const ThankYouModal = ({
                             />
                           </svg>
                         </div>
-                        <span className="text-xl text-white">Confirm project goals</span>
+                        <span className="md:text-xl text-base text-white">Confirm project goals</span>
                       </div>
                       <div className="flex items-center">
                         <div className="w-6 h-6 mr-2 flex-shrink-0">
@@ -155,7 +158,7 @@ const ThankYouModal = ({
                             />
                           </svg>
                         </div>
-                        <span className="text-xl text-white">
+                        <span className="md:text-xl text-base text-white">
                           Schedule your free in-home estimate
                         </span>
                       </div>
@@ -174,7 +177,7 @@ const ThankYouModal = ({
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
-                      <span className="text-2xl ml-3 font-bold">4.8</span>
+                      <span className="text-2xl ml-3 font-bold">4.9</span>
                     </div>
                     <p className="text-xl font-bold">1,500+ Happy Homeowners</p>
                   </div>
