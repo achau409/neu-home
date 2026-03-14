@@ -6,7 +6,7 @@ import Image from "next/image";
 const HomeOwnersHelped = ({ statisticBlock }: { statisticBlock: any }) => {
   const stats = statisticBlock.cards;
   return (
-    <section className="pb-8 px-2 sm:px-6">
+    <section className="py-8 px-2 sm:px-6">
       <div className="max-w-[1020px] mx-auto text-center">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {stats.map((stat: any, index: number) => (

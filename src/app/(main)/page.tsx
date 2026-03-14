@@ -130,13 +130,12 @@ export default async function HomePage() {
         {heroBlock && (
           <HeroSection heroData={heroBlock as any} services={serviceList} />
         )}
-
-        {/* Below fold — wrapped in Suspense for streaming */}
-        <Suspense>
-          <Projects services={serviceList} />
-        </Suspense>
         <Suspense>
           {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
+        </Suspense>
+
+        <Suspense>
+          <Projects services={serviceList} />
         </Suspense>
 
         <Suspense>

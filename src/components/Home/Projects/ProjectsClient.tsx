@@ -55,6 +55,10 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
   return (
     <section className="mt-10 md:mb-10">
       <div className="max-w-[1020px] mx-auto text-center px-4 sm:px-6 lg:px-0">
+
+        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mt-6">
+          Home Improvement Projects We Can Help With
+        </h2>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           {CATEGORY_OPTIONS.map((option) => {
             const isActive = option.value === activeCategory;
@@ -73,10 +77,6 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
             );
           })}
         </div>
-
-        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mt-6">
-          Home Improvement Projects We Can Help With
-        </h2>
 
         <div
           className={`transition-opacity duration-300 ${isTransitioning ? "opacity-0" : "opacity-100"}`}
