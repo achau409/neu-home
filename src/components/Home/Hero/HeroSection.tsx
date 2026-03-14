@@ -58,7 +58,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
             {/* Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger
-                className="w-full sm:w-[250px] px-2 py-2 text-left bg-white text-sm md:text-base  
+                className="w-full sm:w-[250px] px-2 py-[11px] md:py-[8.7px] text-left bg-white text-sm md:text-base  
               rounded-sm md:rounded-l-sm md:rounded-r-none "
               >
                 {selectedValue

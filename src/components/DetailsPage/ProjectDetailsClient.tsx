@@ -42,7 +42,7 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
 
 
   return (
-    <div className="relative z-20 w-full  mx-auto px-4 md:px-6 py-4 md:py-10 flex flex-col items-center text-center">
+    <div className="relative z-[999999] w-full  mx-auto px-4 md:px-6 py-4 md:py-10 flex flex-col items-center text-center">
 
       {/* Eyebrow pill */}
       <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-5">
@@ -125,7 +125,7 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
       )}
 
       {/* Floating "Get Free Quote" button — appears after scrolling past hero */}
-      <div className="fixed bottom-4 right-5 z-50 flex flex-col items-end gap-2 transition-all duration-500 opacity-100 translate-y-0">
+      <div className="fixed bottom-4 right-5 z-[50] flex flex-col items-end gap-2 transition-all duration-500 opacity-100 translate-y-0">
         {/* Pulse rings */}
         <span className="absolute inset-0 rounded-full bg-[#28a745] opacity-20 animate-ping" />
         <span className="absolute inset-0 rounded-full bg-[#28a745] opacity-10 animate-ping [animation-delay:0.4s]" />
