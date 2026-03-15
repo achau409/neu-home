@@ -350,7 +350,6 @@ const ZipSearchForm = ({
             borderRadius: 0,
             left: 0,
             top: 0,
-            zIndex:99999999,
           }}
         >
           <DialogTitle className="sr-only">Get Your Free Estimate</DialogTitle>
@@ -565,8 +564,8 @@ const ZipSearchForm = ({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isExitConfirmOpen} onOpenChange={setIsExitConfirmOpen}>
-        <DialogContent className="w-[calc(100vw-2rem)] max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-xl sm:p-7 [&>button]:hidden">
+      <Dialog open={isExitConfirmOpen} onOpenChange={setIsExitConfirmOpen} >
+        <DialogContent className="fixed z-[92] w-[calc(100vw-2rem)] max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-xl sm:p-7 [&>button]:hidden">
           <button
             type="button"
             onClick={() => setIsExitConfirmOpen(false)}
