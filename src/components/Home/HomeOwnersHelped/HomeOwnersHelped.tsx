@@ -7,16 +7,12 @@ const HomeOwnersHelped = ({ statisticBlock }: { statisticBlock: any }) => {
   const stats = statisticBlock.cards;
   return (
     <section className="py-8 px-2 sm:px-6">
-      <div className="max-w-[1020px] mx-auto text-center">
+      <div className="max-w-[820px] mx-auto text-center">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {stats.map((stat: any, index: number) => (
             <div
               key={stat.id}
-              className={`flex  rounded-xl flex-col items-center justify-center font-bold px-2 py-5 ${stat.backgroundColor || "bg-white text-gray-800 "} ${index === 2 ? "col-span-2 md:col-span-1" : ""}`}
-              style={{
-                backgroundColor: stat.backgroundColor,
-                color: stat.backgroundColor ? "white" : "gray-500",
-              }}
+              className={`flex  rounded-xl flex-col items-center justify-center font-bold px-2 py-5 bg-white  text-navy-deep "} ${index === 2 ? "col-span-2 md:col-span-1" : ""}`}
             >
               <div className="flex gap-2 items-center">
                 <Image
@@ -24,7 +20,7 @@ const HomeOwnersHelped = ({ statisticBlock }: { statisticBlock: any }) => {
                   alt={stat.cardIcon.alt}
                   width={100}
                   height={100}
-                  className="w-10 h-10 object-contain"
+                  className="w-10 h-10 object-contain fill-black"
                 />
                 <h3 className="text-xl font-bold">
                   <CountUp

@@ -358,7 +358,7 @@ const ZipSearchForm = ({
           </DialogDescription>
 
           {/* ── Sticky header ── */}
-          <div className="flex-shrink-0  z-10 bg-navy-brand">
+          <div className="flex-shrink-0  z-10 bg-trust-primary">
             <div className="flex items-center justify-center py-2 bg-navy-brand">
               {serviceData.customerLogo?.url ? (
                 <button
@@ -565,7 +565,7 @@ const ZipSearchForm = ({
       </Dialog>
 
       <Dialog open={isExitConfirmOpen} onOpenChange={setIsExitConfirmOpen}>
-        <DialogContent className="w-[calc(100vw-2rem)] max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-xl sm:p-7 [&>button]:hidden">
+        <DialogContent className="fixed z-[92] w-[calc(100vw-2rem)] max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-xl sm:p-7 [&>button]:hidden">
           <button
             type="button"
             onClick={() => setIsExitConfirmOpen(false)}

@@ -4,7 +4,7 @@ import Image from "next/image";
 const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
   const cards = howItWorkBlock.cards;
   return (
-    <section className="relative bg-navy-deep text-white py-14 px-6 overflow-hidden">
+    <section id="workflow" className="relative bg-navy-deep text-white py-14 px-6 overflow-hidden">
       <div className="relative max-w-[1180px] mx-auto text-center">
         <h2 className="text-3xl font-bold mb-14">
           {howItWorkBlock.sectionTitle || "How it works?"}
@@ -60,7 +60,7 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
                     </div>
 
                     {/* Number badge */}
-                    <span className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-navy-brand text-white text-base font-bold flex items-center justify-center">
+                    <span className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-trust-primary text-white text-base font-bold flex items-center justify-center">
                       {index + 1}
                     </span>
                   </div>

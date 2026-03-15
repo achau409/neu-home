@@ -67,10 +67,9 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
                   src={image.image.url}
                   alt={`Inspiration ${index + 1}`}
                   className="w-full h-full object-cover"
-                  width={1000}
-                  height={1000}
+                  fill
+                  quality={75}
                   sizes="(min-width: 1024px) 240px, (min-width: 768px) 25vw, 50vw"
-                  loading="lazy"
                 />
               </div>
             ))}

@@ -42,12 +42,12 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
 
 
   return (
-    <div className="relative z-[999999] w-full  mx-auto px-4 md:px-6 py-4 md:py-10 flex flex-col items-center text-center">
+    <div className="relative z-[50]] w-full  mx-auto px-4 md:px-6 py-4 md:py-10 flex flex-col items-center text-center">
 
       {/* Eyebrow pill */}
       <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-5">
         <span className="w-2 h-2 rounded-full bg-palette-sky animate-pulse" />
-        <span className="text-palette-sky text-[10px] md:text-xs font-semibold tracking-widest uppercase">
+        <span className="text-white text-[10px] md:text-xs font-semibold tracking-widest uppercase">
           Available in your area
         </span>
       </div>

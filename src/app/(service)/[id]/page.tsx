@@ -143,7 +143,7 @@ export default async function ProjectDetails({
 
   return (
     <>
-      <header className="bg-navy-brand">
+      <header className="bg-trust-primary">
         <div className="py-5 flex justify-center items-center">
           <div className="flex items-center justify-center">
             {
@@ -189,7 +189,7 @@ export default async function ProjectDetails({
             fetchPriority="high"
             blurDataURL={HERO_BLUR_DATA_URL}
           />
-          <div className="absolute inset-0 bg-navy-deep/60 z-10" />
+          <div className="absolute inset-0 bg-[#0b1b3f80] z-10" />
 
           <ProjectDetailsClient
             serviceData={serviceData}

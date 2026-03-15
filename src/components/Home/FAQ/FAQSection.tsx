@@ -28,6 +28,7 @@ const FAQSection = ({ block }: any) => {
 
   return (
     <section
+    id="faq"
       className="py-14 px-4 sm:px-6"
       style={backgroundColor ? { backgroundColor } : undefined}
     >

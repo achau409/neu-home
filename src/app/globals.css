@@ -26,7 +26,7 @@
     --ring: 160 84% 39%;
     --radius: 0.5rem;
     /* Custom e-commerce colors */
-    --dark-green: 165 90% 18%;
+    --dark-green: 210, 73%, 15%;
     --mint-green: 160 84% 39%;
     --light-mint: 160 71% 73%;
     --bg-pale-green: 160 84% 97%;
@@ -69,34 +69,6 @@
 }
 
 @layer base {
-  .dark {
-    --background: 165 90% 8%;
-    --foreground: 160 40% 98%;
-    --card: 165 90% 12%;
-    --card-foreground: 160 40% 98%;
-    --popover: 165 90% 12%;
-    --popover-foreground: 160 40% 98%;
-    --primary: 160 84% 45%;
-    --primary-foreground: 165 90% 10%;
-    --secondary: 165 60% 20%;
-    --secondary-foreground: 160 40% 98%;
-    --muted: 165 50% 18%;
-    --muted-foreground: 160 30% 70%;
-    --accent: 160 60% 25%;
-    --accent-foreground: 160 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 165 40% 25%;
-    --input: 165 40% 25%;
-    --ring: 160 84% 45%;
-    --chart-1: 160 60% 45%;
-    --chart-2: 165 70% 40%;
-    --chart-3: 160 50% 55%;
-    --chart-4: 165 55% 50%;
-    --chart-5: 160 45% 60%;
-  }
-}
-@layer base {
   * {
     @apply border-border;
   }
@@ -113,4 +85,11 @@
 }
 button.absolute.right-4.top-4.rounded-sm.opacity-70.ring-offset-background.transition-opacity.hover\:opacity-100.focus\:outline-none.focus\:ring-2.focus\:ring-ring.focus\:ring-offset-2.disabled\:pointer-events-none.data-\[state\=open\]\:bg-accent.data-\[state\=open\]\:text-muted-foreground {
   display: none;
+}
+
+scoll-behavior-smooth {
+  scroll-behavior: smooth;
+}
+html {
+  scroll-behavior: smooth !important; /* !important helps ensure it overrides Next.js defaults */
 }
