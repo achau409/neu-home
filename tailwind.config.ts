@@ -10,6 +10,33 @@ export default {
   theme: {
     extend: {
       colors: {
+        trust: {
+          primary: "var(--trust-primary)",
+          "primary-hover": "var(--trust-primary-hover)",
+          accent: "var(--trust-accent)",
+          "accent-hover": "var(--trust-accent-hover)",
+          success: "var(--trust-success)",
+          "success-hover": "var(--trust-success-hover)",
+          bg: "var(--trust-bg)",
+          muted: "var(--trust-muted)",
+          heading: "var(--trust-heading)",
+          warm: "var(--trust-warm)",
+        },
+        navy: {
+          deep: "var(--navy-deep)",
+          brand: "var(--navy-brand)",
+        },
+        blue: {
+          mid: "var(--blue-mid)",
+          accent: "var(--blue-accent)",
+        },
+        palette: {
+          "ice-blue": "var(--ice-blue)",
+          sky: "var(--sky)",
+          ink: "var(--ink)",
+          slate: "var(--slate)",
+          "off-white": "var(--off-white)",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

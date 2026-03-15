@@ -33,7 +33,7 @@ const FAQSection = ({ block }: any) => {
     >
       <div className="mx-auto max-w-[980px]">
         <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-[#0b1b3f] mb-3 uppercase">
+          <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-trust-heading mb-3 uppercase">
             {sectionTitle}
           </h2>
           {sectionSubtitle && (
@@ -58,7 +58,7 @@ const FAQSection = ({ block }: any) => {
                   className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-sm md:text-base font-semibold text-[#0b1b3f]">
+                  <span className="text-sm md:text-base font-semibold text-trust-heading">
                     {item.question}
                   </span>
                   <span

@@ -318,7 +318,7 @@ const ZipSearchForm = ({
         </div>
         {isMatched && (
           <CircleCheckBig
-            className="absolute text-[#28a745] w-5 h-5 top-1/2 transform -translate-y-1/2"
+            className="absolute text-trust-success w-5 h-5 top-1/2 transform -translate-y-1/2"
             aria-label="Matched"
           />
         )}
@@ -358,8 +358,8 @@ const ZipSearchForm = ({
           </DialogDescription>
 
           {/* ── Sticky header ── */}
-          <div className="flex-shrink-0  z-10 bg-[#0b1b3f]">
-            <div className="flex items-center justify-center py-2 bg-[#0b1b3f]">
+          <div className="flex-shrink-0  z-10 bg-navy-brand">
+            <div className="flex items-center justify-center py-2 bg-navy-brand">
               {serviceData.customerLogo?.url ? (
                 <button
                   type="button"
@@ -405,7 +405,7 @@ const ZipSearchForm = ({
               {/* Trust signals — LEFT, larger */}
               <div className="flex items-center gap-2 sm:gap-6">
                 <span className="flex items-center gap-1.5 text-sm md:text-base  font-medium">
-                  <ShieldCheck className="md:w-7 md:h-7 w-5 h-5 text-[#28a745] shrink-0" />
+                  <ShieldCheck className="md:w-7 md:h-7 w-5 h-5 text-trust-success shrink-0" />
                   Secure
                 </span>
                 {/* <span className="flex items-center gap-1.5 text-base text-gray-600 font-medium">
@@ -428,7 +428,7 @@ const ZipSearchForm = ({
 
             <div className="h-1 md:h-1.5  w-full bg-gray-50">
               <div
-                className="h-full bg-[#28a745] transition-all duration-500 ease-out rounded-r-full"
+                className="h-full bg-trust-accent transition-all duration-500 ease-out rounded-r-full"
                 style={{
                   width: modalView === "zip"
                     ? "8%"
@@ -460,12 +460,12 @@ const ZipSearchForm = ({
                     className={`flex items-center gap-2 border rounded-sm px-3 bg-white transition-colors ${modalZipError
                       ? "border-red-400"
                       : modalZipMatched
-                        ? "border-[#28a745]"
-                        : "border-gray-500 focus-within:border-[#28a745]"
+                        ? "border-trust-success"
+                        : "border-gray-500 focus-within:border-trust-success"
                       }`}
                   >
                     <MapPin
-                      className={`w-5 h-5 shrink-0 ${modalZipMatched ? "text-[#28a745]" : "text-gray-400"
+                      className={`w-5 h-5 shrink-0 ${modalZipMatched ? "text-trust-success" : "text-gray-400"
                         }`}
                     />
                     <input
@@ -495,7 +495,7 @@ const ZipSearchForm = ({
                     </p>
                   )}
                   {modalZipMatched && !modalIsLoading && (
-                    <p className="text-left text-[#28a745] font-semibold">{`${zipLocations?.city}, ${zipLocations?.state}`}</p>
+                    <p className="text-left text-trust-success font-semibold">{`${zipLocations?.city}, ${zipLocations?.state}`}</p>
                   )}
 
                   {!modalZipError && modalZipInput.length > 0 && modalZipInput.length < 5 && (
@@ -507,7 +507,7 @@ const ZipSearchForm = ({
                     onClick={handleZipNext}
                     disabled={!modalZipMatched || modalIsLoading}
                     className={`w-full flex items-center justify-center  !mt-8 gap-2 py-4 rounded-sm text-sm font-bold transition-all duration-200 ${modalZipMatched && !modalIsLoading
-                      ? "bg-[#28a745] text-white hover:bg-[#22963c] shadow-md hover:shadow-lg"
+                      ? "bg-trust-accent text-white hover:bg-trust-accent-hover shadow-md hover:shadow-lg"
                       : "bg-gray-100 text-gray-400 cursor-not-allowed"
                       }`}
                   >
@@ -574,7 +574,7 @@ const ZipSearchForm = ({
           >
             <X className="h-6 w-6" />
           </button>
-          <DialogTitle className="pr-8 text-left text-2xl font-bold text-[#0b1b3f]">
+          <DialogTitle className="pr-8 text-left text-2xl font-bold text-trust-heading">
             Are you sure?
           </DialogTitle>
           <DialogDescription className="mt-2 text-left text-base text-gray-600">
@@ -585,14 +585,14 @@ const ZipSearchForm = ({
               type="button"
               variant="outline"
               onClick={() => setIsExitConfirmOpen(false)}
-              className="h-11 flex-1 rounded-md border-gray-300 p-3 bg-white text-sm font-semibold text-[#0b1b3f] hover:bg-gray-50"
+              className="h-11 flex-1 rounded-md border-gray-300 p-3 bg-white text-sm font-semibold text-trust-heading hover:bg-gray-50"
             >
               Cancel
             </Button>
             <Button
               type="button"
               onClick={handleConfirmExit}
-              className="h-11 flex-1 rounded-md bg-[#28a745] text-sm font-semibold text-white hover:bg-[#28a746dc] p-3"
+              className="h-11 flex-1 rounded-md bg-trust-accent text-sm font-semibold text-white hover:bg-trust-accent-hover p-3"
             >
               Leave page
             </Button>

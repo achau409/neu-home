@@ -32,7 +32,7 @@ const ThankYouModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-full w-full h-[100dvh] p-0 rounded-lg text-[#0b1b3f] overflow-y-auto [&>button]:hidden">
+      <DialogContent className="max-w-full w-full h-[100dvh] p-0 rounded-lg text-trust-heading overflow-y-auto [&>button]:hidden">
         <DialogTitle className="sr-only">Thank You</DialogTitle>
         <DialogDescription className="sr-only">
           Your request was submitted successfully and a team member will contact you shortly.
@@ -50,7 +50,7 @@ const ThankYouModal = ({
                 placeholder="blur"
                 blurDataURL={HERO_BLUR_DATA_URL}
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0b1b3fc6] to-[#0b1b3fbe] z-10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-navy-deep/85 to-navy-brand/80 z-10" />
             </div>
 
             <div className="absolute inset-0 z-20 px-4 flex flex-col min-h-full">
@@ -80,7 +80,7 @@ const ThankYouModal = ({
                   </h2>
 
                   <div className="mb-4">
-                    <div className="w-16 h-16 bg-[#28a745] rounded-full mx-auto flex items-center justify-center">
+                    <div className="w-16 h-16 bg-trust-accent rounded-full mx-auto flex items-center justify-center">
                       <svg
                         className="w-14 h-14 text-white"
                         fill="none"
@@ -165,7 +165,7 @@ const ThankYouModal = ({
                     </div>
                   </div>
 
-                  <div className="bg-[#fffff0] rounded-lg p-4 mb-4 max-w-md mx-auto">
+                  <div className="bg-trust-warm rounded-lg p-4 mb-4 max-w-md mx-auto">
                     <div className="flex justify-center mb-2">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <svg
@@ -188,7 +188,7 @@ const ThankYouModal = ({
 
                   <button
                     onClick={handleReturn}
-                    className="bg-[#28a745] text-white mt-4 px-8 py-3 rounded-lg text-xl font-semibold hover:bg-[#2a4c71] transition-colors inline-block cursor-pointer mb-4"
+                    className="bg-trust-accent text-white mt-4 px-8 py-3 rounded-lg text-xl font-semibold hover:bg-trust-accent-hover transition-colors inline-block cursor-pointer mb-4"
                   >
                     Return to Home
                   </button>

@@ -46,8 +46,8 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
 
       {/* Eyebrow pill */}
       <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-5">
-        <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-        <span className="text-white text-[10px] md:text-xs font-semibold tracking-widest uppercase">
+        <span className="w-2 h-2 rounded-full bg-palette-sky animate-pulse" />
+        <span className="text-palette-sky text-[10px] md:text-xs font-semibold tracking-widest uppercase">
           Available in your area
         </span>
       </div>
@@ -56,7 +56,7 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
       <h1 className={`text-3xl  justify-center  md:text-5xl lg:text-[62px] font-extrabold lg:leading-[1.2] leading-tight text-white mb-3 max-w-${serviceData.heroTextWidth} text-center`}>
         {serviceData.heroHeading}
         {serviceData.hasLocation && (
-          <span className="text-green-400"> {userCity}
+          <span className="text-palette-sky"> {userCity}
           </span>
         )}
         {serviceData.hasQuestionMark ? "?" : ""}
@@ -127,11 +127,11 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
       {/* Floating "Get Free Quote" button — appears after scrolling past hero */}
       <div className="fixed bottom-4 right-5 z-[50] flex flex-col items-end gap-2 transition-all duration-500 opacity-100 translate-y-0">
         {/* Pulse rings */}
-        <span className="absolute inset-0 rounded-full bg-[#28a745] opacity-20 animate-ping" />
-        <span className="absolute inset-0 rounded-full bg-[#28a745] opacity-10 animate-ping [animation-delay:0.4s]" />
+        <span className="absolute inset-0 rounded-full bg-trust-accent opacity-20 animate-ping" />
+        <span className="absolute inset-0 rounded-full bg-trust-accent opacity-10 animate-ping [animation-delay:0.4s]" />
 
         <button
-          className="relative uppercase flex items-center gap-2 bg-[#28a745] hover:bg-[#22963c] text-white text-sm font-bold px-5 py-3.5 rounded-full shadow-[0_8px_30px_rgba(40,167,69,0.5)] hover:shadow-[0_8px_40px_rgba(40,167,69,0.7)] transition-all duration-300 hover:scale-105 active:scale-95 group"
+          className="relative uppercase flex items-center gap-2 bg-trust-accent hover:bg-trust-accent-hover text-white text-sm font-bold px-5 py-3.5 rounded-full shadow-[0_8px_30px_rgba(224,124,90,0.5)] hover:shadow-[0_8px_40px_rgba(224,124,90,0.7)] transition-all duration-300 hover:scale-105 active:scale-95 group"
           aria-label="Get Free Quote"
           onClick={() => setFloatingTrigger(true)}
         >

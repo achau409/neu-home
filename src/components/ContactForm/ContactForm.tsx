@@ -78,10 +78,10 @@ export default function ContactForm() {
 
         {/* Header */}
         <div className="mb-10">
-          <p className="text-xs font-semibold tracking-widest text-[#0b1b3f]/50 uppercase mb-2">
+          <p className="text-xs font-semibold tracking-widest text-trust-primary/50 uppercase mb-2">
             Get in touch
           </p>
-          <h1 id="contact-page-heading" className="text-4xl font-bold text-[#0b1b3f] leading-tight">
+          <h1 id="contact-page-heading" className="text-4xl font-bold text-trust-heading leading-tight">
             Contact Us
           </h1>
           <p className="mt-3 text-gray-500 text-sm">
@@ -104,7 +104,7 @@ export default function ContactForm() {
                 data-ph-no-capture
                 aria-invalid={Boolean(errors.name)}
                 aria-describedby={errors.name ? "contact-name-error" : undefined}
-                className={`mt-1.5 h-11 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-[#0b1b3f] transition-colors placeholder:text-gray-300 ${errors.name ? "border-red-400 focus:border-red-400" : ""
+                className={`mt-1.5 h-11 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-trust-primary transition-colors placeholder:text-gray-300 ${errors.name ? "border-red-400 focus:border-red-400" : ""
                   }`}
               />
               {errors.name && (
@@ -126,7 +126,7 @@ export default function ContactForm() {
                 data-ph-no-capture
                 aria-invalid={Boolean(errors.email)}
                 aria-describedby={errors.email ? "contact-email-error" : undefined}
-                className={`mt-1.5 h-11 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-[#0b1b3f] transition-colors placeholder:text-gray-300 ${errors.email ? "border-red-400 focus:border-red-400" : ""
+                className={`mt-1.5 h-11 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-trust-primary transition-colors placeholder:text-gray-300 ${errors.email ? "border-red-400 focus:border-red-400" : ""
                   }`}
               />
               {errors.email && (
@@ -148,7 +148,7 @@ export default function ContactForm() {
                 rows={5}
                 aria-invalid={Boolean(errors.message)}
                 aria-describedby={errors.message ? "contact-message-error" : undefined}
-                className={`mt-1.5 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-[#0b1b3f] transition-colors placeholder:text-gray-300 resize-none ${errors.message ? "border-red-400 focus:border-red-400" : ""
+                className={`mt-1.5 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-trust-primary transition-colors placeholder:text-gray-300 resize-none ${errors.message ? "border-red-400 focus:border-red-400" : ""
                   }`}
               />
               {errors.message && (
@@ -161,7 +161,7 @@ export default function ContactForm() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full h-11 rounded-lg bg-[#0b1b3f] hover:bg-[#162d63] text-white font-semibold tracking-wide transition-colors mt-2"
+              className="w-full h-11 rounded-lg bg-trust-primary hover:bg-trust-primary-hover text-white font-semibold tracking-wide transition-colors mt-2"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -223,7 +223,7 @@ export default function ContactForm() {
           )}
           <button
             onClick={() => setPopup({ show: false, success: false })}
-            className="mt-6 w-full h-10 rounded-lg bg-[#0b1b3f] hover:bg-[#162d63] text-white text-sm font-semibold transition-colors"
+            className="mt-6 w-full h-10 rounded-lg bg-trust-primary hover:bg-trust-primary-hover text-white text-sm font-semibold transition-colors"
           >
             Close
           </button>

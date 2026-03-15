@@ -4,7 +4,7 @@ import Image from "next/image";
 const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
   const cards = howItWorkBlock.cards;
   return (
-    <section className="relative bg-[#0b1b3f] text-white py-14 px-6 overflow-hidden">
+    <section className="relative bg-navy-deep text-white py-14 px-6 overflow-hidden">
       <div className="relative max-w-[1180px] mx-auto text-center">
         <h2 className="text-3xl font-bold mb-14">
           {howItWorkBlock.sectionTitle || "How it works?"}
@@ -46,7 +46,7 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
                   {/* Circle with icon + number badge */}
                   <div className="relative mb-6">
                     {/* Outer glow ring */}
-                    <div className="w-26 h-26 rounded-full bg-[#fef2b726] flex items-center justify-center">
+                    <div className="w-26 h-26 rounded-full bg-palette-ice-blue/90 flex items-center justify-center">
                       {/* Inner white circle */}
                       <div className="w-24 h-24 rounded-full bg-white shadow-[0_0_30px_8px_rgba(255,255,255,0.35)] flex items-center justify-center">
                         <Image
@@ -60,7 +60,7 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
                     </div>
 
                     {/* Number badge */}
-                    <span className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[#0b1b3f]  text-white text-base font-bold flex items-center justify-center">
+                    <span className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-navy-brand text-white text-base font-bold flex items-center justify-center">
                       {index + 1}
                     </span>
                   </div>

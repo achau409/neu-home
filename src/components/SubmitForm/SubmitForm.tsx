@@ -515,13 +515,13 @@ const SubmitForm = ({
                   {step.options?.map((option) => (
                     <div
                       key={option}
-                      className={`flex items-center justify-between w-full max-w-sm border rounded-lg p-3 cursor-pointer ${field.value === option ? "border-[#28a745] bg-green-50" : "border-gray-300"
+                      className={`flex items-center justify-between w-full max-w-sm border rounded-lg p-3 cursor-pointer ${field.value === option ? "border-trust-accent bg-trust-warm" : "border-gray-300"
                         }`}
                       onClick={() => field.onChange(option)}
                     >
                       <div className="flex items-center space-x-4">
                         <div
-                          className={`h-6 w-6 rounded-full border-2 flex justify-center items-center ${field.value === option ? "border-[#28a745] bg-[#28a745]" : "border-gray-300"
+                          className={`h-6 w-6 rounded-full border-2 flex justify-center items-center ${field.value === option ? "border-trust-accent bg-trust-accent" : "border-gray-300"
                             }`}
                         >
                           {field.value === option && (
@@ -598,7 +598,7 @@ const SubmitForm = ({
                     return (
                       <div
                         key={option}
-                        className={`flex items-center justify-between w-full max-w-[300px] rounded-xl p-3 border-2 cursor-pointer transition-colors hover:border-green-300 ${checked ? "border-[#28a745] bg-green-50" : "border-gray-300"
+                        className={`flex items-center justify-between w-full max-w-[300px] rounded-xl p-3 border-2 cursor-pointer transition-colors hover:border-green-300 ${checked ? "border-trust-accent bg-trust-warm" : "border-gray-300"
                           }`}
                         onClick={() => {
                           const current = Array.isArray(field.value) ? field.value : [];
@@ -645,7 +645,7 @@ const SubmitForm = ({
                     }}
                   />
                   <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                    <LockKeyhole size={20} strokeWidth={3} className="text-[#fa8c16]" />
+                    <LockKeyhole size={20} strokeWidth={3} className="text-trust-accent" />
                   </div>
                 </div>
               </div>
@@ -781,7 +781,7 @@ const SubmitForm = ({
               </Button>
               <Button
                 type="submit"
-                className="p-6 w-full bg-[#28a745] text-white hover:bg-[#22963c] disabled:bg-green-300 font-bold"
+                className="p-6 w-full bg-trust-accent text-white hover:bg-trust-accent-hover disabled:bg-gray-300 font-bold"
                 disabled={
                   !isCurrentStepValid ||
                   submitInFlight ||

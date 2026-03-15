@@ -68,8 +68,8 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
                 type="button"
                 onClick={() => setActiveCategory(option.value)}
                 className={`rounded-full border md:px-4 p-2 text-xs md:text-sm font-semibold  shadow-sm transition-all duration-300 ${isActive
-                  ? "border-[#28a745] bg-[#28a745] text-white shadow-sm scale-[1.02]"
-                  : "border-gray-300 bg-white text-gray-700 hover:border-[#28a745] hover:text-[#28a745]"
+                  ? "border-trust-accent bg-trust-accent text-white shadow-sm scale-[1.02]"
+                  : "border-gray-300 bg-white text-gray-700 hover:border-trust-accent hover:text-trust-accent"
                   }`}
               >
                 {option.label}

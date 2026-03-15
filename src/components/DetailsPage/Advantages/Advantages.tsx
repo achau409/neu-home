@@ -22,7 +22,7 @@ const Advantages = ({ advantageData, title }: AdvantagesProps) => {
               <SquareCheckBig
                 strokeWidth={2.5}
                 size={28}
-                className="text-[#0B1B3F] mr-3 !min-w-[28px] mt-1"
+                className="text-trust-heading mr-3 !min-w-[28px] mt-1"
               />
               <div>
                 <h2 className="text-xl font-bold mb-2 text-gray-800">

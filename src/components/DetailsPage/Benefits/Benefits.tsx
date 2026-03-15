@@ -9,7 +9,7 @@ type BenefitsSectionProps = {
 const Benefits = ({ serviceData }: BenefitsSectionProps) => {
   return (
     <section className="flex flex-col items-center justify-center w-full lg:w-[1180px] mx-auto my-10 px-4">
-      <h2 className="text-3xl lg:text-5xl font-bold mb-4 text-center text-[#152C61] max-w-4xl">
+      <h2 className="text-3xl lg:text-5xl font-bold mb-4 text-center text-trust-heading max-w-4xl">
         {serviceData.benefits.sectionTitle}
       </h2>
       <p className="text-lg text-gray-600 mb-6 text-center font-semibold">
@@ -30,7 +30,7 @@ const Benefits = ({ serviceData }: BenefitsSectionProps) => {
                     <SquareCheckBig
                       strokeWidth={2.5}
                       size={28}
-                      className="text-[#55bc7e] mr-3 !min-w-[28px] mt-1"
+                      className="text-trust-success mr-3 !min-w-[28px] mt-1"
                     />
                     <span className="text-gray-800">{benefit.title}</span>
                   </li>

@@ -149,7 +149,7 @@ export default async function VariantPage({
 
   return (
     <>
-      <header className="bg-[#0b1b3f]">
+      <header className="bg-navy-brand">
         <div className="py-5 flex justify-center items-center">
           <div className="flex items-center justify-center">
             {
@@ -194,7 +194,7 @@ export default async function VariantPage({
             blurDataURL={HERO_BLUR_DATA_URL}
             fetchPriority="high"
           />
-          <div className="absolute inset-0 bg-[#0b1b3f]/50 z-10" />
+          <div className="absolute inset-0 bg-navy-deep/60 z-10" />
 
           <ProjectDetailsClient
             serviceData={serviceData}
@@ -206,7 +206,7 @@ export default async function VariantPage({
           {serviceData.benefits && <Benefits serviceData={serviceData} />}
 
           {topManyImagesBlock && (
-            <div className="bg-[#f5f7fa]">
+            <div className="bg-palette-off-white">
               <ManyImagesBlock
                 key={topManyImagesBlock.id as string}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any

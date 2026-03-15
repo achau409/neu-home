@@ -56,7 +56,7 @@ const ZipCodeBlock: React.FC<ZipCodeBlockProps> = ({
             <p
               className={`mt-1 text-sm font-medium text-white text-center ${
                 zipStatus === "matched"
-                  ? "text-[#28a745]"
+                  ? "text-trust-success"
                   : zipStatus === "not_matched"
                   ? "!text-red-600"
                   : "text-gray-600"

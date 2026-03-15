@@ -7,7 +7,7 @@ interface FeaturesProps {
 
 const Features = ({ featuresData }: FeaturesProps) => {
   return (
-    <section className="py-12 bg-[#e6f0ff]">
+    <section className="py-12 bg-palette-ice-blue">
       <div className="max-w-6xl mx-auto px-4 text-center">
         <h2 className="text-3xl font-bold mb-4">
           {featuresData.sectionTitle || "Features"}
@@ -36,7 +36,7 @@ const Features = ({ featuresData }: FeaturesProps) => {
               <SquareCheckBig
                 strokeWidth={2.5}
                 size={28}
-                className="text-[#55bc7e] mr-3 !min-w-[28px] mt-1"
+                className="text-trust-success mr-3 !min-w-[28px] mt-1"
               />
               <p className="text-xl font-medium">{feature.title}</p>
             </div>

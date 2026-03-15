@@ -38,7 +38,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
       </div>
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0b1b3fc6] via-[#0b1b3feb] via-[60%] to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-navy-deep/90 via-blue-mid/85 via-[60%] to-transparent" />
 
       <div className="relative z-10 mx-auto max-w-[1180px] px-2 py-10 text-gray-950 h-full">
         {/* Heading Section */}
@@ -82,7 +82,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
             {/* Button */}
             <Button
               asChild
-              className="w-full sm:w-auto text-base min-w-[150px] px-4 !py-[21px] bg-[#28a745] text-white rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-[#28a745]"
+              className="w-full sm:w-auto text-base min-w-[150px] px-4 !py-[21px] bg-trust-accent text-white rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-trust-accent-hover"
             >
               <Link href={selectedValue ? `/${selectedValue}` : "/"} aria-disabled={!selectedValue}>
                 Get Estimate

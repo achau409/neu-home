@@ -13,7 +13,7 @@ const Navbar = ({
   return (
     <nav
       aria-label="Primary"
-      className={` px-4 w-full bg-[#0b1b3f] h-[85px]`}
+      className={` px-4 w-full bg-navy-brand h-[85px]`}
     >
       <div className="container mx-auto px-4 py-2 max-w-[1180px]">
         <div className="py-3 flex justify-between items-center">
