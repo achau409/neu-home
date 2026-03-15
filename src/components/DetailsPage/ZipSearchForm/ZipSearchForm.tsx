@@ -350,6 +350,7 @@ const ZipSearchForm = ({
             borderRadius: 0,
             left: 0,
             top: 0,
+            zIndex:99999999,
           }}
         >
           <DialogTitle className="sr-only">Get Your Free Estimate</DialogTitle>
