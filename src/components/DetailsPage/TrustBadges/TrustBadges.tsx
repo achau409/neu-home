@@ -52,7 +52,7 @@ const TrustBadges = ({ badges = [], trustSignals: blockTrustSignals = [] }: Trus
 
   return (
     <section
-      className="bg-white  py-8 md:py-10 max-w-[380px] mx-auto "
+      className="bg-white  py-8 md:py-10 max-w-[380px] md:max-w-full mx-auto "
       aria-labelledby="credibility-heading"
     >
       <h2 id="credibility-heading" className="sr-only">
