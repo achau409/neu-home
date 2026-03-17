@@ -52,7 +52,7 @@ const TrustBadges = ({ badges = [], trustSignals: blockTrustSignals = [] }: Trus
 
   return (
     <section
-      className="bg-white  py-8 md:py-10"
+      className="bg-white  py-8 md:py-10 max-w-[380px] mx-auto "
       aria-labelledby="credibility-heading"
     >
       <h2 id="credibility-heading" className="sr-only">
@@ -68,7 +68,7 @@ const TrustBadges = ({ badges = [], trustSignals: blockTrustSignals = [] }: Trus
           {badges.map((badge, index) => (
             <div
               key={badge.id}
-              className={`flex items-center md:gap-3 gap-1.5 min-w-0 ${index === badges.length - 1 && badges.length % 2 === 1 ? "col-span-2 w-full justify-center md:col-span-1" : ""}`}
+              className={`flex items-center md:gap-3 gap-2 min-w-0 ${index === badges.length - 1 && badges.length % 2 === 1 ? "col-span-2 w-full justify-center md:col-span-1" : ""}`}
             >
               <div className="flex-shrink-0 md:w-12 md:h-12 w-8 h-8 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center overflow-hidden">
                 <Image
@@ -76,7 +76,7 @@ const TrustBadges = ({ badges = [], trustSignals: blockTrustSignals = [] }: Trus
                   alt={badge.icon?.alt ?? badge.name}
                   width={badge.icon?.width ?? 48}
                   height={badge.icon?.height ?? 48}
-                  className="md:w-7 md:h-7 w-4 h-4 object-contain"
+                  className="md:w-7 md:h-7 w-5 h-5 object-contain"
                 />
               </div>
               <div>
