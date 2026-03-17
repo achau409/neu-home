@@ -127,11 +127,11 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
       {/* Floating "Get Free Quote" button — appears after scrolling past hero */}
       <div className="fixed bottom-4 right-5 z-[50] flex flex-col items-end gap-2 transition-all duration-500 opacity-100 translate-y-0">
         {/* Pulse rings */}
-        <span className="absolute inset-0 rounded-full bg-[#28a745] opacity-20 animate-ping" />
-        <span className="absolute inset-0 rounded-full bg-[#28a745] opacity-10 animate-ping [animation-delay:0.4s]" />
+        <span className="absolute inset-0 rounded-full bg-[#55BC7E] opacity-20 animate-ping" />
+        <span className="absolute inset-0 rounded-full bg-[#55BC7E] opacity-10 animate-ping [animation-delay:0.4s]" />
 
         <button
-          className="relative uppercase flex items-center gap-2 bg-[#28a745] hover:bg-[#22963c] text-white text-sm font-bold px-5 py-3.5 rounded-full shadow-[0_8px_30px_rgba(40,167,69,0.5)] hover:shadow-[0_8px_40px_rgba(40,167,69,0.7)] transition-all duration-300 hover:scale-105 active:scale-95 group"
+          className="relative uppercase flex items-center gap-2 bg-[#55BC7E] hover:bg-[#22963c] text-white text-sm font-bold px-5 py-3.5 rounded-full shadow-[0_8px_30px_rgba(40,167,69,0.5)] hover:shadow-[0_8px_40px_rgba(40,167,69,0.7)] transition-all duration-300 hover:scale-105 active:scale-95 group"
           aria-label="Get Free Quote"
           onClick={() => setFloatingTrigger(true)}
         >

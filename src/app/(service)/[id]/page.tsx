@@ -14,6 +14,7 @@ import Benefits from "@/components/DetailsPage/Benefits/Benefits";
 import ManyImagesBlock from "@/components/blocks/ManyImagesBlock";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 import Link from "next/link";
+import TrustBadges from "@/components/DetailsPage/TrustBadges/TrustBadges";
 
 export const revalidate = 60;
 
@@ -140,6 +141,9 @@ export default async function ProjectDetails({
   const topManyImagesBlock = serviceData.content.find(
     (block) => block.blockType === "manyImages" && block.isTopPosition === true
   );
+  const trustBadgesBlock = serviceData.content.find(
+    (block) => block.blockType === "trust-badges"
+  );
 
   return (
     <>
@@ -197,10 +201,12 @@ export default async function ProjectDetails({
           />
         </section>
 
+        {trustBadgesBlock && <TrustBadges {...(trustBadgesBlock as any)} />}
+
         <Suspense fallback={<DetailPageLoader />}>
           {serviceData.benefits && <Benefits serviceData={serviceData} />}
 
-          {topManyImagesBlock && (
+          {/* {topManyImagesBlock && (
             <div className="bg-[#f5f7fa]">
               <ManyImagesBlock
                 key={topManyImagesBlock.id as string}
@@ -208,7 +214,7 @@ export default async function ProjectDetails({
                 {...(topManyImagesBlock as any)}
               />
             </div>
-          )}
+          )} */}
 
           {serviceData.advantages && (
             <Advantages

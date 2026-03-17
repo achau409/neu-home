@@ -11,6 +11,7 @@ import ProjectContent from "@/components/DetailsPage/ProjectContent";
 import Features from "@/components/DetailsPage/Features/Features";
 import Advantages from "@/components/DetailsPage/Advantages/Advantages";
 import Benefits from "@/components/DetailsPage/Benefits/Benefits";
+import CredibilityBadges from "@/components/DetailsPage/TrustBadges/TrustBadges";
 import ManyImagesBlock from "@/components/blocks/ManyImagesBlock";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 import Link from "next/link";
@@ -201,6 +202,8 @@ export default async function VariantPage({
             initialUserCity={ipLocation?.city || "Your Area"}
           />
         </section>
+
+        <CredibilityBadges />
 
         <Suspense fallback={<DetailPageLoader />}>
           {serviceData.benefits && <Benefits serviceData={serviceData} />}

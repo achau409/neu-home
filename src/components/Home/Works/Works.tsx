@@ -6,7 +6,7 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
   return (
     <section className="relative bg-[#0b1b3f] text-white py-14 px-6 overflow-hidden">
       <div className="relative max-w-[1180px] mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-14">
+        <h2 className="md:text-3xl text-2xl font-bold mb-14">
           {howItWorkBlock.sectionTitle || "How it works?"}
         </h2>
 
@@ -48,13 +48,13 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
                     {/* Outer glow ring */}
                     <div className="w-26 h-26 rounded-full bg-[#fef2b726] flex items-center justify-center">
                       {/* Inner white circle */}
-                      <div className="w-24 h-24 rounded-full bg-white shadow-[0_0_30px_8px_rgba(255,255,255,0.35)] flex items-center justify-center">
+                      <div className="md:w-24 md:h-24 w-20 h-20 rounded-full bg-white shadow-[0_0_30px_8px_rgba(255,255,255,0.35)] flex items-center justify-center">
                         <Image
                           src={card.cardImage.url}
                           width={60}
                           height={60}
                           alt={card.heading}
-                          className="w-12 h-12 object-cover"
+                          className="md:w-12 md:h-12 w-10 h-10 object-cover"
                         />
                       </div>
                     </div>
@@ -65,10 +65,10 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold mb-4 leading-snug">
+                  <h3 className="md:text-xl font-bold mb-4 leading-snug">
                     {card.heading}
                   </h3>
-                  <p className="text-base text-gray-300 leading-relaxed max-w-[200px]">
+                  <p className="md:text-base text-sm text-gray-300 leading-relaxed max-w-[200px]">
                     {card.subheading}
                   </p>
                 </div>

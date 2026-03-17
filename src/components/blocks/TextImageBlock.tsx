@@ -42,15 +42,13 @@ const TextImageBlock: React.FC<TextImageBlockProps> = ({
   // Create the content elements
   const ImageElement = (
     <div
-      className={`${
-        isVertical ? (imagePosition === "top" ? "mb-6" : "mt-6") : ""
-      } ${imagePosition === "left" ? "md:w-1/4" : ""}`}
+      className={`${isVertical ? (imagePosition === "top" ? "mb-6" : "mt-6") : ""
+        } ${imagePosition === "left" ? "md:w-1/4" : ""}`}
     >
       {image && image.url ? (
         <div
-          className={`relative w-full max-w-[665px] h-auto mx-auto ${
-            rounded ? "rounded-lg overflow-hidden" : ""
-          }`}
+          className={`relative w-full max-w-[665px] h-auto mx-auto ${rounded ? "rounded-lg overflow-hidden" : ""
+            }`}
         >
           <Image
             src={image.url}
@@ -70,9 +68,8 @@ const TextImageBlock: React.FC<TextImageBlockProps> = ({
 
   const TextElement = (
     <div
-      className={`${textAlignClass} ${
-        imagePosition === "left" ? "md:w-3/4" : ""
-      }`}
+      className={`${textAlignClass} ${imagePosition === "left" ? "md:w-3/4" : ""
+        }`}
     >
       {heading && (
         <h2 className="text-2xl md:text-3xl font-bold mb-3">{heading}</h2>
@@ -84,7 +81,7 @@ const TextImageBlock: React.FC<TextImageBlockProps> = ({
   return (
     <section
       id={blockName || `block-${id}`}
-      className="py-12"
+      className="py-12 px-4"
       style={{ backgroundColor: backgroundColor || "transparent" }}
     >
       <div className="max-w-[1320px] mx-auto">
@@ -104,9 +101,8 @@ const TextImageBlock: React.FC<TextImageBlockProps> = ({
           </div>
         ) : (
           <div
-            className={`flex flex-col md:flex-row gap-8 items-center justify-center ${
-              !imageFirst ? "md:flex-row-reverse" : ""
-            }`}
+            className={`flex flex-col md:flex-row gap-8 items-center justify-center ${!imageFirst ? "md:flex-row-reverse" : ""
+              }`}
           >
             {imageFirst ? (
               <>
