@@ -74,8 +74,8 @@ const TrustBadges = ({ badges = [], trustSignals: blockTrustSignals = [] }: Trus
                 <Image
                   src={badge.icon?.url}
                   alt={badge.icon?.alt ?? badge.name}
-                  width={badge.icon?.width ?? 48}
-                  height={badge.icon?.height ?? 48}
+                  width={100}
+                  height={100}
                   className="md:w-7 md:h-7 w-5 h-5 object-contain"
                 />
               </div>
@@ -99,8 +99,8 @@ const TrustBadges = ({ badges = [], trustSignals: blockTrustSignals = [] }: Trus
                   </>
                 ) : (
                   <>
-                    <p className="text-base font-bold text-gray-900">{badge.description}</p>
-                    <p className="text-xs text-gray-500 mt-0.5">{badge.subtitle}</p>
+                    <p className="md:text-base text-sm font-bold text-gray-900">{badge.description}</p>
+                    <p className="md:text-xs text-[10px] text-gray-500 mt-0.5">{badge.subtitle}</p>
                   </>
                 )}
               </div>
