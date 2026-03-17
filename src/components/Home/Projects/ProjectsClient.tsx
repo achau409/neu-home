@@ -67,7 +67,7 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
                 key={option.value}
                 type="button"
                 onClick={() => setActiveCategory(option.value)}
-                className={`rounded-full border md:px-4 p-2 text-sm font-semibold  shadow-sm transition-all duration-300 ${isActive
+                className={`rounded-full border md:px-4 p-2 text-xs md:text-sm font-semibold  shadow-sm transition-all duration-300 ${isActive
                   ? "border-[#55BC7E] bg-[#55BC7E] text-white shadow-sm scale-[1.02]"
                   : "border-gray-300 bg-white text-gray-700 hover:border-[#55BC7E] hover:text-[#28a745]"
                   }`}
