@@ -56,10 +56,10 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
     <section className="mt-10 md:mb-10">
       <div className="max-w-[1020px] mx-auto text-center px-4 sm:px-6 lg:px-0">
 
-        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mt-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-6">
           Home Improvement Projects We Can Help With
         </h2>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <div className="mt-6 flex flex-wrap md:justify-center gap-2">
           {CATEGORY_OPTIONS.map((option) => {
             const isActive = option.value === activeCategory;
             return (
@@ -68,8 +68,8 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
                 type="button"
                 onClick={() => setActiveCategory(option.value)}
                 className={`rounded-full border md:px-4 p-2 text-xs md:text-sm font-semibold  shadow-sm transition-all duration-300 ${isActive
-                  ? "border-[#28a745] bg-[#28a745] text-white shadow-sm scale-[1.02]"
-                  : "border-gray-300 bg-white text-gray-700 hover:border-[#28a745] hover:text-[#28a745]"
+                  ? "border-[#55BC7E] bg-[#55BC7E] text-white shadow-sm scale-[1.02]"
+                  : "border-gray-300 bg-white text-gray-700 hover:border-[#55BC7E] hover:text-[#28a745]"
                   }`}
               >
                 {option.label}

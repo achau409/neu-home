@@ -82,7 +82,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
             {/* Button */}
             <Button
               asChild
-              className="w-full sm:w-auto text-base min-w-[150px] px-4 !py-[21px] bg-[#28a745] text-white rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-[#28a745]"
+              className="w-full sm:w-auto text-base min-w-[150px] px-4 !py-[21px] bg-[#55BC7E] text-white rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-[#28a745]"
             >
               <Link href={selectedValue ? `/${selectedValue}` : "/"} aria-disabled={!selectedValue}>
                 Get Estimate
