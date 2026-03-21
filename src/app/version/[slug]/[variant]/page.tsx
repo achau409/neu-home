@@ -258,8 +258,6 @@ export default async function VariantPage({
             {faqBlock && (
             <FAQSection block={faqBlock} />
           )}
-          <p>{JSON.stringify(serviceData?.id)}</p>
-
         </Suspense>
       </main>
     </>

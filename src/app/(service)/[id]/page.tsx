@@ -255,8 +255,6 @@ export default async function ProjectDetails({
           {faqBlock && (
             <FAQSection block={faqBlock} />
           )}
-          <p>{JSON.stringify(serviceData?.id)}</p>
-
         </Suspense>
       </main>
     </>
