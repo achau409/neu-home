@@ -255,7 +255,7 @@ export default async function VariantPage({
               sectionTitle={serviceData.testimonials.sectionTitle}
             />
           )}
-                    {faqBlock && (
+            {faqBlock && (
             <FAQSection block={faqBlock} />
           )}
 

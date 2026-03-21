@@ -58,7 +58,7 @@ const FAQSection = ({ block }: any) => {
                   className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-base md:text-xl  font-semibold text-[#0b1b3f]">
+                  <span className="text-base md:text-lg  font-semibold text-[#0b1b3f]">
                     {item.question}
                   </span>
                   <span
