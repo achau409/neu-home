@@ -148,9 +148,6 @@ export default async function ProjectDetails({
   const faqBlock = serviceData.content.find(
     (block: { blockType: string }) => block.blockType === "faq"
   );
-console.log(serviceData
-
-);
   return (
     <>
       <header className="bg-[#0b1b3f]">
