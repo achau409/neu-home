@@ -40,7 +40,7 @@ const ProjectContent: React.FC<ProjectContentProps> = ({
   }
 
   // Filter out manyImages blocks that have isTopPosition = true
-  const filteredContent = content.filter((block) => {
+  const filteredContent = content?.filter((block: ContentBlock) => {
     if (block.blockType === "manyImages" && block.isTopPosition === true) {
       return false;
     }
@@ -49,7 +49,7 @@ const ProjectContent: React.FC<ProjectContentProps> = ({
 
   return (
     <div className="project-content">
-      {filteredContent.map((block) => {
+      {filteredContent?.map((block: ContentBlock) => {
         switch (block.blockType) {
           case "manyImages":
             return (

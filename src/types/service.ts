@@ -22,6 +22,7 @@ export interface Service {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface ServiceData {
+  id: string;
   title: string;
   slug: string;
   heroImage: { url: string };
