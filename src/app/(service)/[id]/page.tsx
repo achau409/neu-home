@@ -15,6 +15,7 @@ import ManyImagesBlock from "@/components/blocks/ManyImagesBlock";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 import Link from "next/link";
 import TrustBadges from "@/components/DetailsPage/TrustBadges/TrustBadges";
+import FAQSection from "@/components/Home/FAQ/FAQSection";
 
 export const revalidate = 60;
 
@@ -144,6 +145,9 @@ export default async function ProjectDetails({
   const trustBadgesBlock = serviceData.content.find(
     (block) => block.blockType === "trust-badges"
   );
+  const faqBlock = serviceData.content.find(
+    (block: { blockType: string }) => block.blockType === "faq"
+  );
 
   return (
     <>
@@ -249,6 +253,10 @@ export default async function ProjectDetails({
               sectionTitle={serviceData.testimonials.sectionTitle}
             />
           )}
+          {faqBlock && (
+            <FAQSection block={faqBlock} />
+          )}
+
         </Suspense>
       </main>
     </>

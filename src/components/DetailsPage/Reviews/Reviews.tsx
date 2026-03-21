@@ -41,7 +41,7 @@ const TestimonialsSlider = ({
   sectionTitle: string;
 }) => {
   return (
-    <section className="relative py-20 px-4  overflow-hidden">
+    <section className="relative pt-20 px-4  overflow-hidden pb-8">
       {/* Aggregate rating summary */}
       <div className="flex items-center justify-center mb-10 mt-4">
         <div className="inline-flex items-center gap-5 px-8 py-5 rounded-2xl px_40px_rgba(11,27,63,0.15)]">
@@ -74,7 +74,7 @@ const TestimonialsSlider = ({
         {/* Section header */}
         <div className="flex flex-col items-center mb-14">
           <h2
-            className="text-4xl md:text-5xl font-black text-center text-[#0b1b3f] leading-tight tracking-tight mb-8"
+            className="text-4xl md:text-5xl font-black text-center text-[#0b1b3f]  leading-relaxed tracking-tight mb-8"
             style={{ fontFamily: "'Georgia', serif" }}
           >
             {sectionTitle || "What Our Customers Are Saying"}

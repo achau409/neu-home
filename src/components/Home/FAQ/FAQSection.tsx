@@ -28,12 +28,12 @@ const FAQSection = ({ block }: any) => {
 
   return (
     <section
-      className="py-14 px-4 sm:px-6"
+      className="py-20 px-4 sm:px-6"
       style={backgroundColor ? { backgroundColor } : undefined}
     >
       <div className="mx-auto max-w-[980px]">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-[#0b1b3f] mb-3 uppercase">
+        <div className="text-center mb-8 md:mb-20">
+          <h2 className="text-2xl md:text-5xl font-bold tracking-tight text-[#0b1b3f] mb-3 uppercase">
             {sectionTitle}
           </h2>
           {sectionSubtitle && (
@@ -58,7 +58,7 @@ const FAQSection = ({ block }: any) => {
                   className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-base font-semibold text-[#0b1b3f]">
+                  <span className="text-base md:text-xl  font-semibold text-[#0b1b3f]">
                     {item.question}
                   </span>
                   <span
