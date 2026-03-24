@@ -53,8 +53,8 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
   }, [filteredServices]);
 
   return (
-    <section className="mt-10 md:mb-10">
-      <div className="max-w-[1020px] mx-auto text-center px-4 sm:px-6 lg:px-0">
+    <section className="mt-10 mb-5 md:mb-10">
+      <div className="max-w-[820px] mx-auto text-center px-4 sm:px-6 lg:px-0">
 
         <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-6">
           Home Improvement Projects We Can Help With
@@ -81,12 +81,12 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
         <div
           className={`transition-opacity duration-300 ${isTransitioning ? "opacity-0" : "opacity-100"}`}
         >
-          <ul className="grid gap-0 md:gap-2 grid-cols-3 lg:grid-cols-3 mt-10">
+          <ul className="grid gap-4 md:gap-6 grid-cols-2 lg:grid-cols-3 mt-10">
             {visibleServices.map((service) => (
               <li key={service.slug}>
-                <Link href={`/${service.slug}`} className="group p-0 flex flex-col items-center">
+                <Link href={`/${service.slug}`} className=" border-2 border-[#f2f2f2] group  flex flex-col items-center py-6 shadow-xl rounded-2xl">
                   {service.serviceIconUrl && (
-                    <div className="flex items-center justify-center flex-col gap-1 ">
+                    <div className="flex items-center justify-center flex-col gap-2 ">
                       <Image
                         src={service.serviceIconUrl}
                         alt={service.title}
@@ -95,9 +95,9 @@ const ProjectsClient = ({ services }: { services: ProjectListItem[] }) => {
                         sizes="(min-width: 1024px) 240px, (min-width: 768px) 25vw, 50vw "
                         quality={75}
                         loading="lazy"
-                        className="md:w-28 md:h-28 w-16 h-16 object-contain hover:scale-110 transition-all duration-300"
+                        className="md:w-24 md:h-24 w-12 h-12 object-contain hover:scale-110 transition-all duration-300"
                       />
-                      <h3 className="font-bold text-black group-hover:text-gray-600 mb-8 text-xs md:text-base mt-2 ">
+                      <h3 className="font-semibold text-text-gray-800 group-hover:text-gray-600  text-xs md:text-base mt-2 ">
                         {service.title}
                       </h3>
                     </div>
