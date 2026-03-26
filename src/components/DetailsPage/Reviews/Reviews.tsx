@@ -74,7 +74,7 @@ const TestimonialsSlider = ({
         {/* Section header */}
         <div className="flex flex-col items-center mb-14">
           <h2
-            className="text-4xl md:text-5xl font-black text-center text-[#0b1b3f]  leading-relaxed tracking-tight mb-8"
+            className="text-2xl md:text-5xl font-black text-center text-[#0b1b3f]  leading-relaxed tracking-tight mb-8"
             style={{ fontFamily: "'Georgia', serif" }}
           >
             {sectionTitle || "What Our Customers Are Saying"}

@@ -16,6 +16,7 @@ import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 import Link from "next/link";
 import TrustBadges from "@/components/DetailsPage/TrustBadges/TrustBadges";
 import FAQSection from "@/components/Home/FAQ/FAQSection";
+import { buildFaqPageJsonLd, processFaqItemsFromBlock } from "@/lib/faq";
 
 export const revalidate = 60;
 
@@ -148,8 +149,18 @@ export default async function ProjectDetails({
   const faqBlock = serviceData.content.find(
     (block: { blockType: string }) => block.blockType === "faq"
   );
+  const faqProcessedItems = processFaqItemsFromBlock(faqBlock ?? null);
+
   return (
     <>
+      {faqProcessedItems.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(buildFaqPageJsonLd(faqProcessedItems)),
+          }}
+        />
+      )}
       <header className="bg-[#0b1b3f]">
         <div className="py-5 flex justify-center items-center">
           <div className="flex items-center justify-center">
@@ -253,7 +264,7 @@ export default async function ProjectDetails({
             />
           )}
           {faqBlock && (
-            <FAQSection block={faqBlock} />
+            <FAQSection block={faqBlock} sectionId={`service-faq-${id}`} />
           )}
         </Suspense>
       </main>
