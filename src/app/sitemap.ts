@@ -15,7 +15,6 @@ const getSiteUrl = () => {
 
 type ServiceEntry = {
   slug?: string;
-  variant?: string;
   updatedAt?: string;
 };
 
@@ -61,12 +60,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const serviceRoutes: MetadataRoute.Sitemap = ((services ?? []) as ServiceEntry[])
     .filter((service) => service.slug)
     .map((service) => ({
-      url: service.variant
-        ? `${siteUrl}/version/${service.slug}/${service.variant}`
-        : `${siteUrl}/${service.slug}`,
+      url: `${siteUrl}/${service.slug}`,
       lastModified: service.updatedAt ? new Date(service.updatedAt) : undefined,
       changeFrequency: "weekly",
-      priority: service.variant ? 0.7 : 0.9,
+      priority: 0.9,
     }));
 
   return [...staticRoutes, ...pageRoutes, ...serviceRoutes];

@@ -132,6 +132,10 @@ export default async function middleware(req) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    /*
+     * Skip middleware for sitemap / robots so crawlers get XML/text, not HTML from rewrites.
+     * (See Next.js middleware matcher docs.)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|manifest.json).*)",
   ],
 };
