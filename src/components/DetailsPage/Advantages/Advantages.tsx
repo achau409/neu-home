@@ -8,7 +8,7 @@ interface AdvantagesProps {
 const Advantages = ({ advantageData, title }: AdvantagesProps) => {
 
   return (
-    <section className="mt-10  py-12 px-4">
+    <section className="mt-10  md:py-12 py-6 px-4">
       <div className="w-full lg:w-[1180px] mx-auto">
         <h2 className="md:text-[2.5rem] text-[1.5rem] font-bold mb-12 text-center tracking-[-0.5px]">
           {advantageData.sectionTitle || `Advantages Of ${title}`}
