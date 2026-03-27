@@ -2,14 +2,11 @@ import type { MetadataRoute } from "next";
 import { getAllPages, getAllServices } from "@/lib/api";
 
 const getSiteUrl = () => {
-  const rawUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    process.env.SITE_URL ||
-    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-    process.env.VERCEL_URL ||
-    "https://www.neuhomeservices.com";
+  const rawUrl = "https://www.neuhomeservices.com";
 
-  const normalizedUrl = rawUrl.startsWith("http") ? rawUrl : `https://${rawUrl}`;
+  const normalizedUrl = rawUrl.startsWith("http")
+    ? rawUrl
+    : `https://${rawUrl}`;
   return normalizedUrl.replace(/\/$/, "");
 };
 
@@ -49,7 +46,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const pageRoutes: MetadataRoute.Sitemap = (pages ?? [])
-    .filter((page) => page.slug && page.slug !== "contact-us" && page.slug !== "privacy-policy" && page.slug !== "terms")
+    .filter(
+      (page) =>
+        page.slug &&
+        page.slug !== "contact-us" &&
+        page.slug !== "privacy-policy" &&
+        page.slug !== "terms",
+    )
     .map((page) => ({
       url: `${siteUrl}/pages/${page.slug}`,
       lastModified: page.updatedAt ? new Date(page.updatedAt) : undefined,
@@ -57,7 +60,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }));
 
-  const serviceRoutes: MetadataRoute.Sitemap = ((services ?? []) as ServiceEntry[])
+  const serviceRoutes: MetadataRoute.Sitemap = (
+    (services ?? []) as ServiceEntry[]
+  )
     .filter((service) => service.slug)
     .map((service) => ({
       url: `${siteUrl}/${service.slug}`,
