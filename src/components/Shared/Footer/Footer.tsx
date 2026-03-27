@@ -2,10 +2,11 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { CONTACT_OPEN_ESTIMATE_EVENT } from "@/lib/contact-estimate-events";
 
 const Footer = ({ footer }: { footer: any }) => {
   const copyright = footer?.footerCopyright || "© 2026 NEU";
-const pathname = usePathname();
+  const pathname = usePathname();
   return (
     <footer className="w-full">
       {/* CTA Section — Lead generation / Final conversion point */}
@@ -22,12 +23,24 @@ const pathname = usePathname();
         <p className="text-white/95 text-base md:text-lg font-sans max-w-xl mb-8">
           Join thousands of homeowners who found their perfect pro.
         </p>
-        <Button
-          asChild
-          className="rounded-lg bg-white hover:bg-black text-black font-semibold px-8 py-6 text-base transition-colors hover:text-white duration-300"
-        >
-          <Link href={`${pathname+'#hero'}`}>Get my free estimate</Link>
-        </Button>
+        {pathname === "/contact-us" ? (
+          <Button
+            type="button"
+            className="rounded-lg bg-white hover:bg-black text-black font-semibold px-8 py-6 text-base transition-colors hover:text-white duration-300"
+            onClick={() =>
+              window.dispatchEvent(new CustomEvent(CONTACT_OPEN_ESTIMATE_EVENT))
+            }
+          >
+            Get my free estimate
+          </Button>
+        ) : (
+          <Button
+            asChild
+            className="rounded-lg bg-white hover:bg-black text-black font-semibold px-8 py-6 text-base transition-colors hover:text-white duration-300"
+          >
+            <Link href={`${pathname}#hero`}>Get my free estimate</Link>
+          </Button>
+        )}
       </section>
 
       {/* Footer Bar */}
@@ -46,10 +59,10 @@ const pathname = usePathname();
             </Link>
           ))}
           <Link
-            href="#cookie"
+            href="/contact-us"
             className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors"
           >
-            Cookie Policy
+            Contact Us
           </Link>
         </nav>
         <p className="text-gray-600 text-sm font-medium">{copyright}</p>

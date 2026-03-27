@@ -35,6 +35,8 @@ interface ZipSearchFormProps {
   /** Flip to true to open the modal with a ZIP-first screen (floating button flow) */
   triggerModal?: boolean;
   onTriggerModalReset?: () => void;
+  /** Called when the user confirms exit and the modal session is fully reset */
+  onModalSessionEnd?: () => void;
 }
 
 interface Locations {
@@ -54,6 +56,7 @@ const ZipSearchForm = ({
   hero,
   triggerModal,
   onTriggerModalReset,
+  onModalSessionEnd,
 }: ZipSearchFormProps) => {
   // ── Hero ZIP state ──────────────────────────────────────────────
   const [zipCode, setZipCode] = useState("");
@@ -115,6 +118,7 @@ const ZipSearchForm = ({
     setIsMatched(false);
     onStatusChange(null);
     onZipLocations(null);
+    onModalSessionEnd?.();
   };
 
   useEffect(() => {
@@ -293,17 +297,17 @@ const ZipSearchForm = ({
   return (
     <div className="text-center">
       {hero && (
-        <h3 className="text-lg md:text-2xl font-semibold mb-4 md:mb-6 text-white">
+        <h2 className="text-[16px] md:text-2xl  mb-4 md:mb-6 text-white leading-tight tracking-[-0.5px] font-semibold">
           {serviceData.heroSubHeading
             ? serviceData.heroSubHeading
             : "Let's find out! Enter your ZIP code below"}
-        </h3>
+        </h2>
       )}
 
       {/* Hero ZIP input */}
       <div className="flex justify-center items-center gap-8 relative px-2">
-        <div className="relative border border-gray-300 flex items-center gap-2 bg-white px-2 rounded-sm w-full md:w-auto">
-          <MapPin className="text-gray-600 w-6 h-6" />
+        <div className="relative border border-gray-300 flex items-center gap-2 bg-white px-2 rounded-md w-full md:w-auto">
+          <MapPin className="text-gray-800 w-6 h-6" />
           <input
             type="text"
             placeholder="Enter ZIP code"
@@ -393,7 +397,7 @@ const ZipSearchForm = ({
                     priority
                     sizes="142px"
                     className="w-[142px] h-[65px] object-contain"
-  
+
                   />
                 </button>
               )
@@ -527,7 +531,7 @@ const ZipSearchForm = ({
                   </button>
                 </div>
 
-                <p className="mt-8 text-xs text-gray-400 max-w-xs">
+                <p className="mt-8 text-sm text-gray-400 max-w-xs">
                   No spam. No obligation. We only connect you with verified
                   local contractors.
                 </p>

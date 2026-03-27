@@ -4,7 +4,7 @@ import ProjectsClient from "@/components/Home/Projects/ProjectsClient";
 type ProjectListItem = {
   title: string;
   slug: string;
-  category?:  "interior" | "exterior" | null;
+  category?: "interior" | "exterior" | null;
   popular?: boolean;
   serviceIconUrl?: string;
 };

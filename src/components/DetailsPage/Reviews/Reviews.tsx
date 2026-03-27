@@ -105,7 +105,7 @@ const TestimonialsSlider = ({
                   {/* Location badge — top hero strip */}
                   <div className="flex items-center gap-2 bg-[#f4faf7] border-b border-[#55BC7E]/20 px-4 py-3">
                     <MapPin className="w-3.5 h-3.5 text-[#55BC7E] shrink-0" />
-                    <span className="text-[#0b1b3f] text-xs font-bold tracking-widest uppercase truncate">
+                    <span className="text-[#0b1b3f] text-xs font-bold tracking-widest capitalize truncate">
                       {testimonial.location}
                     </span>
                     <span className="ml-auto bg-[#55BC7E]/15 text-[#55BC7E] text-xs font-mono font-bold tracking-wider px-2 py-0.5 rounded-md shrink-0">
@@ -143,7 +143,7 @@ const TestimonialsSlider = ({
                         <svg stroke="currentColor" fill="#0b1b3f" strokeWidth="0" viewBox="0 0 512 512" className="text-secondary-lighter" height="2rem" width="2rem" xmlns="http://www.w3.org/2000/svg"><path d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z"></path></svg>
                       </div>
                       <div>
-                        <p className="text-[#0b1b3f] text-sm font-bold leading-tight">
+                        <p className="text-[#0b1b3f] text-[15px] font-bold leading-tight">
                           {testimonial.name}
                         </p>
                       </div>

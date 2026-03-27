@@ -9,11 +9,15 @@ import { fetchFooter } from "@/lib/api";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  weight: ['400', '600', '700', '800'],
+  display: 'swap',
 });
 
 const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
   subsets: ["latin"],
+  weight: ['400', '600', '700'],
+  display: 'swap',
 });
 
 export const metadata = {

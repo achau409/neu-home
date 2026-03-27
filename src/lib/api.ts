@@ -152,6 +152,7 @@ export async function getAllServices() {
 export async function getServicesBySlug(slug: string): Promise<ServiceData | null> {
   const url = buildUrl("/services", {
     "where[slug][equals]": slug,
+    depth: 2,
   });
   const data = await cmsFetch<{ docs: ServiceData[] }>(url, DEFAULT_OPTIONS);
   return data?.docs?.[0] ?? null;

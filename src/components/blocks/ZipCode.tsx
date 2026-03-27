@@ -38,7 +38,7 @@ const ZipCodeBlock: React.FC<ZipCodeBlockProps> = ({
       className={`flex flex-col items-center text-center my-6 p-6 w-full ${bgClass}`}
       style={backgroundColor ? { backgroundColor } : {}}
     >
-      <h2 className="text-2xl md:text-3xl font-bold mb-3">{heading}</h2>
+      <h2 className="text-2xl md:text-[2.5rem] font-bold mb-3">{heading}</h2>
       <h4 className="text-lg md:text-2xl font-semibold mb-4">{subheading}</h4>
       <div className="w-full flex flex-col items-center">
         <Suspense fallback={<DetailPageLoader />}>

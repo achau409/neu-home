@@ -53,7 +53,7 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
       </div>
 
       {/* Main heading */}
-      <h1 className={`text-3xl  justify-center  md:text-5xl lg:text-[62px] font-extrabold lg:leading-[1.2] leading-tight text-white mb-3 max-w-${serviceData.heroTextWidth} text-center`}>
+      <h1 className={`text-[34px]  justify-center  md:text-5xl lg:text-[56px] font-extrabold lg:leading-[1.1] leading-tight tracking-[-1.5px] text-white mb-3 max-w-${serviceData.heroTextWidth} text-center`}>
         {serviceData.heroHeading}
         {serviceData.hasLocation && (
           <span className="text-green-400"> {userCity}
@@ -119,7 +119,7 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
 
       {/* Disclaimer */}
       {serviceData.afterCTAText && (
-        <p className="text-xs text-white  leading-relaxed">
+        <p className="text-sm text-white  leading-relaxed font-[500]">
           {serviceData.afterCTAText}
         </p>
       )}

@@ -50,7 +50,7 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
   return (
     <section className="py-12 overflow-hidden md:px-6">
       <div className="max-w-[1180px] mx-auto px-2">
-        <h2 className="text-2xl md:text-4xl font-bold text-center mb-12 text-gray-800">
+        <h2 className="md:text-[2.5rem] text-[1.5rem] font-bold mb-12 text-center tracking-[-0.5px]">
           {sectionTitle || "Inspirations"}
         </h2>
 
@@ -66,10 +66,11 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
                 <Image
                   src={image.image.url}
                   alt={`Inspiration ${index + 1}`}
-                  className="w-full h-full object-cover"
                   width={1000}
                   height={1000}
-                  sizes="(min-width: 1024px) 240px, (min-width: 768px) 25vw, 50vw"
+                  className="w-full h-full object-cover rounded-md shadow-md"
+                  sizes="(min-width: 1024px) 50vw, (min-width: 768px) 50vw, 100vw"
+                  quality={90}
                   loading="lazy"
                 />
               </div>

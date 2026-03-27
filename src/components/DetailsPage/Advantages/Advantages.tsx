@@ -10,7 +10,7 @@ const Advantages = ({ advantageData, title }: AdvantagesProps) => {
   return (
     <section className="mt-10  py-12 px-4">
       <div className="w-full lg:w-[1180px] mx-auto">
-        <h2 className="text-4xl font-semibold mb-12 text-center">
+        <h2 className="md:text-[2.5rem] text-[1.5rem] font-bold mb-12 text-center tracking-[-0.5px]">
           {advantageData.sectionTitle || `Advantages Of ${title}`}
         </h2>
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -21,14 +21,14 @@ const Advantages = ({ advantageData, title }: AdvantagesProps) => {
             >
               <SquareCheckBig
                 strokeWidth={2.5}
-                size={28}
+                size={24}
                 className="text-[#0B1B3F] mr-3 !min-w-[28px] mt-1"
               />
               <div>
-                <h2 className="text-xl font-bold mb-2 text-gray-800">
+                <h3 className="text-[15px] md:text-lg font-bold mb-2 text-gray-800">
                   {advantage.title}
-                </h2>
-                <p className="text-gray-600 text-lg">{advantage.description}</p>
+                </h3>
+                <p className="text-gray-600 text-sm tracking-tighter">{advantage.description}</p>
               </div>
             </li>
           ))}

@@ -108,9 +108,9 @@ const BeforeAfter: React.FC<BeforeAfterBlockProps> = ({
       <div className="max-w-[1320px] mx-auto px-4">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">{headerTitle}</h2>
+          <h2 className="text-[1.5rem] md:text-[2.5rem] font-bold mb-2 tracking-[-0.5px] leading-[1.1]">{headerTitle}</h2>
           {headerDescription && (
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto font-semibold tracking-tighter">
               {headerDescription}
             </p>
           )}

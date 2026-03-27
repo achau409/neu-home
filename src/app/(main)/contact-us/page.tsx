@@ -1,6 +1,8 @@
 import React from "react";
 import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
 import ContactForm from "@/components/ContactForm/ContactForm";
+import ContactEstimateLauncher from "@/components/ContactForm/ContactEstimateLauncher";
+import { getServices } from "@/lib/api";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -21,14 +23,30 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = "force-static";
+export const revalidate = 60;
 
-export default function Page() {
+export default async function Page() {
+  const docs = (await getServices()) ?? [];
+  const services = docs
+    .map((d) => {
+      const o = d as { slug?: string; title?: string };
+      return {
+        slug: typeof o.slug === "string" ? o.slug : "",
+        title: typeof o.title === "string" ? o.title : "",
+      };
+    })
+    .filter((s) => s.slug && s.title);
+
   return (
     <main>
-      <section className="contact-us-content" aria-labelledby="contact-page-heading">
+      <section
+        id="hero"
+        className="contact-us-content"
+        aria-labelledby="contact-page-heading"
+      >
         <ContactForm />
       </section>
+      <ContactEstimateLauncher services={services} />
       <ScrollToTop />
     </main>
   );

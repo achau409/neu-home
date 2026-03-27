@@ -11,7 +11,6 @@ import ProjectContent from "@/components/DetailsPage/ProjectContent";
 import Features from "@/components/DetailsPage/Features/Features";
 import Advantages from "@/components/DetailsPage/Advantages/Advantages";
 import Benefits from "@/components/DetailsPage/Benefits/Benefits";
-import ManyImagesBlock from "@/components/blocks/ManyImagesBlock";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 import Link from "next/link";
 import TrustBadges from "@/components/DetailsPage/TrustBadges/TrustBadges";
@@ -174,6 +173,7 @@ export default async function ProjectDetails({
                   sizes="142px"
                   priority
                   className="w-[142px] h-[65px] object-contain"
+                  quality={90}
                 />) : (
                 <Link href="/">
                   <Image
@@ -200,7 +200,7 @@ export default async function ProjectDetails({
             alt={serviceData.title}
             fill
             className="object-cover"
-            quality={75}
+            quality={90}
             priority
             placeholder="blur"
             sizes="100vw"
