@@ -63,6 +63,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  console.log("id", id);
   const serviceData = await getServicesBySlug(id);
 
   if (!serviceData) {

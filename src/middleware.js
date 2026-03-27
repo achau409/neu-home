@@ -21,7 +21,7 @@ const DEFAULT_SLUGS = [
   "mccann-siding",
   "mccann-windows",
   "schoenherr-roofing",
-  "go-flooring",
+  "go-floorings",
   "123-wrep",
   "wis",
   "everdry-basement",
