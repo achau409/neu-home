@@ -12,9 +12,10 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  console.log("generateMetadata", params);
   const { slug } = await params;
   const pageData = await fetchPage(slug);
-
+console.log("pageData", pageData);
   if (!pageData) {
     return {
       title: "Page Not Found",

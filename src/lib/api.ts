@@ -65,7 +65,7 @@ const STATIC_OPTIONS: RequestInit = {
 export async function fetchPage(slug: string): Promise<PageData | null> {
   const url = buildUrl("/pages", {
     "where[slug][equals]": slug,
-    "where[isHomePage][equals]": "false",
+    "where[isHomePage][not_equals]": "true",
     "where[status][equals]": "published",
   });
   const data = await cmsFetch<{ docs: PageData[] }>(url, DEFAULT_OPTIONS);
@@ -75,23 +75,14 @@ export async function fetchPage(slug: string): Promise<PageData | null> {
 
 export async function getAllPages(): Promise<PageData[] | null> {
   const url = buildUrl("/pages", {
-    "where[isHomePage][equals]": "false",
+    "where[isHomePage][not_equals]": "true",
     "where[status][equals]": "published",
     limit: 0,
   });
+  console.log("getAllPages", url);
   const data = await cmsFetch<{ docs: PageData[] }>(url, DEFAULT_OPTIONS);
   return data?.docs ?? null;
 }
-
-export async function fetchPrivacyPolicy(): Promise<PageData | null> {
-  const url = buildUrl("/pages", {
-    "where[slug][equals]": "privacy-policy",
-    "where[status][equals]": "published",
-  });
-  const data = await cmsFetch<{ docs: PageData[] }>(url, STATIC_OPTIONS);
-  return data?.docs?.[0] ?? null;
-}
-
 export async function fetchTermsOfUse(): Promise<PageData | null> {
   const url = buildUrl("/pages", {
     "where[slug][equals]": "terms",
