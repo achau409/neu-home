@@ -33,11 +33,12 @@ const Features = ({ featuresData }: FeaturesProps) => {
           {featuresData.featureList.map((feature: any, index: any) => (
             <div key={index} className="flex text-start">
               <SquareCheckBig
-                strokeWidth={2.5}
+                strokeWidth={2}
                 size={28}
-                className="text-[#55bc7e] mr-3 !min-w-[28px] md:mt-1"
+                className="text-[#4CAF78] mr-3 !min-w-[28px] md:mt-1"
               />
-              <p className="text-[15px] md:text-xl  font-semibold tracking-tighter">{feature.title}</p>
+              <p className="leading-relaxed font-semibold md:text-[1.05rem] text-[15px] text-gray-800">
+                {feature.title}</p>
             </div>
           ))}
         </div>

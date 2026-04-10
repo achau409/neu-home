@@ -38,8 +38,8 @@ const ZipCodeBlock: React.FC<ZipCodeBlockProps> = ({
       className={`flex flex-col items-center text-center my-6 p-6 w-full ${bgClass}`}
       style={backgroundColor ? { backgroundColor } : {}}
     >
-      <h2 className="text-2xl md:text-[2.5rem] font-bold mb-3">{heading}</h2>
-      <h4 className="text-lg md:text-2xl font-semibold mb-4">{subheading}</h4>
+      <h2 className="text-2xl md:text-[2.5rem] font-bold mb-4">{heading}</h2>
+      <h4 className="text-lg md:text-xl  mb-4">{subheading}</h4>
       <div className="w-full flex flex-col items-center">
         <Suspense fallback={<DetailPageLoader />}>
           <ZipSearchForm
@@ -54,19 +54,18 @@ const ZipCodeBlock: React.FC<ZipCodeBlockProps> = ({
         {zipStatus && (
           <div className="flex items-start w-[350px] md:w-[370px] justify-center">
             <p
-              className={`mt-1 text-sm font-medium text-white text-center ${
-                zipStatus === "matched"
+              className={`mt-1 text-sm font-medium text-white text-center ${zipStatus === "matched"
                   ? "text-[#28a745]"
                   : zipStatus === "not_matched"
-                  ? "!text-red-600"
-                  : "text-gray-600"
-              }`}
+                    ? "!text-red-600"
+                    : "text-gray-600"
+                }`}
             >
               {zipStatus === "matched"
                 ? `${zipDetails?.city}, ${zipDetails?.state}`
                 : zipStatus === "not_matched"
-                ? "ZIP code is currently not serviced by our contractor."
-                : zipStatus}
+                  ? "ZIP code is currently not serviced by our contractor."
+                  : zipStatus}
             </p>
           </div>
         )}
