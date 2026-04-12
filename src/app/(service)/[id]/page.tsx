@@ -16,6 +16,7 @@ import Link from "next/link";
 import TrustBadges from "@/components/DetailsPage/TrustBadges/TrustBadges";
 import FAQSection from "@/components/Home/FAQ/FAQSection";
 import { buildFaqPageJsonLd, processFaqItemsFromBlock } from "@/lib/faq";
+import ManyImagesBlock from "@/components/blocks/ManyImagesBlock";
 
 export const revalidate = 60;
 
@@ -215,21 +216,19 @@ export default async function ProjectDetails({
             initialUserCity={ipLocation?.city || "Your Area"}
           />
         </section>
+        {/* {topManyImagesBlock && (
+          <div className="bg-[#f5f7fa]">
+            <ManyImagesBlock
+              key={topManyImagesBlock.id as string}
+              {...(topManyImagesBlock as any)}
+            />
+          </div>
+        )} */}
 
         {trustBadgesBlock && <TrustBadges {...(trustBadgesBlock as any)} />}
 
         <Suspense fallback={<DetailPageLoader />}>
           {serviceData.benefits && <Benefits serviceData={serviceData} />}
-
-          {/* {topManyImagesBlock && (
-            <div className="bg-[#f5f7fa]">
-              <ManyImagesBlock
-                key={topManyImagesBlock.id as string}
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                {...(topManyImagesBlock as any)}
-              />
-            </div>
-          )} */}
 
           {serviceData.advantages && (
             <Advantages

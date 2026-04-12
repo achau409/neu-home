@@ -83,6 +83,14 @@ export async function getAllPages(): Promise<PageData[] | null> {
   const data = await cmsFetch<{ docs: PageData[] }>(url, DEFAULT_OPTIONS);
   return data?.docs ?? null;
 }
+export async function fetchPrivacyPolicy(): Promise<PageData | null> {
+  const url = buildUrl("/pages", {
+    "where[slug][equals]": "privacy-policy",
+    "where[status][equals]": "published",
+  });
+  const data = await cmsFetch<{ docs: PageData[] }>(url, STATIC_OPTIONS);
+  return data?.docs?.[0] ?? null;
+}
 export async function fetchTermsOfUse(): Promise<PageData | null> {
   const url = buildUrl("/pages", {
     "where[slug][equals]": "terms",
