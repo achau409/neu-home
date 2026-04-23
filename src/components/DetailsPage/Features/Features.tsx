@@ -9,7 +9,7 @@ const Features = ({ featuresData }: FeaturesProps) => {
   return (
     <section className="py-12 bg-[#e6f0ff]">
       <div className="max-w-6xl mx-auto px-4 text-center">
-        <h2 className="md:text-[2.5rem] text-[1.5rem] font-bold  text-center tracking-[-0.5px]">
+        <h2 className="md:text-[2.5rem] text-[1.5rem] font-bold  text-center tracking-[-0.5px] leading-tight">
           {featuresData.sectionTitle || "Features"}
         </h2>
         <h3 className="text-[15px] md:text-lg text-gray-600  mb-8 font-semibold tracking-tighter">{featuresData.description}</h3>

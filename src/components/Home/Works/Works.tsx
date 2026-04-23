@@ -6,7 +6,7 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
   return (
     <section className="relative bg-[#0b1b3f] text-white py-14 px-6 overflow-hidden">
       <div className="relative max-w-[1180px] mx-auto text-center">
-        <h2 className="md:text-3xl text-2xl font-bold mb-14">
+        <h2 className="md:text-[40px] text-2xl font-bold mb-14">
           {howItWorkBlock.sectionTitle || "How it works?"}
         </h2>
 

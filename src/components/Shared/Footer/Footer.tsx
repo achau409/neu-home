@@ -16,7 +16,7 @@ const Footer = ({ footer }: { footer: any }) => {
       >
         <h2
           id="footer-cta-heading"
-          className=" font-bold text-white text-2xl md:text-3xl mb-3"
+          className=" font-bold text-white text-2xl md:text-[40px] mb-3"
         >
           Ready to get started?
         </h2>

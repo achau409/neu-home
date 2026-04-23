@@ -13,11 +13,11 @@ const parserOptions: HTMLReactParserOptions = {
 
 const HTMLBlock = ({ content }: { content: string }) => {
   return (
-    <div className="container mx-auto">
+    <section className="flex flex-col items-center justify-center w-full lg:w-[1180px] mx-auto md:my-16 my-8 px-4">
       <div className="prose max-w-none">
         {content ? parse(content, parserOptions) : <p>Loading...</p>}
       </div>
-    </div>
+    </section>
   );
 };
 

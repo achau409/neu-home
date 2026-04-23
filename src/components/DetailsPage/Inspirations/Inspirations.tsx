@@ -50,7 +50,7 @@ const Inspirations = ({ images, sectionTitle }: InspirationProps) => {
   return (
     <section className="py-12 overflow-hidden md:px-6">
       <div className="max-w-[1180px] mx-auto px-2">
-        <h2 className="md:text-[2.5rem] text-[1.5rem] font-bold mb-12 text-center tracking-[-0.5px]">
+        <h2 className="md:text-[2.5rem] text-[1.5rem] font-bold mb-12 text-center tracking-[-0.5px] leading-tight" >
           {sectionTitle || "Inspirations"}
         </h2>
 

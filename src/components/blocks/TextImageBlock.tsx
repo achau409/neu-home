@@ -72,7 +72,7 @@ const TextImageBlock: React.FC<TextImageBlockProps> = ({
         }`}
     >
       {heading && (
-        <h2 className="text-2xl md:text-[2.5rem] font-bold mb-3">{heading}</h2>
+        <h2 className="text-2xl md:text-[2.5rem] font-bold mb-3 leading-tight">{heading}</h2>
       )}
       {subheading && <p className="text-lg text-gray-700 font-semibold tracking-tighter">{subheading}</p>}
     </div>
