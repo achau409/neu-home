@@ -29,7 +29,7 @@ const CityBlock: React.FC<CityBlockProps> = ({
         <h2 className="text-3xl font-bold text-center mb-10">{sectionTitle}</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-6 md:gap-x-8 justify-center items-center content-center">
           {cities.map((city) => (
-            <div key={city.id} className="flex items-center space-x-3">
+            <div key={city.id} className="flex items-center space-x-3 justify-center">
               <span className="flex items-center justify-center w-8 h-8 rounded-full border-2 border-black">
                 <ChevronRight className="w-5 h-5" />
               </span>

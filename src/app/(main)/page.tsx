@@ -10,7 +10,11 @@ import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
 import { fetchHomePage, getServices } from "@/lib/api";
 import type { ContentBlock } from "@/types/service";
 import { buildFaqPageJsonLd, processFaqItemsFromBlock } from "@/lib/faq";
-
+import CityBlock from "@/components/blocks/CityBlock";
+interface City {
+  id: string;
+  city: string;
+}
 export const revalidate = 60;
 
 const SITE_URL = "https://www.neuhomeservices.com";
@@ -56,6 +60,7 @@ export default async function HomePage() {
     fetchHomePage(),
   ]);
 
+
   const content: ContentBlock[] = cmsData?.content ?? [];
 
   const heroBlock = content.find((b) => b.blockType === "hero");
@@ -64,6 +69,7 @@ export default async function HomePage() {
   const htmlBlock = content.find((b) => b.blockType === "htmlblock");
   const faqBlock = content.find((b) => b.blockType === "faq");
   const faqProcessedItems = processFaqItemsFromBlock(faqBlock ?? null);
+  const cityBlock = content.find((b) => b.blockType === "cities");
 
   const serviceList = (services ?? []) as any;
 
@@ -109,6 +115,9 @@ export default async function HomePage() {
 
         <Suspense>
           {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
+        </Suspense>
+        <Suspense>
+          {cityBlock && <CityBlock sectionTitle={cityBlock.sectionTitle as string} cities={cityBlock.cities as City[]} backgroundColor={cityBlock.backgroundColor as string} blockName={cityBlock.blockName as string} />}
         </Suspense>
 
 
