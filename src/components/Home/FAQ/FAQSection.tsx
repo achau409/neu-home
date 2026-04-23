@@ -68,7 +68,7 @@ const FAQSection = ({ block, sectionId = "faq" }: FAQSectionProps) => {
           {sectionTitle && (
             <h2
               id={headingId}
-              className="text-2xl md:text-5xl font-bold tracking-tight text-[#0b1b3f] mb-3 uppercase"
+              className="text-2xl md:text-[40px] font-bold tracking-tight text-[#0b1b3f] mb-3 uppercase"
             >
               {sectionTitle}
             </h2>

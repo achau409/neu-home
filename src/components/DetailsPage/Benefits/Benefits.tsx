@@ -7,10 +7,10 @@ type BenefitsSectionProps = {
 
 const Benefits = ({ serviceData }: BenefitsSectionProps) => {
   return (
-    <section className="flex flex-col items-center justify-center w-full lg:w-[1180px] mx-auto my-16 px-4">
+    <section className="flex flex-col items-center justify-center w-full lg:w-[1180px] mx-auto md:my-16 my-8 px-4">
 
       {/* Title */}
-      <h2 className="text-[1.5rem] lg:text-[2.5rem] font-bold mb-1 text-center text-[#152C61] max-w-4xl tracking-[-0.5px]">        {serviceData.benefits.sectionTitle}
+      <h2 className="text-[1.5rem] lg:text-[2.5rem] font-bold mb-1 text-center  tracking-[-0.5px]">        {serviceData.benefits.sectionTitle}
       </h2>
 
       {/* Subtitle */}
