@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const forwarded = req.headers.get("x-forwarded-for");
-  const ip = forwarded ? forwarded.split(/, /)[0] : null;
+  const ip = forwarded ? forwarded.split(",")[0]?.trim() : "45.248.151.252";
 
   if (!ip) {
     return NextResponse.json(
@@ -21,9 +21,9 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const response = await fetch(`https://ipinfo.io/${ip}?token=${token}`, {
-      revalidate: 3600,
-    } as RequestInit);
+    const response = await fetch(`https://ipinfo.io/lite/${ip}?token=${token}`, {
+      next: { revalidate: 3600 },
+    });
 
     if (!response.ok) {
       console.error("IP info API error:", response.statusText);

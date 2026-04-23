@@ -36,19 +36,34 @@ const DeferredTestimonialsSlider = dynamic(
 
 const getIpLocation = async (): Promise<{ city: string; state: string } | null> => {
   const forwarded = (await headers()).get("x-forwarded-for");
-  const ip = forwarded ? forwarded.split(/,\s*/)[0] : null;
+  const requestIp = forwarded ? forwarded.split(/,\s*/)[0] : null;
+  const isLocalOrPrivateIp =
+    !requestIp ||
+    requestIp === "::1" ||
+    requestIp === "127.0.0.1" ||
+    requestIp.startsWith("10.") ||
+    requestIp.startsWith("192.168.") ||
+    /^172\.(1[6-9]|2\d|3[0-1])\./.test(requestIp);
+  const ip = isLocalOrPrivateIp ? "8.8.8.8" : requestIp;
   const token = process.env.IPINFO_TOKEN;
+  console.log("[getIpLocation] ip:", ip);
 
   if (!ip || !token) return null;
 
   try {
-    const response = await fetch(`https://ipinfo.io/${ip}?token=${token}`, {
+    const response = await fetch(`https://ipinfo.io/lite/${ip}?token=${token}`, {
       next: { revalidate: 3600 },
     });
+    console.log("[getIpLocation] ipinfo status:", response.status, response.statusText);
 
-    if (!response.ok) return null;
+    if (!response.ok) {
+      const errorBody = await response.text();
+      console.log("[getIpLocation] ipinfo error response:", errorBody);
+      return null;
+    }
 
     const data = await response.json();
+    console.log("[getIpLocation] ipinfo response:", data);
     return {
       city: typeof data?.city === "string" ? data.city : "",
       state: typeof data?.region === "string" ? data.region : "",
@@ -64,7 +79,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  console.log("id", id);
+  console.log("[generateMetadata] id:", id);
   const serviceData = await getServicesBySlug(id);
 
   if (!serviceData) {
@@ -118,6 +133,7 @@ export default async function ProjectDetails({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  console.log("[ProjectDetails] id:", id);
 
   const [serviceData, header, ipLocation] = await Promise.all([
     getServicesBySlug(id),
