@@ -36,22 +36,14 @@ const DeferredTestimonialsSlider = dynamic(
 
 const getIpLocation = async (): Promise<{ city: string; state: string } | null> => {
   const forwarded = (await headers()).get("x-forwarded-for");
-  const requestIp = forwarded ? forwarded.split(/,\s*/)[0] : null;
-  const isLocalOrPrivateIp =
-    !requestIp ||
-    requestIp === "::1" ||
-    requestIp === "127.0.0.1" ||
-    requestIp.startsWith("10.") ||
-    requestIp.startsWith("192.168.") ||
-    /^172\.(1[6-9]|2\d|3[0-1])\./.test(requestIp);
-  const ip = isLocalOrPrivateIp ? "8.8.8.8" : requestIp;
+  const ip = forwarded ? forwarded.split(/,\s*/)[0] : null;
   const token = process.env.IPINFO_TOKEN;
   console.log("[getIpLocation] ip:", ip);
 
   if (!ip || !token) return null;
 
   try {
-    const response = await fetch(`https://ipinfo.io/lite/${ip}?token=${token}`, {
+    const response = await fetch(`https://api.ipinfo.io/lite/${ip}?token=${token}`, {
       next: { revalidate: 3600 },
     });
     console.log("[getIpLocation] ipinfo status:", response.status, response.statusText);
