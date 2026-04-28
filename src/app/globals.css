@@ -27,7 +27,8 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem}
+    --radius: 0.5rem;
+  }
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -52,7 +53,8 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%}
+    --chart-5: 340 75% 55%;
+  }
 }
 @layer base {
   * {
@@ -71,4 +73,16 @@
 }
 button.absolute.right-4.top-4.rounded-sm.opacity-70.ring-offset-background.transition-opacity.hover\:opacity-100.focus\:outline-none.focus\:ring-2.focus\:ring-ring.focus\:ring-offset-2.disabled\:pointer-events-none.data-\[state\=open\]\:bg-accent.data-\[state\=open\]\:text-muted-foreground {
   display: none;
+}
+
+section {
+  padding: 36px 0;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 32px 0;
+    /* border: 2px solid blue;
+    margin: 5px 0; */
+  }
 }

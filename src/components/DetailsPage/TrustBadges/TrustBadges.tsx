@@ -52,7 +52,7 @@ const TrustBadges = ({ badges = [], trustSignals: blockTrustSignals = [] }: Trus
 
   return (
     <section
-      className="bg-white  py-8 md:py-10 max-w-[380px] md:max-w-full mx-auto "
+      className="bg-white max-w-[380px] md:max-w-full mx-auto "
       aria-labelledby="credibility-heading"
     >
       <h2 id="credibility-heading" className="sr-only">
@@ -76,7 +76,7 @@ const TrustBadges = ({ badges = [], trustSignals: blockTrustSignals = [] }: Trus
                   alt={badge.icon?.alt ?? badge.name}
                   width={100}
                   height={100}
-                  className="md:w-7 md:h-7 w-5 h-5 object-contain"
+                  className="md:w-10 md:h-8 w-5 h-5 object-contain"
                 />
               </div>
               <div>
@@ -109,10 +109,10 @@ const TrustBadges = ({ badges = [], trustSignals: blockTrustSignals = [] }: Trus
         </div>
 
         {allTrustSignals.length > 0 && (
-          <div className="mt-6 flex justify-center md:gap-x-6 gap-x-2  gap-y-2 text-[10px] text-gray-500">
+          <div className="mt-6 flex justify-center md:gap-x-6 gap-x-2  gap-y-2 text-[10px] md:text-base text-gray-500">
             {allTrustSignals.map((signal) => (
               <span key={signal.id} className="inline-flex items-center gap-1.5">
-                <svg className="md:w-4 md:h-4 w-3 h-3 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                <svg className="md:w-5 md:h-5 w-3 h-3 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 {signal.text}

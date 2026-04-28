@@ -59,7 +59,7 @@ const FAQSection = ({ block, sectionId = "faq" }: FAQSectionProps) => {
   return (
     <section
       id={sectionId}
-      className="py-16 md:py-20 px-4 sm:px-6"
+      className="px-4 sm:px-6"
       style={backgroundColor ? { backgroundColor } : undefined}
       aria-labelledby={sectionTitle ? headingId : undefined}
     >

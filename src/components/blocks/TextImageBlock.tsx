@@ -81,7 +81,7 @@ const TextImageBlock: React.FC<TextImageBlockProps> = ({
   return (
     <section
       id={blockName || `block-${id}`}
-      className="py-12 px-4"
+      className="px-4"
       style={{ backgroundColor: backgroundColor || "transparent" }}
     >
       <div className="max-w-[1320px] mx-auto">

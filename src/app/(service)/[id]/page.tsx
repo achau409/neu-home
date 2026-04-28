@@ -231,8 +231,8 @@ export default async function ProjectDetails({
               {...(topManyImagesBlock as any)}
             />
           </div>
-        )} */}
-
+        )}
+ */}
         {trustBadgesBlock && <TrustBadges {...(trustBadgesBlock as any)} />}
 
         <Suspense fallback={<DetailPageLoader />}>
@@ -244,6 +244,7 @@ export default async function ProjectDetails({
               title={serviceData.title}
             />
           )}
+          {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
 
           {serviceData.features && (
             <Features featuresData={serviceData.features} />
@@ -256,7 +257,6 @@ export default async function ProjectDetails({
             />
           )}
 
-          {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
 
           {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
           <ProjectContent
@@ -271,6 +271,11 @@ export default async function ProjectDetails({
               sectionTitle={serviceData.testimonials.sectionTitle}
             />
           )}
+          {/* <p>
+            {
+              JSON.stringify(serviceData.id)
+            }
+          </p> */}
           {faqBlock && (
             <FAQSection block={faqBlock} sectionId={`service-faq-${id}`} />
           )}

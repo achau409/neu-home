@@ -4,7 +4,7 @@ import Image from "next/image";
 const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
   const cards = howItWorkBlock.cards;
   return (
-    <section className="relative bg-[#0b1b3f] text-white py-14 px-6 overflow-hidden">
+    <section className="relative  text-black px-6 overflow-hidden">
       <div className="relative max-w-[1180px] mx-auto text-center">
         <h2 className="md:text-[40px] text-2xl font-bold mb-14">
           {howItWorkBlock.sectionTitle || "How it works?"}
@@ -28,7 +28,7 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
                 y1="1"
                 x2="100%"
                 y2="1"
-                stroke="white"
+                stroke="#CBD5E0"
                 strokeOpacity="0.6"
                 strokeWidth="2"
                 strokeDasharray="10 7"
@@ -46,9 +46,9 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
                   {/* Circle with icon + number badge */}
                   <div className="relative mb-6">
                     {/* Outer glow ring */}
-                    <div className="w-26 h-26 rounded-full bg-[#fef2b726] flex items-center justify-center">
+                    <div className="w-26 h-26 rounded-full bg-[#f0fdf4] flex items-center justify-center">
                       {/* Inner white circle */}
-                      <div className="md:w-24 md:h-24 w-20 h-20 rounded-full bg-white shadow-[0_0_30px_8px_rgba(255,255,255,0.35)] flex items-center justify-center">
+                      <div className="md:w-24 md:h-24 w-20 h-20 rounded-full bg-[#EBF1F8]  flex items-center justify-center">
                         <Image
                           src={card.cardImage.url}
                           width={60}
@@ -65,10 +65,10 @@ const WorksSections = ({ howItWorkBlock }: { howItWorkBlock: any }) => {
                     </span>
                   </div>
 
-                  <h3 className="md:text-xl font-bold mb-4 leading-snug">
+                  <h3 className="md:text-xl font-bold mb-4 leading-snug text-[#2D3748]">
                     {card.heading}
                   </h3>
-                  <p className="md:text-base text-sm text-gray-300 leading-relaxed max-w-[200px]">
+                  <p className="md:text-base text-sm text-gray-700 leading-relaxed max-w-[220px]">
                     {card.subheading}
                   </p>
                 </div>

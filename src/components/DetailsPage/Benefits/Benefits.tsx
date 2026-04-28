@@ -7,7 +7,7 @@ type BenefitsSectionProps = {
 
 const Benefits = ({ serviceData }: BenefitsSectionProps) => {
   return (
-    <section className="flex flex-col items-center justify-center w-full lg:w-[1180px] mx-auto md:my-16 my-8 px-4">
+    <section className="flex flex-col items-center justify-center w-full lg:w-[1180px] mx-auto px-4">
 
       {/* Title */}
       <h2 className="text-[1.5rem] lg:text-[2.5rem] font-bold mb-1 text-center  tracking-[-0.5px] leading-tight">        {serviceData.benefits.sectionTitle}
@@ -21,7 +21,7 @@ const Benefits = ({ serviceData }: BenefitsSectionProps) => {
       <div className="flex flex-col md:flex-row justify-center items-center gap-10 w-full">
 
         {/* Benefits List */}
-        <div className="w-full md:w-1/2">
+        <div className="w-full lg:w-1/2">
           <ul className="space-y-6">
             {serviceData.benefits.benefitsList.map(
               (benefit: any, index: any) => (
@@ -44,7 +44,7 @@ const Benefits = ({ serviceData }: BenefitsSectionProps) => {
         </div>
 
         {/* Image */}
-        <div className="w-full md:w-1/2 h-80">
+        <div className="w-full lg:w-1/2 h-80">
           <Image
             src={serviceData.serviceImage.url}
             alt={serviceData.title}

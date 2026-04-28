@@ -41,10 +41,10 @@ const TestimonialsSlider = ({
   sectionTitle: string;
 }) => {
   return (
-    <section className="relative md:pt-20 px-4  overflow-hidden pb-8 pt-10">
+    <section className="relative px-4  overflow-hidden">
       {/* Aggregate rating summary */}
       <div className="flex items-center justify-center mb-10 mt-4">
-        <div className="inline-flex items-center gap-5 px-8 py-5 rounded-2xl px_40px_rgba(11,27,63,0.15)]">
+        <div className="inline-flex items-center gap-5 px-8  rounded-2xl px_40px_rgba(11,27,63,0.15)]">
           <div className="flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-white shadow-lg shrink-0 p-1.5 ring-2 ring-amber-100">
             <svg viewBox="0 0 24 24" className="w-9 h-9 md:w-10 md:h-10">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />

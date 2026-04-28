@@ -34,8 +34,8 @@ const ZipCodeBlock: React.FC<ZipCodeBlockProps> = ({
   const bgClass = backgroundColor ? "" : "bg-transparent";
 
   return (
-    <div
-      className={`flex flex-col items-center text-center my-6 p-6 w-full ${bgClass}`}
+    <section
+      className={`flex flex-col items-center text-center px-6 w-full ${bgClass}`}
       style={backgroundColor ? { backgroundColor } : {}}
     >
       <h2 className="text-2xl md:text-[2.5rem] font-bold mb-4">{heading}</h2>
@@ -73,7 +73,7 @@ const ZipCodeBlock: React.FC<ZipCodeBlockProps> = ({
       {belowTextEnabled && belowText && (
         <p className="text-base text-center font-medium  mt-2">{belowText}</p>
       )}
-    </div>
+    </section>
   );
 };
 

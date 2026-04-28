@@ -43,7 +43,7 @@ const ManyImagesBlock: React.FC<ManyImagesBlockProps> = ({
           return (
             <div
               key={index}
-              className="relative overflow-hidden rounded-lg"
+              className="relative overflow-hidden rounded-lg max-h-[150px]"
             >
               {img && img.url ? (
                 <Image
@@ -51,7 +51,7 @@ const ManyImagesBlock: React.FC<ManyImagesBlockProps> = ({
                   alt={img.alt || "Project image"}
                   width={500}
                   height={500}
-                  className="w-[150px] h-[150px] object-contain"
+                  className="w-[150px] h-[100px] object-contain"
                 />
               ) : (
                 <div className="w-[150px] h-[150px] bg-gray-200 flex items-center justify-center">
