@@ -3,7 +3,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Footer from "@/components/Shared/Footer/Footer";
 import Script from "next/script";
-import { PostHogProvider } from "@/providers/PostHogProvider";
+import { GrowthBookProvider } from "@/providers/GrowthBookProvider";
 import { fetchFooter } from "@/lib/api";
 
 const inter = Inter({
@@ -111,11 +111,11 @@ export default async function RootLayout({
       <body
         className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <PostHogProvider>
+        <GrowthBookProvider>
           <div className="flex-grow">{children}</div>
           <Footer footer={footer} />
           <Toaster />
-        </PostHogProvider>
+        </GrowthBookProvider>
       </body>
     </html>
   );

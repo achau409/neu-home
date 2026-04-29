@@ -1,4 +1,4 @@
-import PostHogClient from "@/lib/posthog";
+import { getGrowthBookVariant } from "@/lib/growthbook";
 import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
@@ -11,26 +11,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Missing experimentKey or distinctId" }, { status: 400 });
   }
 
-  try {
-    const start = Date.now();
-
-    const variant = await PostHogClient().getFeatureFlag(expKey, distinctId);
-
-    console.log("🎯 PostHog getFeatureFlag latency:", Date.now() - start, "ms");
-
-    // non-blocking fire-and-forget
-    PostHogClient().capture({
-      distinctId,
-      event: "$feature_flag_called",
-      properties: {
-        $feature_flag: expKey,
-        $feature_flag_response: variant as string | null,
-      },
-    });
-
-    return NextResponse.json({ variant });
-  } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : "flag error";
-    return NextResponse.json({ error: message }, { status: 500 });
-  }
+  const variant = await getGrowthBookVariant(expKey, distinctId, "lp1");
+  console.log("variant", variant);
+  return NextResponse.json({ variant });
 }

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useFeatureValue } from "@growthbook/growthbook-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +18,7 @@ interface AllData {
 
 const HeroSection = ({ heroData, services }: AllData) => {
   const [selectedValue, setSelectedValue] = useState<string>("");
+  const heroVariant = useFeatureValue("hero_variant", "control");
 
   const handleSelect = (id: string) => {
     setSelectedValue(id);
@@ -79,13 +81,17 @@ const HeroSection = ({ heroData, services }: AllData) => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Button */}
+            {/* Button — variant_b: orange "Get Free Estimate" */}
             <Button
               asChild
-              className="w-full sm:w-auto text-base min-w-[150px] px-4 !py-[21px] bg-[#55BC7E] text-white rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-[#28a745]"
+              className={
+                heroVariant === "variant_b"
+                  ? "w-full sm:w-auto text-base min-w-[150px] px-4 !py-[21px] bg-[#fa8c16] text-white rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-[#e07b0f]"
+                  : "w-full sm:w-auto text-base min-w-[150px] px-4 !py-[21px] bg-[#55BC7E] text-white rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-[#28a745]"
+              }
             >
               <Link href={selectedValue ? `/${selectedValue}` : "/"} aria-disabled={!selectedValue}>
-                Get Estimate
+                {heroVariant === "variant_b" ? "Get Free Estimate" : "Get Estimate"}
               </Link>
             </Button>
           </div>

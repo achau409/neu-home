@@ -17,7 +17,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import SubmitForm from "@/components/SubmitForm/SubmitForm";
-import posthog from "posthog-js";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -222,39 +221,19 @@ const ZipSearchForm = ({
     }
   }, [modalZipInput]);
 
-  // ── Fire posthog form_intent once per session ───────────────────
-  const fireFormIntent = (cn = companyName, zip = zipCode) => {
+  const fireWizardOpened = () => {
     if (intentFiredRef.current) return;
     intentFiredRef.current = true;
     try {
-      const pathname =
-        typeof window !== "undefined" ? window.location.pathname : "/";
-      const slug = pathname.split("/").filter(Boolean)[0] || "";
-      const expKey = slug ? `exp__${slug}__v1` : null;
-      const match = (
-        typeof document !== "undefined" ? document.cookie : ""
-      ).match(new RegExp("(^| )ab_" + slug + "=([^;]+)"));
-      const variant = match ? decodeURIComponent(match[2]) : undefined;
-      (posthog as any).capture(
-        "form_intent",
-        {
-          form_id: serviceData?.form_id || "lead-form",
-          client_id: cn,
-          path: pathname,
-          experiment_key: expKey || undefined,
-          variant,
-          service,
-          zip_code: zip,
-        },
-        { send_feature_flags: true } as any
-      );
+      (window as any).clarity?.("event", "wizard_opened");
     } catch { }
   };
 
   // ── Advance from ZIP screen to form ────────────────────────────
   const handleZipNext = () => {
     if (!modalZipMatched) return;
-    fireFormIntent(companyName, zipCode);
+    fireWizardOpened();
+    try { (window as any).clarity?.("event", "zip_entered"); } catch { }
     if (persistedFormStepIndex === 0) {
       setFormProgress(0);
       setFormStep(1);
@@ -274,7 +253,7 @@ const ZipSearchForm = ({
   // ── Hero ZIP match → open modal directly at form view ──────────
   useEffect(() => {
     if (!isMatched || isModalOpen) return;
-    fireFormIntent();
+    fireWizardOpened();
     setSessionKey((prev) => prev + 1);
     resetFormSession();
     setModalView("form");
@@ -284,6 +263,7 @@ const ZipSearchForm = ({
   // ── Floating button → open modal at ZIP view ───────────────────
   useEffect(() => {
     if (!triggerModal) return;
+    try { (window as any).clarity?.("event", "wizard_opened"); } catch { }
     setSessionKey((prev) => prev + 1);
     resetFormSession();
     setModalView("zip");

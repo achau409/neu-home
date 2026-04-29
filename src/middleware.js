@@ -40,17 +40,23 @@ function publicSlug(pathname) {
   return pathname.split("/").filter(Boolean)[0] || "";
 }
 
-function expKeyFromSlug(slug) {
-  return `exp__${slug}__v1`;
+// Converts URL slug → GrowthBook feature flag key
+// e.g. "go-floorings" → "go_floorings_v1"
+function featureKeyFromSlug(slug) {
+  return slug.replace(/-/g, "_") + "_v1";
 }
 
 function getOrCreateVisitorId(req) {
-  const cookieName = "ph_vid";
-  return req.cookies.get(cookieName)?.value || crypto.randomUUID();
+  // prefer gb_vid, fall back to legacy ph_vid
+  return (
+    req.cookies.get("gb_vid")?.value ||
+    req.cookies.get("ph_vid")?.value ||
+    crypto.randomUUID()
+  );
 }
 
 async function getVariantForSlug(slug, req, vid) {
-  const experimentKey = expKeyFromSlug(slug);
+  const experimentKey = featureKeyFromSlug(slug);
   const controller = new AbortController();
   const timeoutMs = Number(process.env.NEXT_PUBLIC_AB_TIMEOUT_MS || 800);
   const t = setTimeout(() => controller.abort(), timeoutMs);
@@ -93,7 +99,7 @@ export default async function middleware(req) {
     return NextResponse.next();
   }
 
-  const expKey = expKeyFromSlug(slug);
+  const expKey = featureKeyFromSlug(slug);
   const cookieName = `ab_${slug}`;
   const visitorId = getOrCreateVisitorId(req);
 
@@ -115,7 +121,7 @@ export default async function middleware(req) {
     maxAge: COOKIE_MAX_AGE,
   });
 
-  res.cookies.set("ph_vid", visitorId, {
+  res.cookies.set("gb_vid", visitorId, {
     path: "/",
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",

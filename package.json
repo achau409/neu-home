@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@getbrevo/brevo": "^2.2.0",
+    "@growthbook/growthbook": "^1.6.5",
+    "@growthbook/growthbook-react": "^1.6.5",
     "@headlessui/react": "^2.2.0",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-dialog": "^1.1.5",
@@ -29,8 +31,6 @@
     "lucide": "^0.473.0",
     "lucide-react": "^0.471.2",
     "next": "^15.2.0",
-    "posthog-js": "^1.260.2",
-    "posthog-node": "^5.7.0",
     "react": "^19.0.0",
     "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",

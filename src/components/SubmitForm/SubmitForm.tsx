@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useMemo, useState, useRef } from "react";
-import posthog from "posthog-js";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -458,28 +457,8 @@ const SubmitForm = ({
         setShowThankYouModal(true);
 
         try {
-          const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
-          const slug = pathname.split("/").filter(Boolean)[0] || "";
-          const expKey = slug ? `exp__${slug}__v1` : null;
-          const match = (typeof document !== "undefined" ? document.cookie : "").match(
-            new RegExp("(^| )ab_" + slug + "=([^;]+)")
-          );
-          const variant = match ? decodeURIComponent(match[2]) : undefined;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (posthog as any).capture(
-            "form_submit",
-            {
-              form_id: (serviceData as Record<string, unknown>)?.form_id || "lead-form",
-              client_id: companyName,
-              path: pathname,
-              experiment_key: expKey || undefined,
-              variant,
-              success: true,
-              service,
-              zip_code: zipCode,
-            },
-            { send_feature_flags: true }
-          );
+          (window as any).clarity?.("event", "form_submitted");
         } catch {
           // Non-critical analytics — silently ignore
         }

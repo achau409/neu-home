@@ -42,14 +42,18 @@ async function cmsFetch<T = unknown>(
 ): Promise<T | null> {
   if (!url) return null;
   try {
-    const res = await fetch(url, options);
+    // In dev, fail fast (3 s) so a down CMS doesn't freeze the dev server for 10 s per call
+    const signal = process.env.NODE_ENV !== "production"
+      ? AbortSignal.timeout(3000)
+      : undefined;
+    const res = await fetch(url, { ...options, signal });
     if (!res.ok) {
-      console.error(`CMS fetch failed [${res.status}]:`, url);
+      if (process.env.NODE_ENV !== "production") console.warn(`CMS fetch failed [${res.status}]:`, url);
       return null;
     }
     return res.json();
   } catch (error) {
-    console.error("CMS fetch error:", url, error);
+    if (process.env.NODE_ENV !== "production") console.warn("CMS fetch error:", url);
     return null;
   }
 }
