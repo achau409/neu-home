@@ -75,7 +75,10 @@ async function getVariantForSlug(slug, req, vid) {
     const variant = json.variant;
     debug("AB variant:", variant);
 
-    return variant === "control" ? "lp1" : variant;
+    // "control" is a legacy GrowthBook default — treat it as lp1
+    // Any other unrecognised value also falls back to lp1
+    if (!variant || variant === "control") return "lp1";
+    return variant;
   } catch (err) {
     clearTimeout(t);
     if (isDev) console.error("AB fetch error:", slug, err?.message);
