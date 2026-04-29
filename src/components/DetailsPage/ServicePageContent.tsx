@@ -129,7 +129,7 @@ export default function ServicePageContent({
                     : <TrustBadges />}
 
                 <Suspense fallback={<DetailPageLoader />}>
-                    {topManyImagesBlock && (
+                    {topManyImagesBlock && !trustBadgesBlock && (
                         <div className="bg-[#f5f7fa]">
                             <ManyImagesBlock
                                 key={topManyImagesBlock.id as string}

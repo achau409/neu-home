@@ -34,7 +34,7 @@ const ManyImagesBlock: React.FC<ManyImagesBlockProps> = ({
   return (
     <section
       id={blockName || `block-${id}`}
-      className={`py-4 pb-12 ${isTopPosition ? "mt-12 bg-gray-50" : ""}`}
+      className={` ${isTopPosition ? " " : ""}`}
       style={{ backgroundColor: backgroundColor || "transparent" }}
     >
       <div className="flex flex-wrap gap-4 justify-center items-center">
@@ -43,7 +43,7 @@ const ManyImagesBlock: React.FC<ManyImagesBlockProps> = ({
           return (
             <div
               key={index}
-              className="relative overflow-hidden rounded-lg max-h-[150px]"
+              className="relative overflow-hidden rounded-lg max-h-[150px] space-x-16"
             >
               {img && img.url ? (
                 <Image

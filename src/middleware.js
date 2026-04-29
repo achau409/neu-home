@@ -15,19 +15,7 @@ function getLandingSlugsFromEnv() {
 }
 
 const DEFAULT_SLUGS = [
-  "ez-step-wit",
-  "ez-step-wis",
-  "mccann-exterior-doors",
-  "mccann-siding",
-  "mccann-windows",
-  "schoenherr-roofing",
   "go-flooring",
-  "123-wrep",
-  "wis",
-  "everdry-basement",
-  "tranquility-wit",
-  "tranquility-wis",
-  "everdry-foundation-repair",
 ];
 
 const LANDING_SLUGS = new Set(
