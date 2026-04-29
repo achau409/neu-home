@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CONTACT_OPEN_ESTIMATE_EVENT } from "@/lib/contact-estimate-events";
 import type { ServiceData } from "@/types/service";
+import posthog from "posthog-js";
 
 const ZipSearchForm = dynamic(
   () => import("@/components/DetailsPage/ZipSearchForm/ZipSearchForm"),
@@ -42,6 +43,7 @@ export default function ContactEstimateLauncher({
     setTriggerZipModal(false);
     resetPicker();
     setPickerOpen(true);
+    posthog.capture("estimate_picker_opened", { location: "contact_flow" });
   }, [resetPicker]);
 
   useEffect(() => {
@@ -70,6 +72,12 @@ export default function ContactEstimateLauncher({
         throw new Error("not_found");
       }
       const data = (await res.json()) as ServiceData;
+      const selectedTitle = sorted.find((s) => s.slug === selectedSlug)?.title;
+      posthog.capture("estimate_picker_service_selected", {
+        service_slug: selectedSlug,
+        service_title: selectedTitle,
+        location: "contact_flow",
+      });
       setServiceData(data);
       setPickerOpen(false);
       setTriggerZipModal(true);

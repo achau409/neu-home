@@ -8,7 +8,10 @@ export async function GET(req: NextRequest) {
   const distinctId = req.nextUrl.searchParams.get("distinctId");
 
   if (!expKey || !distinctId) {
-    return NextResponse.json({ error: "Missing experimentKey or distinctId" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Missing experimentKey or distinctId" },
+      { status: 400 },
+    );
   }
 
   try {
@@ -17,17 +20,7 @@ export async function GET(req: NextRequest) {
     const variant = await PostHogClient().getFeatureFlag(expKey, distinctId);
 
     console.log("🎯 PostHog getFeatureFlag latency:", Date.now() - start, "ms");
-
-    // non-blocking fire-and-forget
-    PostHogClient().capture({
-      distinctId,
-      event: "$feature_flag_called",
-      properties: {
-        $feature_flag: expKey,
-        $feature_flag_response: variant as string | null,
-      },
-    });
-
+    console.log("variant", variant);
     return NextResponse.json({ variant });
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : "flag error";

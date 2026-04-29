@@ -21,7 +21,7 @@ const DEFAULT_SLUGS = [
   "mccann-siding",
   "mccann-windows",
   "schoenherr-roofing",
-  "go-floorings",
+  "go-flooring",
   "123-wrep",
   "wis",
   "everdry-basement",
@@ -41,7 +41,7 @@ function publicSlug(pathname) {
 }
 
 function expKeyFromSlug(slug) {
-  return `exp__${slug}__v1`;
+  return `exp_${slug}_v1`;
 }
 
 function getOrCreateVisitorId(req) {
@@ -69,7 +69,8 @@ async function getVariantForSlug(slug, req, vid) {
     const variant = json.variant;
     debug("AB variant:", variant);
 
-    return variant === "control" ? "lp1" : variant;
+    if (!variant || variant === "control") return "lp1";
+    return variant;
   } catch (err) {
     clearTimeout(t);
     if (isDev) console.error("AB fetch error:", slug, err?.message);

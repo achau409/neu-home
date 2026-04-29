@@ -160,6 +160,7 @@ const ZipSearchForm = ({
         setIsMatched(false);
         onStatusChange("not_matched");
         onZipLocations(null);
+        posthog.capture("zip_not_serviced", { zip_code: zipCode, service, location: "hero" });
       }
     } catch {
       onStatusChange("Error checking ZIP code");
@@ -207,6 +208,7 @@ const ZipSearchForm = ({
       } else {
         setModalZipError("ZIP code is currently not serviced by our contractor.");
         setModalZipMatched(false);
+        posthog.capture("zip_not_serviced", { zip_code: zip, service, location: "modal" });
       }
     } catch {
       setModalZipError("Could not check ZIP code. Please try again.");
@@ -230,7 +232,7 @@ const ZipSearchForm = ({
       const pathname =
         typeof window !== "undefined" ? window.location.pathname : "/";
       const slug = pathname.split("/").filter(Boolean)[0] || "";
-      const expKey = slug ? `exp__${slug}__v1` : null;
+      const expKey = slug ? `exp_${slug}_v1` : null;
       const match = (
         typeof document !== "undefined" ? document.cookie : ""
       ).match(new RegExp("(^| )ab_" + slug + "=([^;]+)"));

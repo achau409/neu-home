@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import { Hero } from "@/types/hero";
+import posthog from "posthog-js";
 interface AllData {
   heroData: Hero;
   services: any;
@@ -20,6 +21,14 @@ const HeroSection = ({ heroData, services }: AllData) => {
 
   const handleSelect = (id: string) => {
     setSelectedValue(id);
+    const title = services.find((s: any) => s.slug === id)?.title;
+    posthog.capture("service_selected", { service_slug: id, service_title: title, location: "hero" });
+  };
+
+  const handleGetEstimate = () => {
+    if (!selectedValue) return;
+    const title = services.find((s: any) => s.slug === selectedValue)?.title;
+    posthog.capture("get_estimate_clicked", { service_slug: selectedValue, service_title: title, location: "hero" });
   };
 
   return (
@@ -83,6 +92,7 @@ const HeroSection = ({ heroData, services }: AllData) => {
             <Button
               asChild
               className="w-full sm:w-auto text-base min-w-[150px] px-4 !py-[21px] bg-[#55BC7E] text-white rounded-sm md:rounded-r-sm md:rounded-l-none hover:bg-[#28a745]"
+              onClick={handleGetEstimate}
             >
               <Link href={selectedValue ? `/${selectedValue}` : "/"} aria-disabled={!selectedValue}>
                 Get Estimate

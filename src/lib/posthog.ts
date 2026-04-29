@@ -8,6 +8,7 @@ export default function PostHogClient(): PostHog {
   if (!singletonClient) {
     singletonClient = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
       host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+      personalApiKey: process.env.POSTHOG_PERSONAL_API_KEY,
       flushAt: 1,
       flushInterval: 0,
     });

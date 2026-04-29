@@ -460,7 +460,7 @@ const SubmitForm = ({
         try {
           const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
           const slug = pathname.split("/").filter(Boolean)[0] || "";
-          const expKey = slug ? `exp__${slug}__v1` : null;
+          const expKey = slug ? `exp_${slug}_v1` : null;
           const match = (typeof document !== "undefined" ? document.cookie : "").match(
             new RegExp("(^| )ab_" + slug + "=([^;]+)")
           );

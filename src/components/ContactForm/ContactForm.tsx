@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import posthog from "posthog-js";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -69,6 +70,7 @@ export default function ContactForm() {
       reset();
     }
 
+    posthog.capture("contact_form_submitted", { success });
     setPopup({ show: true, success });
   };
 

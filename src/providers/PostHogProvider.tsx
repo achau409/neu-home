@@ -5,6 +5,8 @@ import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
+let phInitialized = false;
+
 function getCookie(name: string) {
   if (typeof document === "undefined") return undefined;
   const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
@@ -13,7 +15,7 @@ function getCookie(name: string) {
 
 function expKeyFromPath(pathname: string) {
   const slug = pathname.split("/").filter(Boolean)[0] || "";
-  return slug ? `exp__${slug}__v1` : null;
+  return slug ? `exp_${slug}_v1` : null;
 }
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
@@ -21,7 +23,8 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (!posthog.__loaded) {
+    if (!phInitialized) {
+      phInitialized = true;
       posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY as string, {
         api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
         capture_pageview: false,
@@ -75,7 +78,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     });
 
     if (expKey && variant) {
-      posthog.featureFlags.override({ [expKey]: variant });
+      posthog.featureFlags.overrideFeatureFlags({ flags: { [expKey]: variant } });
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
