@@ -22,7 +22,7 @@ interface ProjectDetailsClientProps {
   initialUserCity?: string;
 }
 
-const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDetailsClientProps) => {
+const ProjectDetailsClientNew = ({ serviceData, initialUserCity = "" }: ProjectDetailsClientProps) => {
   const [zipStatus, setZipStatus] = useState<string | null>(null);
   const [zipDetails, setZipDetails] = useState<ZipDetails | null>(null);
   const [userCity] = useState<string>(initialUserCity);
@@ -89,7 +89,7 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
       </div>
 
       {/* ZIP form — narrow, clean, no heavy card header */}
-      <div ref={heroRef} className="w-full max-w-2xl px-5 py-2">
+      {/* <div ref={heroRef} className="w-full max-w-2xl px-5 py-2">
         <Suspense fallback={<DetailPageLoader />}>
           <ZipSearchForm
             projectId={serviceData.slug}
@@ -114,43 +114,18 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
                 : zipStatus}
           </p>
         )}
-      </div>
+      </div> */}
 
       {/* Disclaimer */}
       {serviceData.afterCTAText && (
-        <p className="text-sm text-white  leading-relaxed font-[500]">
-          {serviceData.afterCTAText}
+        <p className="text-lg text-white  leading-relaxed font-[500]">
+          {serviceData.heroSubHeading}
         </p>
       )}
 
-      {/* Floating "Get Free Quote" button — appears after scrolling past hero */}
-      <div className="fixed bottom-4 right-5 z-[50] flex flex-col items-end gap-2 transition-all duration-500 opacity-100 translate-y-0">
-        {/* Pulse rings */}
-        <span className="absolute inset-0 rounded-full bg-[#55BC7E] opacity-20 animate-ping" />
-        <span className="absolute inset-0 rounded-full bg-[#55BC7E] opacity-10 animate-ping [animation-delay:0.4s]" />
-
-        <button
-          className="relative uppercase flex items-center gap-2 bg-[#55BC7E] hover:bg-[#22963c] text-white text-sm font-bold px-5 py-3.5 rounded-full shadow-[0_8px_30px_rgba(40,167,69,0.5)] hover:shadow-[0_8px_40px_rgba(40,167,69,0.7)] transition-all duration-300 hover:scale-105 active:scale-95 group"
-          aria-label="Get Free Quote"
-          onClick={() => setFloatingTrigger(true)}
-        >
-          {/* Tag icon */}
-          <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 640 512" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg" className="w-6 h-8" data-icon="svg"><path d="M320.7 352c8.1-89.7 83.5-160 175.3-160c8.9 0 17.6 .7 26.1 1.9L309.5 7c-6-5-14-7-21-7s-15 1-22 8L10 231.5c-7 7-10 15-10 24c0 18 14 32.1 32 32.1l32 0 0 69.7c-.1 .9-.1 1.8-.1 2.8l0 112c0 22.1 17.9 40 40 40l16 0c1.2 0 2.4-.1 3.6-.2c1.5 .1 3 .2 4.5 .2l31.9 0 24 0c22.1 0 40-17.9 40-40l0-24 0-64c0-17.7 14.3-32 32-32l64 0 .7 0zM640 368a144 144 0 1 0 -288 0 144 144 0 1 0 288 0zm-76.7-43.3c6.2 6.2 6.2 16.4 0 22.6l-72 72c-6.2 6.2-16.4 6.2-22.6 0l-40-40c-6.2-6.2-6.2-16.4 0-22.6s16.4-6.2 22.6 0L480 385.4l60.7-60.7c6.2-6.2 16.4-6.2 22.6 0z"></path></svg>          <span className="leading-none">Get Free Quote</span>
-          {/* Arrow */}
-          <svg
-            className="w-4 h-4 -rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </button>
-      </div>
 
     </div>
   );
 };
 
-export default ProjectDetailsClient;
+export default ProjectDetailsClientNew;

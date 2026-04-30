@@ -3,7 +3,6 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import DetailPageLoader from "@/components/DetailsPage/Dotloading";
-import ProjectDetailsClient from "@/components/DetailsPage/ProjectDetailsClient";
 import WorksSections from "@/components/Home/Works/Works";
 import HomeOwnersHelped from "@/components/Home/HomeOwnersHelped/HomeOwnersHelped";
 import ProjectContent from "@/components/DetailsPage/ProjectContent";
@@ -15,6 +14,8 @@ import FAQSection from "@/components/Home/FAQ/FAQSection";
 import ManyImagesBlock from "@/components/blocks/ManyImagesBlock";
 import { buildFaqPageJsonLd, processFaqItemsFromBlock } from "@/lib/faq";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
+import WizardCard from "../sections/WizardCard";
+import ProjectDetailsClientNew from "./ProjectDetailsClientNew";
 
 const DeferredInspirations = dynamic(
     () => import("@/components/DetailsPage/Inspirations/Inspirations"),
@@ -35,7 +36,7 @@ interface ServicePageContentProps {
     variant?: string;
 }
 
-export default function ServicePageContent({
+export default function ServicePageContentNew({
     serviceData,
     header,
     ipLocation,
@@ -103,7 +104,7 @@ export default function ServicePageContent({
                 </div>
             </header>
             <main className="overflow-hidden">
-                <section className="relative">
+                <section className="relative py-6 md:py-4">
                     <Image
                         src={serviceData.heroImage.url}
                         alt={serviceData.title}
@@ -117,11 +118,12 @@ export default function ServicePageContent({
                         blurDataURL={HERO_BLUR_DATA_URL}
                     />
                     <div className="absolute inset-0 bg-[#0b1b3f]/50 z-10" />
-                    <ProjectDetailsClient
+                    <ProjectDetailsClientNew
                         serviceData={serviceData}
                         initialUserCity={ipLocation?.city || "Your Area"}
                     />
                 </section>
+                <WizardCard />
 
                 {/* Trust badges — use CMS block if present, else render defaults */}
                 {trustBadgesBlock
@@ -129,14 +131,14 @@ export default function ServicePageContent({
                     : <TrustBadges />}
 
                 <Suspense fallback={<DetailPageLoader />}>
-                    {/* {topManyImagesBlock && !trustBadgesBlock && (
+                    {topManyImagesBlock && !trustBadgesBlock && (
                         <div className="bg-[#f5f7fa]">
                             <ManyImagesBlock
                                 key={topManyImagesBlock.id as string}
                                 {...(topManyImagesBlock as any)}
                             />
                         </div>
-                    )} */}
+                    )}
 
                     {serviceData.benefits && <Benefits serviceData={serviceData} />}
 
