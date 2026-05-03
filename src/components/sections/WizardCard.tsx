@@ -292,7 +292,7 @@ export default function WizardCard({
     const emailList = recipientEmails.split(",").map((e) => e.trim()).filter(Boolean);
     await Promise.all(
       emailList.map((email) =>
-        fetch("/api/sendEmails", {
+        fetch("/api/sendEmail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
