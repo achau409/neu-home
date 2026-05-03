@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { fetchHeader, fetchLandingVariant, getServicesBySlug } from "@/lib/api";
 import ServicePageContent from "@/components/DetailsPage/ServicePageContent";
+import ServicePageContentNew from "@/components/DetailsPage/ServicePageContentNew";
 
 export const revalidate = 60;
 
@@ -88,12 +89,22 @@ export default async function VariantPage({
   }
 
   return (
-    <ServicePageContent
-      serviceData={serviceData}
-      header={header}
-      ipLocation={ipLocation}
-      slug={slug}
-      variant={variant}
-    />
-  );
+    variant === "lp3" ? (
+      <ServicePageContentNew
+        serviceData={serviceData}
+        header={header}
+        ipLocation={ipLocation}
+        slug={slug}
+        variant={variant}
+      />
+    ) : (
+      <ServicePageContent
+        serviceData={serviceData}
+        header={header}
+        ipLocation={ipLocation}
+        slug={slug}
+        variant={variant}
+      />
+    )
+  )
 }

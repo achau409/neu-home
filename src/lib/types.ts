@@ -13,6 +13,8 @@ export type WizardData = {
   zip: string;
   name: string;
   phone: string;
+  /** Lead email — matches CMS / SubmitForm field name `Email`. */
+  email?: string;
 };
 
 export type StepConfig = {

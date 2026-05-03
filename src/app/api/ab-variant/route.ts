@@ -15,11 +15,9 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const start = Date.now();
 
     const variant = await PostHogClient().getFeatureFlag(expKey, distinctId);
 
-    console.log("🎯 PostHog getFeatureFlag latency:", Date.now() - start, "ms");
     console.log("variant", variant);
     return NextResponse.json({ variant });
   } catch (e: unknown) {

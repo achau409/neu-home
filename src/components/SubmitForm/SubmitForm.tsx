@@ -358,7 +358,7 @@ const SubmitForm = ({
     const emailList = recipientEmails.split(",").map((e) => e.trim()).filter(Boolean);
     await Promise.all(
       emailList.map((email) =>
-        fetch("/api/sendEmail", {
+        fetch("/api/sendEmails", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

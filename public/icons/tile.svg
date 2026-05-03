@@ -1,0 +1,68 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tl-top" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2F2F6"/>
+      <stop offset="100%" stop-color="#D2D2DC"/>
+    </linearGradient>
+    <linearGradient id="tl-left" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#AAAAB6"/>
+      <stop offset="100%" stop-color="#888894"/>
+    </linearGradient>
+    <linearGradient id="tl-right" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#888894"/>
+      <stop offset="100%" stop-color="#636372"/>
+    </linearGradient>
+    <!-- Ceramic gloss — cool, bright -->
+    <linearGradient id="tl-gloss" x1="0%" y1="0%" x2="45%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.55)"/>
+      <stop offset="40%" stop-color="rgba(255,255,255,0.12)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+    <!-- Tile quad gradients (slight warmth variation) -->
+    <linearGradient id="tl-q1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.15)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+    <filter id="tl-shdw" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="9" flood-color="#000" flood-opacity="0.2"/>
+    </filter>
+    <clipPath id="tl-top-c">
+      <polygon points="100,25 182,65 100,105 18,65"/>
+    </clipPath>
+  </defs>
+
+  <g filter="url(#tl-shdw)">
+    <!-- Left face -->
+    <polygon points="18,65 100,105 100,165 18,125" fill="url(#tl-left)"/>
+    <!-- Right face -->
+    <polygon points="100,105 182,65 182,125 100,165" fill="url(#tl-right)"/>
+    <!-- Top face base -->
+    <polygon points="100,25 182,65 100,105 18,65" fill="url(#tl-top)"/>
+    <!-- Gloss overlay -->
+    <polygon points="100,25 182,65 100,105 18,65" fill="url(#tl-gloss)"/>
+  </g>
+
+  <!-- Grout lines on top face — 2×2 tile grid -->
+  <!-- Horizontal grout (equator of diamond) -->
+  <line x1="18" y1="65" x2="182" y2="65" stroke="#B4B4C0" stroke-width="2.5" clip-path="url(#tl-top-c)"/>
+  <!-- Vertical grout (center of diamond) -->
+  <line x1="100" y1="25" x2="100" y2="105" stroke="#B4B4C0" stroke-width="2.5" clip-path="url(#tl-top-c)"/>
+
+  <!-- Per-tile gloss micro-highlight (top-left quadrant) -->
+  <polygon points="100,25 182,65 100,65" fill="url(#tl-q1)" opacity="0.6" clip-path="url(#tl-top-c)"/>
+
+  <!-- Grout lines on left face -->
+  <!-- Horizontal mid of left face -->
+  <line x1="18" y1="95" x2="100" y2="135" stroke="#787880" stroke-width="2" opacity="0.55"/>
+  <!-- Vertical mid of left face -->
+  <line x1="59" y1="85" x2="59" y2="145" stroke="#787880" stroke-width="2" opacity="0.55"/>
+
+  <!-- Grout lines on right face -->
+  <!-- Horizontal mid of right face -->
+  <line x1="100" y1="135" x2="182" y2="95" stroke="#606070" stroke-width="2" opacity="0.55"/>
+  <!-- Vertical mid of right face -->
+  <line x1="141" y1="85" x2="141" y2="145" stroke="#606070" stroke-width="2" opacity="0.55"/>
+
+  <!-- Edge highlight — bright ceramic -->
+  <polyline points="18,65 100,25 182,65" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

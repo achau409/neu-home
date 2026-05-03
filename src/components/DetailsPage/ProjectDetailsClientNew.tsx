@@ -118,7 +118,7 @@ const ProjectDetailsClientNew = ({ serviceData, initialUserCity = "" }: ProjectD
 
       {/* Disclaimer */}
       {serviceData.afterCTAText && (
-        <p className="text-lg text-white  leading-relaxed font-[500]">
+        <p className="text-lg text-white  leading-relaxed font-[500] mb-16">
           {serviceData.heroSubHeading}
         </p>
       )}

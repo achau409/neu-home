@@ -22,12 +22,13 @@ const ThankYouModal = ({
   heroImage,
   contactPhone,
   customerLogo,
+  service
 }: ThankYouModalProps) => {
   const router = useRouter();
 
   const handleReturn = () => {
     setIsOpen(false);
-    router.push("/");
+    router.push(`/${service}`);
   };
 
   return (
@@ -38,16 +39,13 @@ const ThankYouModal = ({
           Your request was submitted successfully and a team member will contact you shortly.
         </DialogDescription>
         <div className="min-h-full bg-white">
-          <section className="relative min-h-full">
+          <div className="relative min-h-full">
             <div className="relative w-full h-screen">
               <Image
                 src={heroImage}
                 alt=""
                 fill
                 className="object-cover"
-                quality={75}
-                priority
-                placeholder="blur"
                 blurDataURL={HERO_BLUR_DATA_URL}
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[#0b1b3fc6] to-[#0b1b3fbe] z-10" />
@@ -55,13 +53,16 @@ const ThankYouModal = ({
 
             <div className="absolute inset-0 z-20 px-4 flex flex-col min-h-full">
               <div className="pt-4 pb-2 max-w-[1320px] mx-auto w-full">
-                <div className="flex items-center justify-between">
-                  <Image
-                    src="/images/logo_in.svg"
-                    alt="NEU Home Services logo"
-                    width={140}
-                    height={140}
-                  />
+                <div className="flex items-center justify-center">
+                  {
+                    !customerLogo &&
+                    < Image
+                      src="/images/logo_in.svg"
+                      alt="NEU Home Services logo"
+                      width={140}
+                      height={140}
+                    />
+                  }
                   {customerLogo && (
                     <Image
                       src={customerLogo}
@@ -195,7 +196,7 @@ const ThankYouModal = ({
                 </div>
               </div>
             </div>
-          </section>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
