@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { z } from "zod";
 
 import posthog from "posthog-js";
@@ -165,6 +165,29 @@ export default function WizardCard({
   const [nameBlurred, setNameBlurred] = useState(false);
   const [emailBlurred, setEmailBlurred] = useState(false);
   const [identityShowErrors, setIdentityShowErrors] = useState(false);
+
+  const intentFiredRef = useRef(false);
+  const intentSessionKey = `wizard_form_intent_${service}`;
+
+  const fireFormIntent = () => {
+    if (intentFiredRef.current) return;
+    try {
+      if (sessionStorage.getItem(intentSessionKey)) return;
+      sessionStorage.setItem(intentSessionKey, "1");
+    } catch {
+      // sessionStorage unavailable — still fire via ref guard
+    }
+    intentFiredRef.current = true;
+    try {
+      posthog.capture("form_intent", {
+        form_id: serviceData?.form_id || "lead-form",
+        service,
+        variant: variant || undefined,
+      });
+    } catch {
+      // non-critical
+    }
+  };
 
   useEffect(() => {
     if (step === identityStepIndex) return;
@@ -551,6 +574,8 @@ export default function WizardCard({
           client_id: companyName || undefined,
           service,
           zip_code: data.zip,
+          variant: variant || undefined,
+          lp_variant: variant || undefined,
           success: true,
         });
       } catch {
@@ -567,6 +592,7 @@ export default function WizardCard({
   };
 
   const onSelectRadio = (q: WizardCmsRadioQuestion, option: string) => {
+    fireFormIntent();
     setAnswers((prev) => ({ ...prev, [q.name]: option }));
     const wm = q.warningMessage;
     if (wm?.buttons && warningMatches(wm, option)) {
