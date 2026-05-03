@@ -27,6 +27,7 @@ interface WizardCardProps {
   service?: string;
   initialUserCity?: string;
   initialUserState?: string;
+  variant?: string;
 }
 
 /**
@@ -116,6 +117,7 @@ export default function WizardCard({
   service: serviceProp,
   initialUserCity,
   initialUserState,
+  variant
 }: WizardCardProps) {
   const { toast } = useToast();
 
@@ -496,6 +498,7 @@ export default function WizardCard({
         phone_validation_status: phoneValidation.status,
         phone_activity_score: phoneValidation.score,
         phone_line_type: phoneValidation.lineType,
+        ...(variant ? { lp_variant: variant } : {}),
       };
 
       syncHiddenFields(basePayload);
@@ -657,8 +660,8 @@ export default function WizardCard({
                         <img
                           src={materialIconSrc}
                           alt=""
-                          width={48}
-                          height={48}
+                          width={40}
+                          height={40}
                           className="block size-10 object-contain"
                           aria-hidden
                         />

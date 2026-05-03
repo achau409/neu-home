@@ -112,6 +112,7 @@ interface SubmitFormProps {
   onPersistStepIndexChange?: (stepIndex: number) => void;
   /** Called when user clicks Back on the first wizard step */
   onBackToZip?: () => void;
+  variant?: string;
 }
 
 const SubmitForm = ({
@@ -131,6 +132,7 @@ const SubmitForm = ({
   onPersistValuesChange,
   onPersistStepIndexChange,
   onBackToZip,
+  variant,
 }: SubmitFormProps) => {
   const [stepIndex, setStepIndex] = useState<number>(persistedStepIndex ?? 0);
   const { toast } = useToast();
@@ -417,6 +419,7 @@ const SubmitForm = ({
             phone_validation_status: phoneValidation.status,
             phone_activity_score: phoneValidation.score,
             phone_line_type: phoneValidation.lineType,
+            ...(variant ? { lp_variant: variant } : {}),
           },
         ])
         .select();

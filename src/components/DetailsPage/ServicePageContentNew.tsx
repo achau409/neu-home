@@ -128,6 +128,7 @@ export default function ServicePageContentNew({
                     service={serviceData.slug}
                     initialUserCity={ipLocation?.city}
                     initialUserState={ipLocation?.state}
+                    variant={variant}
                 />
 
                 {/* Trust badges — use CMS block if present, else render defaults */}

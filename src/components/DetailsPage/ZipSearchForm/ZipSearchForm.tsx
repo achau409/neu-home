@@ -37,7 +37,8 @@ interface ZipSearchFormProps {
   onTriggerModalReset?: () => void;
   /** Called when the user confirms exit and the modal session is fully reset */
   onModalSessionEnd?: () => void;
-}
+  variant?: string;
+  }
 
 interface Locations {
   city: string;
@@ -57,6 +58,7 @@ const ZipSearchForm = ({
   triggerModal,
   onTriggerModalReset,
   onModalSessionEnd,
+  variant,
 }: ZipSearchFormProps) => {
   // ── Hero ZIP state ──────────────────────────────────────────────
   const [zipCode, setZipCode] = useState("");
@@ -564,6 +566,7 @@ const ZipSearchForm = ({
                 onPersistValuesChange={setPersistedFormValues}
                 onPersistStepIndexChange={setPersistedFormStepIndex}
                 onBackToZip={goBackToZip}
+                variant={variant}
               />
             </div>
           </div>

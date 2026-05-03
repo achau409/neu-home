@@ -20,9 +20,10 @@ interface ZipDetails {
 interface ProjectDetailsClientProps {
   serviceData: any;
   initialUserCity?: string;
+  variant?: string;
 }
 
-const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDetailsClientProps) => {
+const ProjectDetailsClient = ({ serviceData, initialUserCity = "", variant }: ProjectDetailsClientProps) => {
   const [zipStatus, setZipStatus] = useState<string | null>(null);
   const [zipDetails, setZipDetails] = useState<ZipDetails | null>(null);
   const [userCity] = useState<string>(initialUserCity);
@@ -100,6 +101,7 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "" }: ProjectDeta
             hero={true}
             triggerModal={floatingTrigger}
             onTriggerModalReset={() => setFloatingTrigger(false)}
+            variant={variant}
           />
         </Suspense>
 

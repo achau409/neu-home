@@ -120,6 +120,7 @@ export default function ServicePageContent({
                     <ProjectDetailsClient
                         serviceData={serviceData}
                         initialUserCity={ipLocation?.city || "Your Area"}
+                        variant={variant}
                     />
                 </section>
 
