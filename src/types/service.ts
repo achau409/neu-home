@@ -35,6 +35,7 @@ export interface ServiceData {
   CTAText?: string;
   heroSubHeading?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  openingWizard?: string;
   questions: any[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content: ContentBlock[];

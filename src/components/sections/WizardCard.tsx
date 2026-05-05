@@ -48,11 +48,11 @@ const wizTw = {
   wizStepActive: "bg-[var(--navy)]",
 
   wizOption:
-    "flex w-full cursor-pointer items-center gap-3 rounded-xl border-2 border-[var(--line)] bg-white px-3.5 py-3.5 text-left font-inherit text-sm text-[var(--ink)] transition-all duration-100 active:scale-[0.98] hover:border-[var(--navy)]",
+    "flex flex-col w-full cursor-pointer items-center rounded-xl border-2 border-[var(--line)] bg-white px-3.5 py-3.5 text-left font-inherit text-sm text-[var(--ink)] transition-all duration-100 active:scale-[0.98] hover:border-[var(--navy)]",
   wizOptionSelected: "border-[var(--navy)] bg-[var(--cream-warm)]",
 
-  wizOptionIcon: "grid h-10 w-10 shrink-0 place-items-center rounded-[10px] text-lg font-bold text-[var(--navy)]",
-  wizOptionIconIdle: "bg-[var(--cream-warm)]",
+  wizOptionIcon: "grid shrink-0 place-items-center rounded-[10px] text-lg font-bold text-[var(--navy)]",
+  wizOptionIconIdle: "bg-[var(--cream-warms)]",
   wizOptionIconSelected: "bg-[var(--yellow)]",
 
   input:
@@ -123,8 +123,8 @@ export default function WizardCard({
 
   const service = serviceProp ?? serviceData?.slug ?? "demo";
   const fromCms = useMemo(
-    () => normalizeWizardRadioQuestionsFromCms(serviceData?.questions),
-    [serviceData?.questions]
+    () => normalizeWizardRadioQuestionsFromCms(serviceData?.questions, serviceData?.openingWizard),
+    [serviceData?.questions, serviceData?.openingWizard]
   );
   /** Demo steps when no Payload doc (`/test`); CMS payload drives production. */
   const cmsQuestions = useMemo(
@@ -663,7 +663,7 @@ export default function WizardCard({
           </div>
 
           {!showWarningHere ? (
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
               {opts.map((option) => {
                 const materialIconSrc = getMaterialOptionIconSrc(option);
                 return (
@@ -679,23 +679,23 @@ export default function WizardCard({
                     <span
                       className={cn(
                         wizTw.wizOptionIcon,
-                        answers[s.name] === option ? wizTw.wizOptionIconSelected : wizTw.wizOptionIconIdle,
+                        answers[s.name] === option ? "" : wizTw.wizOptionIconIdle,
                       )}
                     >
                       {materialIconSrc ? (
                         <img
                           src={materialIconSrc}
-                          alt=""
-                          width={40}
-                          height={40}
-                          className="block size-10 object-contain"
+                          alt="icons"
+                          width={1000}
+                          height={1000}
+                          className="object-contain max-w-[80px] max-h-[80px] md:max-w-[100px] md:max-h-[100px] lg:max-w-[120px] lg:max-h-[120px]"
                           aria-hidden
                         />
                       ) : (
                         ""
                       )}
                     </span>
-                    <span className="flex min-w-0 flex-col gap-px">
+                    <span className="flex min-w-0 flex-col gap-px text-center mt-1">
                       <span className="text-[14px] sm:text-xl font-bold leading-tight">{option}</span>
                     </span>
                   </button>

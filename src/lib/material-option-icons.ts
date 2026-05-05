@@ -3,11 +3,11 @@
  */
 
 const EXACT: Record<string, string> = {
-  vinyl: "/icons/vinyl.svg",
-  carpet: "/icons/carpet.svg",
-  hardwood: "/icons/hardwood.svg",
-  laminate: "/icons/laminate.svg",
-  tile: "/icons/tile.svg",
+  vinyl: "/icons/vinyl.png",
+  carpet: "/icons/carpet.png",
+  hardwood: "/icons/hardwood.png",
+  laminate: "/icons/laminate.png",
+  tile: "/icons/tile.png",
 };
 
 export function getMaterialOptionIconSrc(
@@ -18,6 +18,8 @@ export function getMaterialOptionIconSrc(
 
   const t = optionLabel.toLowerCase();
   if (t.includes("vinyl") || t.includes("lvp")) return "/icons/vinyl.svg";
+  if (t.includes("walk") || t.includes("lvp")) return "/icons/wis.png";
+  if (t.includes("tub") || t.includes("lvp")) return "/icons/wit-to-wis.png";
   if (t.includes("laminate")) return "/icons/laminate.svg";
   if (t.includes("hardwood")) return "/icons/hardwood.svg";
   if (t.includes("carpet")) return "/icons/carpet.svg";

@@ -67,12 +67,14 @@ export function normalizeCmsQuestion(raw: unknown): WizardCmsRadioQuestion | nul
   };
 }
 
-export function prioritizeFlooringMaterials(
-  steps: WizardCmsRadioQuestion[]
+export function prioritizeOpeningWizard(
+  steps: WizardCmsRadioQuestion[],
+  openingWizard?: string
 ): WizardCmsRadioQuestion[] {
-  const starter = steps.find((q) => q.name === "FlooringMaterials");
+  if (!openingWizard) return steps;
+  const starter = steps.find((q) => q.name === openingWizard);
   if (!starter) return steps;
-  return [starter, ...steps.filter((q) => q.name !== "FlooringMaterials")];
+  return [starter, ...steps.filter((q) => q.name !== openingWizard)];
 }
 
 /** Same demo as CMS JSON — used when `/test` has no Payload service doc. */
@@ -110,11 +112,14 @@ export const DEMO_RADIO_QUESTIONS: WizardCmsRadioQuestion[] = [
 ];
 
 /** Parses Payload `questions` into ordered radio-only wizard steps (empty array if none). */
-export function normalizeWizardRadioQuestionsFromCms(raw: unknown): WizardCmsRadioQuestion[] {
+export function normalizeWizardRadioQuestionsFromCms(
+  raw: unknown,
+  openingWizard?: string
+): WizardCmsRadioQuestion[] {
   const list = Array.isArray(raw) ? raw : [];
   const normalized = list
     .map(normalizeCmsQuestion)
     .filter((q): q is WizardCmsRadioQuestion => q != null);
 
-  return prioritizeFlooringMaterials(normalized);
+  return prioritizeOpeningWizard(normalized, openingWizard);
 }
