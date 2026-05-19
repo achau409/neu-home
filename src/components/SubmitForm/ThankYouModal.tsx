@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
-import { useRouter } from "next/navigation";
 
 interface ThankYouModalProps {
   isOpen: boolean;
@@ -24,11 +23,10 @@ const ThankYouModal = ({
   customerLogo,
   service
 }: ThankYouModalProps) => {
-  const router = useRouter();
 
   const handleReturn = () => {
-    setIsOpen(false);
-    router.push(`/${service}`);
+    window.location.reload();
+
   };
 
   return (
