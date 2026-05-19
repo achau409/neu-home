@@ -194,7 +194,6 @@ export async function getIpLocation(): Promise<{
     });
     if (!res.ok) return null;
     const data = await res.json();
-    console.log("ipinfo_data", data);
     return {
       city: typeof data?.city === "string" ? data.city : "",
       state: typeof data?.region === "string" ? data.region : "",
