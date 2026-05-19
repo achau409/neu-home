@@ -38,7 +38,7 @@ interface ZipSearchFormProps {
   /** Called when the user confirms exit and the modal session is fully reset */
   onModalSessionEnd?: () => void;
   variant?: string;
-  }
+}
 
 interface Locations {
   city: string;
@@ -309,7 +309,7 @@ const ZipSearchForm = ({
       )}
 
       {/* Hero ZIP input */}
-      <div className="flex justify-center items-center gap-8 relative px-2">
+      <div className="flex justify-center items-center md:gap-8 gap-2 relative px-2 flex-col md:flex-row">
         <div className="relative border border-gray-300 flex items-center gap-2 bg-white px-2 rounded-md w-full md:w-auto">
           <MapPin className="text-gray-800 w-6 h-6" />
           <input
@@ -330,6 +330,14 @@ const ZipSearchForm = ({
             aria-label="Matched"
           />
         )}
+        <button
+          onClick={handleZipNext}
+          className={`${isMatched ? "bg-[#28a745]" : "bg-[#28a745] cursor-not-allowed"
+            } text-sm text-white px-2 lg:px-4 py-4 rounded-md min-w-[170px] w-full md:w-auto font-semibold`}
+          aria-disabled={!isMatched}
+        >
+          {serviceData.CTAText ? serviceData.CTAText : "Get Free Quote"}
+        </button>
       </div>
 
       {/* ── Full-screen wizard modal ── */}
@@ -409,26 +417,11 @@ const ZipSearchForm = ({
             </div>
 
 
-            <div className="flex items-center justify-center px-4 sm:px-6 pb-6 text-white ">
+            <div className="flex items-center justify-center px-4 sm:px-6 pb-4 text-white ">
               {/* Trust signals — LEFT, larger */}
-              <div className="flex items-center gap-2 sm:gap-6">
-                <span className="flex items-center gap-1.5 text-xs md:text-base  font-medium">
-                  <ShieldCheck className="md:w-7 md:h-7 w-5 h-5 text-[#28a745] shrink-0" />
-                  Secure .
-                </span>
-                <span className="flex items-center gap-1.5 text-xs text-white font-medium">
-                  No spam .
-                </span>
-                <div className="flex items-start justify-start md:gap-1">
-                  <span className="md:text-base text-xs ml-1">4.9 {"  "}</span>
-
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="md:w-5 md:h-5 w-4 h-4 fill-yellow-400" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-
-                </div>
+              <div className="flex items-center gap-2 sm:gap-6 mt-2">
+                <span className="flex items-center gap-1.5 text-sm  text-white font-medium">
+                  Free quote · No obligation                </span>
               </div>
 
             </div>
