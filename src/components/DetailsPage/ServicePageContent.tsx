@@ -116,7 +116,7 @@ export default function ServicePageContent({
                         fetchPriority="high"
                         blurDataURL={HERO_BLUR_DATA_URL}
                     />
-                    <div className="absolute inset-0 bg-[#0b1b3f]/50 z-10" />
+                    <div className="absolute inset-0 bg-[#0b1b3f]/60 z-10" />
                     <ProjectDetailsClient
                         serviceData={serviceData}
                         initialUserCity={ipLocation?.city || "Your Area"}
