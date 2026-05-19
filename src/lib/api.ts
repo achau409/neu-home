@@ -1,5 +1,6 @@
 import { cache } from "react";
 import type { ServiceData, ContentBlock } from "@/types/service";
+import { headers } from "next/headers";
 
 export interface PageData {
   title: string;
@@ -18,7 +19,7 @@ const BASE_URL = process.env.PAYLOAD_URL;
 
 function buildUrl(
   path: string,
-  params: Record<string, string | number | boolean> = {}
+  params: Record<string, string | number | boolean> = {},
 ): string | null {
   if (!BASE_URL) {
     console.error("PAYLOAD_URL environment variable is not set");
@@ -38,7 +39,9 @@ function buildUrl(
 
 async function cmsFetch<T = unknown>(
   url: string | null,
-  options: RequestInit = { next: { revalidate: 60, tags: ["cms"] } } as RequestInit
+  options: RequestInit = {
+    next: { revalidate: 60, tags: ["cms"] },
+  } as RequestInit,
 ): Promise<T | null> {
   if (!url) return null;
   try {
@@ -148,7 +151,9 @@ export async function getAllServices() {
   return data?.docs ?? null;
 }
 
-export async function getServicesBySlug(slug: string): Promise<ServiceData | null> {
+export async function getServicesBySlug(
+  slug: string,
+): Promise<ServiceData | null> {
   const url = buildUrl("/services", {
     "where[slug][equals]": slug,
     depth: 2,
@@ -159,7 +164,7 @@ export async function getServicesBySlug(slug: string): Promise<ServiceData | nul
 
 export async function fetchLandingVariant(
   slug: string,
-  variant: string
+  variant: string,
 ): Promise<ServiceData | null> {
   const url = buildUrl("/services", {
     "where[slug][equals]": slug,
@@ -173,4 +178,28 @@ export async function getAllExperiments() {
   const url = buildUrl("/experiments", { limit: 0 });
   const data = await cmsFetch<{ docs: unknown[] }>(url, DEFAULT_OPTIONS);
   return data?.docs ?? null;
+}
+
+export async function getIpLocation(): Promise<{
+  city: string;
+  state: string;
+} | null> {
+  const forwarded = (await headers()).get("x-forwarded-for");
+  const ip = forwarded ? forwarded.split(/,\s*/)[0] : null;
+  const token = process.env.IPINFO_TOKEN;
+  if (!ip || !token) return null;
+  try {
+    const res = await fetch(`https://ipinfo.io/${ip}?token=${token}`, {
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    console.log("ipinfo_data", data);
+    return {
+      city: typeof data?.city === "string" ? data.city : "",
+      state: typeof data?.region === "string" ? data.region : "",
+    };
+  } catch {
+    return null;
+  }
 }

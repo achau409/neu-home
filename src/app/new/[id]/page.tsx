@@ -1,29 +1,8 @@
-import { headers } from "next/headers";
-import { fetchHeader, getServicesBySlug } from "@/lib/api";
+import { fetchHeader, getServicesBySlug, getIpLocation } from "@/lib/api";
 import ServicePageContentNew from "@/components/DetailsPage/ServicePageContentNew";
 import "./test.css"
 
 export const revalidate = 60;
-
-const getIpLocation = async (): Promise<{ city: string; state: string } | null> => {
-  const forwarded = (await headers()).get("x-forwarded-for");
-  const ip = forwarded ? forwarded.split(/,\s*/)[0] : null;
-  const token = process.env.IPINFO_TOKEN;
-  if (!ip || !token) return null;
-  try {
-    const res = await fetch(`https://ipinfo.io/${ip}?token=${token}`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    return {
-      city: typeof data?.city === "string" ? data.city : "",
-      state: typeof data?.region === "string" ? data.region : "",
-    };
-  } catch {
-    return null;
-  }
-};
 
 export async function generateMetadata({
   params,
@@ -65,10 +44,9 @@ export default async function ProjectDetails({
 }) {
   const { id } = await params;
 
-  const [serviceData, header, ipLocation] = await Promise.all([
+  const [serviceData, header] = await Promise.all([
     getServicesBySlug(id),
     fetchHeader() as Promise<any>,
-    getIpLocation(),
   ]);
 
   if (!serviceData) {
@@ -78,6 +56,8 @@ export default async function ProjectDetails({
       </main>
     );
   }
+
+  const ipLocation = serviceData.hasLocation ? await getIpLocation() : null;
 
   return (
     <ServicePageContentNew
