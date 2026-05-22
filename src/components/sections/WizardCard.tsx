@@ -60,7 +60,7 @@ const wizTw = {
 
   btn: "inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-xl border-none px-[22px] py-[14px] font-inherit text-[15px] font-bold no-underline transition-[transform,box-shadow,background] duration-100",
   btnYellow:
-    "bg-[var(--yellow)] text-[var(--navy)] shadow-[0_4px_0_var(--yellow-deep)] active:translate-y-0.5 active:shadow-[0_2px_0_var(--yellow-deep)]",
+    "bg-[#55BC7E] text-white shadow-[0_4px_0_#388E5A] active:translate-y-0.5 active:shadow-[0_2px_0_#388E5A]",
   btnGhost:
     "border-[1.5px] border-solid border-[var(--navy)] bg-transparent text-[var(--navy)] hover:bg-[var(--navy)] hover:text-white",
   btnLg: "rounded-[14px] px-[26px] py-[18px] text-base",
@@ -729,7 +729,7 @@ export default function WizardCard({
           <div className="flex items-center justify-between gap-3 text-xs">
             <button
               type="button"
-              className={cn(wizTw.btn, wizTw.btnGhost, "px-3.5 py-2 text-[13px] disabled:opacity-40")}
+              className={cn(wizTw.btn, wizTw.btnGhost, "px-5 py-3 text-[13px] disabled:opacity-40")}
               onClick={back}
               disabled={step === 0}
             >
@@ -740,7 +740,7 @@ export default function WizardCard({
               className={cn(
                 wizTw.btn,
                 wizTw.btnYellow,
-                "px-5 py-3 text-sm font-bold disabled:cursor-not-allowed disabled:opacity-40",
+                "px-6 py-3 text-sm font-bold disabled:cursor-not-allowed disabled:opacity-40",
               )}
               disabled={!answers[s.name]?.trim()}
               onClick={() => continueRadioStep(s)}

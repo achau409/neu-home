@@ -309,7 +309,7 @@ const ZipSearchForm = ({
       )}
 
       {/* Hero ZIP input */}
-      <div className="flex justify-center items-center md:gap-8 gap-2 relative px-2 flex-col md:flex-row">
+      <div className="flex justify-center items-center md:gap-8 gap-4 relative px-2 flex-col md:flex-row">
         <div className="relative border border-gray-300 flex items-center gap-2 bg-white px-2 rounded-md w-full md:w-auto">
           <MapPin className="text-gray-800 w-6 h-6" />
           <input
@@ -321,7 +321,7 @@ const ZipSearchForm = ({
             onChange={(e) => setZipCode(e.target.value)}
             autoComplete="postal-code"
             inputMode="numeric"
-            className="md:text-base text-sm px-0 pr-8 py-[14px] outline-none transition placeholder:text-gray-600"
+            className="md:text-base text-sm px-0 pr-8 py-[14px] outline-none transition placeholder:text-gray-500"
           />
         </div>
         {isMatched && (
@@ -332,8 +332,8 @@ const ZipSearchForm = ({
         )}
         <button
           onClick={handleZipNext}
-          className={`${isMatched ? "bg-[#28a745]" : "bg-[#28a745] cursor-not-allowed"
-            } text-sm text-white px-2 lg:px-4 py-4 rounded-md min-w-[170px] w-full md:w-auto font-semibold`}
+          className={`${isMatched ? "bg-[#55BC7E]" : "bg-[#55BC7E] cursor-not-allowed"
+            } text-sm md:text-base text-white px-2 lg:px-4 py-4 rounded-md min-w-[170px] w-full md:w-auto font-bold`}
           aria-disabled={!isMatched}
         >
           {serviceData.CTAText ? serviceData.CTAText : "Get Free Quote"}
