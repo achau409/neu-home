@@ -89,7 +89,7 @@ const FAQSection = ({ block, sectionId = "faq" }: FAQSectionProps) => {
             return (
               <div
                 key={`${item.question}-${index}`}
-                className="rounded-xl border border-gray-200 bg-white shadow-sm"
+                className="rounded-md border border-gray-200 bg-white shadow-sm"
               >
                 <h3 className="text-base md:text-lg font-semibold text-[#0b1b3f] m-0">
                   <button

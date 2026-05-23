@@ -298,6 +298,10 @@ const ZipSearchForm = ({
     onTriggerModalReset?.();
   }, [triggerModal]);
 
+  // ── Progress indicator ──────────────────────────────────────────────────────
+  const progressPercent =
+    modalView === "zip" ? 10 : Math.max(12, Math.round(formProgress));
+
   return (
     <div className="text-center">
       {hero && (
@@ -374,70 +378,38 @@ const ZipSearchForm = ({
           </DialogDescription>
 
           {/* ── Sticky header ── */}
-          <div className="flex-shrink-0  z-10 bg-[#0b1b3f]">
-            <div className="flex items-center justify-center py-2 bg-[#0b1b3f]">
-              {serviceData.customerLogo?.url ? (
-                <button
-                  type="button"
-                  onClick={handleAttemptExit}
-                  className="cursor-pointer"
-                  aria-label="Exit form"
-                >
-                  <Image
-                    src={serviceData.customerLogo?.url}
-                    alt={`${companyName || serviceData.title} logo`}
-                    width={142}
-                    height={142}
-                    priority
-                    sizes="142px"
-                    className="w-[142px] h-[65px] object-contain"
-
-                  />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleAttemptExit}
-                  className="cursor-pointer"
-                  aria-label="Exit form"
-                >
-                  <Image
-                    src='/images/logo_in.svg'
-                    alt="NEU Home Services logo"
-                    width={142}
-                    height={142}
-                    priority
-                    sizes="142px"
-                    className="w-[142px] h-[65px] object-contain"
-
-                  />
-                </button>
-              )
-              }
-            </div>
-
-
-            <div className="flex items-center justify-center px-4 sm:px-6 pb-4 text-white ">
-              {/* Trust signals — LEFT, larger */}
-              <div className="flex items-center gap-2 sm:gap-6 mt-2">
-                <span className="flex items-center gap-1.5 text-sm  text-white font-medium">
-                  Free quote · No obligation                </span>
-              </div>
-
-            </div>
-            {/* Progress bar — always visible; starts at 8% on ZIP screen */}
-
-            <div className="h-1 md:h-1.5  w-full bg-gray-50">
+          <div className="flex-shrink-0 z-10">
+            {/* Tooltip indicator — slides to current progress position */}
+            <div className="relative h-12 mb-1">
               <div
-                className="h-full bg-[#28a745] transition-all duration-500 ease-out rounded-r-full"
+                className="absolute bottom-0 flex flex-col items-center transition-[left] duration-700 ease-out"
                 style={{
-                  width: modalView === "zip"
-                    ? "8%"
-                    : `${Math.max(8, formProgress)}%`,
+                  left: `clamp(52px, ${progressPercent}%, calc(100% - 52px))`,
+                  transform: "translateX(-50%)",
                 }}
+              >
+                <div
+                  className="bg-[#10b981] text-white font-bold text-xs p-2 rounded-md whitespace-nowrap shadow-md tracking-wide"
+                  aria-live="polite"
+                  aria-label={`${progressPercent} percent complete`}
+                >
+                  {progressPercent}% Complete
+                </div>
+                {/* Downward-pointing caret */}
+                <div className="w-4 h-2 bg-[#10b981] [clip-path:polygon(0_0,100%_0,50%_100%)] -mt-[1px]" />
+              </div>
+            </div>
+            {/* Bar — fill and tooltip slide in sync */}
+            <div className="h-2 w-full rounded-md bg-gray-200 overflow-hidden">
+              <div
+                role="progressbar"
+                aria-valuenow={progressPercent}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                className="h-full rounded-full bg-[#10b981] transition-[width] duration-700 ease-out"
+                style={{ width: `${progressPercent}%` }}
               />
             </div>
-
           </div>
 
           {/* ── Scrollable body ── */}

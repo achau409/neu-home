@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ThankYouModal from "./ThankYouModal";
+import Link from "next/link";
 
 type FieldType =
   | "radio"
@@ -59,7 +60,7 @@ const COMMON_STEPS: Step[] = [
     fields: [
       {
         name: "fullName",
-        placeholder: "Full Name",
+        placeholder: "Full Name*",
         validation: z
           .string()
           .regex(
@@ -70,7 +71,7 @@ const COMMON_STEPS: Step[] = [
       },
       {
         name: "Email",
-        placeholder: "Email Address",
+        placeholder: "Email Address*",
         validation: z
           .string()
           .email("Invalid email format")
@@ -571,7 +572,7 @@ const SubmitForm = ({
                   {...register(field.name)}
                   aria-label={field.placeholder || field.name}
                   placeholder={field.placeholder}
-                  className="mb-4 p-6 rounded-md placeholder:font-semibold"
+                  className="mb-4 px-4 py-6 rounded-md"
                   {...(field.name === "fullName" || field.name === "Email"
                     ? { "data-ph-no-capture": true }
                     : {})}
@@ -583,6 +584,8 @@ const SubmitForm = ({
                 )}
               </div>
             ))}
+            <p className="text-xs font-normal mt-10">We respect your <Link className="underline !text-blue-500" href={"/privacy-policy"}>
+              privacy.</Link></p>
           </div>
         );
 
@@ -633,7 +636,7 @@ const SubmitForm = ({
                     aria-label={step.title}
                     maxLength={10}
                     placeholder="Enter Your Phone Number"
-                    className="p-6 pl-12 w-full rounded-md placeholder:font-semibold"
+                    className="p-6 pl-12 w-full rounded-md"
                     data-ph-no-capture
                     onInput={(e: React.FormEvent<HTMLInputElement>) => {
                       const target = e.currentTarget;
@@ -672,6 +675,9 @@ const SubmitForm = ({
               {(serviceData as Record<string, string>).neuMediaText ||
                 "Neu Media Group, the operator of this website, and/or our local partner will contact you via a call, text, or email using manual or automated technology at the telephone number provided, including your wireless number, to arrange a convenient time to do an in-home estimate for you. You understand that your consent is not required to purchase products or services, and you understand that you may revoke your consent at any time."}
             </p>
+            <p className="text-xs font-normal mt-10">We respect your <Link className="underline !text-blue-500" href={"/privacy-policy"}>
+              privacy.</Link></p>
+
           </div>
         );
 
@@ -683,7 +689,7 @@ const SubmitForm = ({
                 {...register(step.name)}
                 aria-label={step.title}
                 placeholder={step.placeholder || "Kitchen size"}
-                className="p-6 pl-12 w-full rounded-md placeholder:font-semibold"
+                className="p-6 pl-12 w-full rounded-md "
               />
             </div>
           </div>

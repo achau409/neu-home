@@ -41,7 +41,6 @@ export default async function Page() {
   return (
     <main className="privacy-policy-content">
       <article className="mx-auto max-w-4xl px-4 py-12 prose prose-slate">
-        <h1>Privacy Policy</h1>
         {content ? parse(content, parserOptions) : <p>No privacy policy content available.</p>}
       </article>
       <ScrollToTop />
