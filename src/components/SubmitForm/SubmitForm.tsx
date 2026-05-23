@@ -584,8 +584,6 @@ const SubmitForm = ({
                 )}
               </div>
             ))}
-            <p className="text-xs font-normal mt-10">We respect your <Link className="underline !text-blue-500" href={"/privacy-policy"}>
-              privacy.</Link></p>
           </div>
         );
 
@@ -675,8 +673,6 @@ const SubmitForm = ({
               {(serviceData as Record<string, string>).neuMediaText ||
                 "Neu Media Group, the operator of this website, and/or our local partner will contact you via a call, text, or email using manual or automated technology at the telephone number provided, including your wireless number, to arrange a convenient time to do an in-home estimate for you. You understand that your consent is not required to purchase products or services, and you understand that you may revoke your consent at any time."}
             </p>
-            <p className="text-xs font-normal mt-10">We respect your <Link className="underline !text-blue-500" href={"/privacy-policy"}>
-              privacy.</Link></p>
 
           </div>
         );

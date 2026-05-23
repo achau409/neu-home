@@ -460,10 +460,6 @@ function IdentityStepView({
           ) : null}
         </div>
 
-        <p className="text-xs font-normal my-10 text-center">We respect your {" "}
-          <Link className="underline !text-blue-500" href={"/privacy-policy"}>
-             privacy.
-          </Link></p>
 
 
         <div className="flex items-center justify-between gap-3 w-full">
