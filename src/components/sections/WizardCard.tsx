@@ -911,18 +911,15 @@ export default function WizardCard({
       });
       const { companyName } = applyZipRowToLead(validatedZipRow, initialUserCity, initialUserState);
       const partnerDisplay = companyName.trim() || serviceData?.title?.trim() || "your local estimator";
-      const heroUrl = typeof serviceData?.heroImage?.url === "string" ? serviceData.heroImage.url : "";
-      const custLogoUrl = typeof serviceData?.customerLogo?.url === "string" ? serviceData.customerLogo.url : "";
       const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
-      const queryParams = new URLSearchParams({
+      sessionStorage.setItem("neu_ty", JSON.stringify({
         companyName: partnerDisplay,
-        heroImage: heroUrl,
+        heroImage: typeof serviceData?.heroImage?.url === "string" ? serviceData.heroImage.url : "",
         contactPhone: typeof serviceData?.contactPhone === "string" ? serviceData.contactPhone : "",
-        service: service,
-        customerLogo: custLogoUrl,
-        returnUrl: returnUrl,
-      }).toString();
-      window.location.href = `/thank-you?${queryParams}`;
+        customerLogo: typeof serviceData?.customerLogo?.url === "string" ? serviceData.customerLogo.url : "",
+        returnUrl,
+      }));
+      window.location.href = `/thank-you?s=${encodeURIComponent(service)}`;
       return;
     }
 
@@ -1045,18 +1042,15 @@ export default function WizardCard({
       }
 
       const partnerDisplay = companyName.trim() || serviceData?.title?.trim() || "your local estimator";
-      const heroUrl = typeof serviceData?.heroImage?.url === "string" ? serviceData.heroImage.url : "";
-      const custLogoUrl = typeof serviceData?.customerLogo?.url === "string" ? serviceData.customerLogo.url : "";
       const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
-      const queryParams = new URLSearchParams({
+      sessionStorage.setItem("neu_ty", JSON.stringify({
         companyName: partnerDisplay,
-        heroImage: heroUrl,
+        heroImage: typeof serviceData?.heroImage?.url === "string" ? serviceData.heroImage.url : "",
         contactPhone: typeof serviceData?.contactPhone === "string" ? serviceData.contactPhone : "",
-        service: service,
-        customerLogo: custLogoUrl,
-        returnUrl: returnUrl,
-      }).toString();
-      window.location.href = `/thank-you?${queryParams}`;
+        customerLogo: typeof serviceData?.customerLogo?.url === "string" ? serviceData.customerLogo.url : "",
+        returnUrl,
+      }));
+      window.location.href = `/thank-you?s=${encodeURIComponent(service)}`;
     } finally {
       setIsSubmitting(false);
     }

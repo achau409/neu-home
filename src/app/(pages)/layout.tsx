@@ -1,7 +1,7 @@
 import Footer from "@/components/Shared/Footer/Footer";
 import { fetchFooter } from "@/lib/api";
 
-export default async function RootLayout({
+export default async function PagesLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

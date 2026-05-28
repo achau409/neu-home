@@ -1,22 +1,7 @@
-import { Inter, Roboto_Mono } from "next/font/google";
-import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
 import Script from "next/script";
 import { PostHogProvider } from "@/providers/PostHogProvider";
+import { fetchFooter } from "@/lib/api";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ['400', '600', '700', '800'],
-  display: 'swap',
-});
-
-const robotoMono = Roboto_Mono({
-  variable: "--font-roboto-mono",
-  subsets: ["latin"],
-  weight: ['400', '600', '700'],
-  display: 'swap',
-});
 
 export const metadata = {
   title: "NEU Home Services",
@@ -62,6 +47,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [footer] = await Promise.all([
+    fetchFooter(),
+  ]);
   const pixelId = process.env.FACEBOOK_PIXEL_ID;
   const shouldLoadFacebookPixel =
     process.env.NODE_ENV === "production" && Boolean(pixelId);
@@ -104,11 +92,10 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${robotoMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`antialiased min-h-screen flex flex-col`}
       >
         <PostHogProvider>
           <div className="flex-grow">{children}</div>
-          <Toaster />
         </PostHogProvider>
       </body>
     </html>

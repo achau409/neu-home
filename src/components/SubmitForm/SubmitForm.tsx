@@ -455,21 +455,17 @@ const SubmitForm = ({
         }
         emailMessage += `Product: ${product}\n`;
 
-        await sendEmails(targetEmail, "New Service Request Submitted", emailMessage);
+        // await sendEmails(targetEmail, "New Service Request Submitted", emailMessage);
 
-        const heroUrl = (serviceData as Record<string, { url: string }>).heroImage?.url || "";
-        const logoUrl = (serviceData as Record<string, { url?: string }>).customerLogo?.url || "";
-        const phone = (serviceData as Record<string, string>).contactPhone || "";
         const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
-        const queryParams = new URLSearchParams({
+        sessionStorage.setItem("neu_ty", JSON.stringify({
           companyName: companyName,
-          heroImage: heroUrl,
-          contactPhone: phone,
-          service: service,
-          customerLogo: logoUrl,
-          returnUrl: returnUrl,
-        }).toString();
-        window.location.href = `/thank-you?${queryParams}`;
+          heroImage: (serviceData as Record<string, { url: string }>).heroImage?.url || "",
+          contactPhone: (serviceData as Record<string, string>).contactPhone || "",
+          customerLogo: (serviceData as Record<string, { url?: string }>).customerLogo?.url || "",
+          returnUrl,
+        }));
+        window.location.href = `/thank-you?s=${encodeURIComponent(service)}`;
 
         try {
           const pathname = typeof window !== "undefined" ? window.location.pathname : "/";

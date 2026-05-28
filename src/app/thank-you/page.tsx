@@ -1,24 +1,52 @@
 "use client";
 
-import { Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { Suspense, useState, useEffect } from "react";
 import Image from "next/image";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 
+interface ThankYouData {
+  companyName: string;
+  heroImage: string;
+  contactPhone: string;
+  customerLogo: string;
+  returnUrl: string;
+}
+
 function ThankYouContent() {
-  const searchParams = useSearchParams();
-  const companyName = searchParams.get("companyName") || "";
-  const heroImage = searchParams.get("heroImage") || "";
-  const contactPhone = searchParams.get("contactPhone") || "";
-  const customerLogo = searchParams.get("customerLogo") || "";
-  const returnUrl = searchParams.get("returnUrl") || "/";
+  const [data, setData] = useState<ThankYouData>({
+    companyName: "",
+    heroImage: "",
+    contactPhone: "",
+    customerLogo: "",
+    returnUrl: "/",
+  });
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem("neu_ty");
+    if (!stored) return;
+    try {
+      const parsed = JSON.parse(stored);
+      const raw: string = parsed.returnUrl || "/";
+      setData({
+        companyName: parsed.companyName || "",
+        heroImage: parsed.heroImage || "",
+        contactPhone: parsed.contactPhone || "",
+        customerLogo: parsed.customerLogo || "",
+        returnUrl: raw.startsWith("/") && !raw.startsWith("//") ? raw : "/",
+      });
+    } catch {
+      // malformed storage — keep defaults
+    }
+  }, []);
+
+  const { companyName, heroImage, contactPhone, customerLogo, returnUrl } = data;
 
   const handleReturn = () => {
     window.location.href = returnUrl;
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-white text-[#0b1b3f] w-full min-h-screen">
+    <div className="isolate w-full min-h-screen overflow-y-auto bg-white text-[#0b1b3f]">
       <div className="relative min-h-screen flex flex-col">
         {/* Background Image & Gradient overlay */}
         <div className="absolute inset-0 w-full h-full -z-10">
@@ -170,7 +198,12 @@ function ThankYouContent() {
               </div>
 
               {contactPhone && (
-                <p className="text-lg mb-8 text-white">{contactPhone}</p>
+                <a
+                  href={`tel:${contactPhone}`}
+                  className="text-lg mb-8 text-white block hover:underline"
+                >
+                  {contactPhone}
+                </a>
               )}
 
               <button
