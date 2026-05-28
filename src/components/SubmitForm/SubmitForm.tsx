@@ -455,7 +455,7 @@ const SubmitForm = ({
         }
         emailMessage += `Product: ${product}\n`;
 
-        // await sendEmails(targetEmail, "New Service Request Submitted", emailMessage);
+        await sendEmails(targetEmail, "New Service Request Submitted", emailMessage);
 
         const heroUrl = (serviceData as Record<string, { url: string }>).heroImage?.url || "";
         const logoUrl = (serviceData as Record<string, { url?: string }>).customerLogo?.url || "";
