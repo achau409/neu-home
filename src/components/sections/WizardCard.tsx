@@ -18,7 +18,6 @@ import {
   type ServiceZipRow,
 } from "@/lib/validate-service-zip";
 import { getMaterialOptionIconSrc } from "@/lib/material-option-icons";
-import ThankYouModal from "@/components/SubmitForm/ThankYouModal";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -663,8 +662,6 @@ export default function WizardCard({
   const [step, setStep] = useState(0);
   const [data, setData] = useState<WizardData>(initial);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState<WizardData | null>(null);
-  const [thankYouPartnerDisplay, setThankYouPartnerDisplay] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pendingWarning, setPendingWarning] = useState<{
     questionName: string;
@@ -913,10 +910,19 @@ export default function WizardCard({
         description: "No serviceRequest table configured — nothing was saved.",
       });
       const { companyName } = applyZipRowToLead(validatedZipRow, initialUserCity, initialUserState);
-      setThankYouPartnerDisplay(
-        companyName.trim() || serviceData?.title?.trim() || "your local estimator",
-      );
-      setSubmitted({ ...data });
+      const partnerDisplay = companyName.trim() || serviceData?.title?.trim() || "your local estimator";
+      const heroUrl = typeof serviceData?.heroImage?.url === "string" ? serviceData.heroImage.url : "";
+      const custLogoUrl = typeof serviceData?.customerLogo?.url === "string" ? serviceData.customerLogo.url : "";
+      const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
+      const queryParams = new URLSearchParams({
+        companyName: partnerDisplay,
+        heroImage: heroUrl,
+        contactPhone: typeof serviceData?.contactPhone === "string" ? serviceData.contactPhone : "",
+        service: service,
+        customerLogo: custLogoUrl,
+        returnUrl: returnUrl,
+      }).toString();
+      window.location.href = `/thank-you?${queryParams}`;
       return;
     }
 
@@ -1038,10 +1044,19 @@ export default function WizardCard({
         // non-critical
       }
 
-      setThankYouPartnerDisplay(
-        companyName.trim() || serviceData?.title?.trim() || "your local estimator",
-      );
-      setSubmitted({ ...data });
+      const partnerDisplay = companyName.trim() || serviceData?.title?.trim() || "your local estimator";
+      const heroUrl = typeof serviceData?.heroImage?.url === "string" ? serviceData.heroImage.url : "";
+      const custLogoUrl = typeof serviceData?.customerLogo?.url === "string" ? serviceData.customerLogo.url : "";
+      const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
+      const queryParams = new URLSearchParams({
+        companyName: partnerDisplay,
+        heroImage: heroUrl,
+        contactPhone: typeof serviceData?.contactPhone === "string" ? serviceData.contactPhone : "",
+        service: service,
+        customerLogo: custLogoUrl,
+        returnUrl: returnUrl,
+      }).toString();
+      window.location.href = `/thank-you?${queryParams}`;
     } finally {
       setIsSubmitting(false);
     }
@@ -1059,26 +1074,6 @@ export default function WizardCard({
     data.zip.length === 5 &&
     (!hasZipTable || (zipMatched && validatedZipKey === data.zip));
 
-  // ── Guard: thank-you screen ──────────────────────────────────────────────
-
-  if (submitted) {
-    const heroUrl = typeof serviceData?.heroImage?.url === "string" ? serviceData.heroImage.url : "";
-    const custLogoUrl =
-      typeof serviceData?.customerLogo?.url === "string" ? serviceData.customerLogo.url : "";
-    return (
-      <ThankYouModal
-        isOpen
-        setIsOpen={(open) => {
-          if (!open) setSubmitted(null);
-        }}
-        companyName={thankYouPartnerDisplay}
-        heroImage={heroUrl}
-        contactPhone={typeof serviceData?.contactPhone === "string" ? serviceData.contactPhone : ""}
-        service={service}
-        customerLogo={custLogoUrl}
-      />
-    );
-  }
 
   /** CMS published service but editor left questions empty — avoid broken UX. */
   if (cmsQuestions.length === 0 && serviceData) {

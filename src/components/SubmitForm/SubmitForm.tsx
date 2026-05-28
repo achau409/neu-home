@@ -17,7 +17,6 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
-import ThankYouModal from "./ThankYouModal";
 import Link from "next/link";
 
 type FieldType =
@@ -137,7 +136,6 @@ const SubmitForm = ({
 }: SubmitFormProps) => {
   const [stepIndex, setStepIndex] = useState<number>(persistedStepIndex ?? 0);
   const { toast } = useToast();
-  const [showThankYouModal, setShowThankYouModal] = useState(false);
   const [submitInFlight, setSubmitInFlight] = useState(false);
   const [phoneValidation, setPhoneValidation] = useState<{
     status: "idle" | "verifying" | "pass" | "fail";
@@ -457,9 +455,21 @@ const SubmitForm = ({
         }
         emailMessage += `Product: ${product}\n`;
 
-        await sendEmails(targetEmail, "New Service Request Submitted", emailMessage);
+        // await sendEmails(targetEmail, "New Service Request Submitted", emailMessage);
 
-        setShowThankYouModal(true);
+        const heroUrl = (serviceData as Record<string, { url: string }>).heroImage?.url || "";
+        const logoUrl = (serviceData as Record<string, { url?: string }>).customerLogo?.url || "";
+        const phone = (serviceData as Record<string, string>).contactPhone || "";
+        const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
+        const queryParams = new URLSearchParams({
+          companyName: companyName,
+          heroImage: heroUrl,
+          contactPhone: phone,
+          service: service,
+          customerLogo: logoUrl,
+          returnUrl: returnUrl,
+        }).toString();
+        window.location.href = `/thank-you?${queryParams}`;
 
         try {
           const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
@@ -799,16 +809,6 @@ const SubmitForm = ({
           </div>
         </form>
       </div>
-
-      <ThankYouModal
-        isOpen={showThankYouModal}
-        setIsOpen={setShowThankYouModal}
-        companyName={companyName}
-        heroImage={(serviceData as Record<string, { url: string }>).heroImage?.url || ""}
-        contactPhone={(serviceData as Record<string, string>).contactPhone || ""}
-        service={service}
-        customerLogo={(serviceData as Record<string, { url?: string }>).customerLogo?.url || ""}
-      />
     </>
   );
 };

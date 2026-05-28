@@ -25,7 +25,7 @@ import Link from "next/link";
 interface ZipSearchFormProps {
   onStatusChange: (status: string | null) => void;
   onZipLocations: (
-    ZipLocations: { city: string; state: string } | null
+    ZipLocations: { city: string; state: string } | null,
   ) => void;
   projectId?: string | string[];
   service: string;
@@ -82,7 +82,8 @@ const ZipSearchForm = ({
   const [formProgress, setFormProgress] = useState(0);
   const [formStep, setFormStep] = useState(1);
   const [formTotalSteps, setFormTotalSteps] = useState(0);
-  const [persistedFormValues, setPersistedFormValues] = useState<PersistedFormValues>({});
+  const [persistedFormValues, setPersistedFormValues] =
+    useState<PersistedFormValues>({});
   const [persistedFormStepIndex, setPersistedFormStepIndex] = useState(0);
 
   // sessionKey: increment to remount SubmitForm fresh on every new modal session
@@ -139,7 +140,7 @@ const ZipSearchForm = ({
       const { data } = await supabase
         .from(serviceData.zipCodes)
         .select(
-          `Zip_Code, City, State, Service, "Company name", "Lead Delivery Email"`
+          `Zip_Code, City, State, Service, "Company name", "Lead Delivery Email"`,
         )
         .eq("Zip_Code", zipCode)
         .eq("Service_Slug", service);
@@ -162,7 +163,11 @@ const ZipSearchForm = ({
         setIsMatched(false);
         onStatusChange("not_matched");
         onZipLocations(null);
-        posthog.capture("zip_not_serviced", { zip_code: zipCode, service, location: "hero" });
+        posthog.capture("zip_not_serviced", {
+          zip_code: zipCode,
+          service,
+          location: "hero",
+        });
       }
     } catch {
       onStatusChange("Error checking ZIP code");
@@ -188,7 +193,7 @@ const ZipSearchForm = ({
       const { data } = await supabase
         .from(serviceData.zipCodes)
         .select(
-          `Zip_Code, City, State, Service, "Company name", "Lead Delivery Email"`
+          `Zip_Code, City, State, Service, "Company name", "Lead Delivery Email"`,
         )
         .eq("Zip_Code", zip)
         .eq("Service_Slug", service);
@@ -208,9 +213,15 @@ const ZipSearchForm = ({
         setModalZipMatched(true);
         // User clicks "Check Availability →" to advance — no auto-advance
       } else {
-        setModalZipError("ZIP code is currently not serviced by our contractor.");
+        setModalZipError(
+          "ZIP code is currently not serviced by our contractor.",
+        );
         setModalZipMatched(false);
-        posthog.capture("zip_not_serviced", { zip_code: zip, service, location: "modal" });
+        posthog.capture("zip_not_serviced", {
+          zip_code: zip,
+          service,
+          location: "modal",
+        });
       }
     } catch {
       setModalZipError("Could not check ZIP code. Please try again.");
@@ -250,9 +261,9 @@ const ZipSearchForm = ({
           service,
           zip_code: zip,
         },
-        { send_feature_flags: true } as any
+        { send_feature_flags: true } as any,
       );
-    } catch { }
+    } catch {}
   };
 
   // ── Advance from ZIP screen to form ────────────────────────────
@@ -336,8 +347,9 @@ const ZipSearchForm = ({
         )}
         <button
           onClick={handleZipNext}
-          className={`${isMatched ? "bg-[#55BC7E]" : "bg-[#55BC7E] cursor-not-allowed"
-            } text-sm md:text-base text-white px-2 lg:px-4 py-4 rounded-md min-w-[170px] w-full md:w-auto font-bold`}
+          className={`${
+            isMatched ? "bg-[#55BC7E]" : "bg-[#55BC7E] cursor-not-allowed"
+          } text-sm md:text-base text-white px-2 lg:px-4 py-4 rounded-md min-w-[170px] w-full md:w-auto font-bold`}
           aria-disabled={!isMatched}
         >
           {serviceData.CTAText ? serviceData.CTAText : "Get Free Quote"}
@@ -357,7 +369,7 @@ const ZipSearchForm = ({
         }}
       >
         <DialogContent
-          className="flex flex-col overflow-hidden rounded-none border-0 p-0 shadow-none gap-0"
+          className="flex flex-col overflow-hidden rounded-none border-0 p-0 shadow-none gap-0 [&>button]:hidden"
           style={{
             position: "fixed",
             inset: 0,
@@ -374,7 +386,8 @@ const ZipSearchForm = ({
         >
           <DialogTitle className="sr-only">Get Your Free Estimate</DialogTitle>
           <DialogDescription className="sr-only">
-            Complete the estimate form or confirm that you want to leave and lose your progress.
+            Complete the estimate form or confirm that you want to leave and
+            lose your progress.
           </DialogDescription>
 
           {/* ── Sticky header ── */}
@@ -410,11 +423,18 @@ const ZipSearchForm = ({
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
+            {/* Cancel cross button */}
+            <div
+              onClick={handleAttemptExit}
+              className=" p-2 text-gray-500 hover:text-gray-800 transition-colors hover:bg-gray-100 rounded-full cursor-pointer absolute right-2 top-1 z-10"
+              aria-label="Close"
+            >
+              <X className="h-6 w-6" />
+            </div>
           </div>
 
           {/* ── Scrollable body ── */}
           <div className="flex-1 overflow-y-auto bg-white">
-
             {/* ZIP-entry screen */}
             {modalView === "zip" && (
               <div className="flex flex-col items-center justify-start  px-6 md:py-16 py-10 text-center">
@@ -430,16 +450,18 @@ const ZipSearchForm = ({
                 <div className="w-full max-w-xs space-y-3">
                   {/* ZIP input */}
                   <div
-                    className={`flex items-center gap-2 border rounded-sm px-3 bg-white transition-colors ${modalZipError
-                      ? "border-red-400"
-                      : modalZipMatched
-                        ? "border-[#28a745]"
-                        : "border-gray-500 focus-within:border-[#28a745]"
-                      }`}
+                    className={`flex items-center gap-2 border rounded-sm px-3 bg-white transition-colors ${
+                      modalZipError
+                        ? "border-red-400"
+                        : modalZipMatched
+                          ? "border-[#28a745]"
+                          : "border-gray-500 focus-within:border-[#28a745]"
+                    }`}
                   >
                     <MapPin
-                      className={`w-5 h-5 shrink-0 ${modalZipMatched ? "text-[#28a745]" : "text-gray-400"
-                        }`}
+                      className={`w-5 h-5 shrink-0 ${
+                        modalZipMatched ? "text-[#28a745]" : "text-gray-400"
+                      }`}
                     />
                     <input
                       type="text"
@@ -459,7 +481,27 @@ const ZipSearchForm = ({
                       <Loader2 className="w-4 h-4 text-gray-400 animate-spin shrink-0" />
                     )}
                     {modalZipMatched && !modalIsLoading && (
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-6 h-6" style={{ fill: "none" }}><circle cx="12" cy="12" r="11" fill="#03AB5F" fillOpacity=".2"></circle><path fillRule="evenodd" clipRule="evenodd" d="M17.207 8.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414l2.293 2.293 5.293-5.293a1 1 0 011.414 0z" fill="#06C778"></path></svg>)}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        className="w-6 h-6"
+                        style={{ fill: "none" }}
+                      >
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="11"
+                          fill="#03AB5F"
+                          fillOpacity=".2"
+                        ></circle>
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M17.207 8.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414l2.293 2.293 5.293-5.293a1 1 0 011.414 0z"
+                          fill="#06C778"
+                        ></path>
+                      </svg>
+                    )}
                   </div>
 
                   {modalZipError && (
@@ -471,18 +513,23 @@ const ZipSearchForm = ({
                     <p className="text-left text-[#28a745] font-semibold">{`${zipLocations?.city}, ${zipLocations?.state}`}</p>
                   )}
 
-                  {!modalZipError && modalZipInput.length > 0 && modalZipInput.length < 5 && (
-                    <p className="text-xs text-gray-400">Enter all 5 digits</p>
-                  )}
+                  {!modalZipError &&
+                    modalZipInput.length > 0 &&
+                    modalZipInput.length < 5 && (
+                      <p className="text-xs text-gray-400">
+                        Enter all 5 digits
+                      </p>
+                    )}
 
                   {/* Next / Check Availability button */}
                   <button
                     onClick={handleZipNext}
                     disabled={!modalZipMatched || modalIsLoading}
-                    className={`w-full flex items-center justify-center  !mt-8 gap-2 py-4 rounded-sm text-sm font-bold transition-all duration-200 ${modalZipMatched && !modalIsLoading
-                      ? "bg-[#28a745] text-white hover:bg-[#22963c] shadow-md hover:shadow-lg"
-                      : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      }`}
+                    className={`w-full flex items-center justify-center  !mt-8 gap-2 py-4 rounded-sm text-sm font-bold transition-all duration-200 ${
+                      modalZipMatched && !modalIsLoading
+                        ? "bg-[#28a745] text-white hover:bg-[#22963c] shadow-md hover:shadow-lg"
+                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    }`}
                   >
                     {modalIsLoading ? (
                       <>
@@ -538,7 +585,7 @@ const ZipSearchForm = ({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isExitConfirmOpen} onOpenChange={setIsExitConfirmOpen} >
+      <Dialog open={isExitConfirmOpen} onOpenChange={setIsExitConfirmOpen}>
         <DialogContent className="fixed z-[92] w-[calc(100vw-2rem)] max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-xl sm:p-7 [&>button]:hidden">
           <button
             type="button"
