@@ -354,7 +354,7 @@ function RadioStepView({
   );
 }
 
-interface IdentityStepViewProps {
+interface CombinedStepViewProps {
   step: number;
   total: number;
   name: string;
@@ -363,15 +363,28 @@ interface IdentityStepViewProps {
   emailError: string | null;
   showNameError: boolean;
   showEmailError: boolean;
+  zip: string;
+  phone: string;
+  zipLoading: boolean;
+  zipError: string;
+  zipMatched: boolean;
+  validatedZipRow: ServiceZipRow | null;
+  hasZipTable: boolean;
+  phoneValidation: { status: "idle" | "verifying" | "pass" | "fail"; score?: number; lineType?: string };
+  isSubmitting: boolean;
+  submitValid: boolean;
+  neuDisclaimer: string;
   onNameChange: (v: string) => void;
   onEmailChange: (v: string) => void;
   onNameBlur: () => void;
   onEmailBlur: () => void;
+  onZipChange: (v: string) => void;
+  onPhoneChange: (v: string) => void;
   onBack: () => void;
-  onContinue: () => void;
+  onSubmit: () => void;
 }
 
-function IdentityStepView({
+function CombinedStepView({
   step,
   total,
   name,
@@ -380,16 +393,29 @@ function IdentityStepView({
   emailError,
   showNameError,
   showEmailError,
+  zip,
+  phone,
+  zipLoading,
+  zipError,
+  zipMatched,
+  validatedZipRow,
+  hasZipTable,
+  phoneValidation,
+  isSubmitting,
+  submitValid,
+  neuDisclaimer,
   onNameChange,
   onEmailChange,
   onNameBlur,
   onEmailBlur,
+  onZipChange,
+  onPhoneChange,
   onBack,
-  onContinue,
-}: IdentityStepViewProps) {
+  onSubmit,
+}: CombinedStepViewProps) {
   return (
     <section className="mx-auto max-w-[880px] px-4 -mt-20">
-      <div className={cn(wizTw.card, "relative z-[99] flex flex-col gap-[14px] p-[18px]")}>
+      <div className={cn(wizTw.card, "relative flex flex-col gap-[14px] p-[18px]")}>
         <HiddenAntiSpamInputs />
 
         <div className="w-full">
@@ -457,92 +483,7 @@ function IdentityStepView({
               We&apos;ll use this email for updates about your estimate.
             </p>
           ) : null}
-        </div>
 
-
-
-        <div className="flex items-center justify-between gap-3 w-full">
-          <button
-            type="button"
-            className={cn(wizTw.btn, wizTw.btnGhost, "px-3.5 py-2 text-[13px]")}
-            onClick={onBack}
-          >
-            Back
-          </button>
-          <button
-            type="button"
-            className={cn(wizTw.btn, wizTw.btnYellow, "px-5 py-3 text-sm font-bold")}
-            onClick={onContinue}
-          >
-            Continue
-          </button>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-interface ContactStepViewProps {
-  contactStepIndex: number;
-  total: number;
-  zip: string;
-  phone: string;
-  zipLoading: boolean;
-  zipError: string;
-  zipMatched: boolean;
-  validatedZipRow: ServiceZipRow | null;
-  hasZipTable: boolean;
-  phoneValidation: { status: "idle" | "verifying" | "pass" | "fail"; score?: number; lineType?: string };
-  isSubmitting: boolean;
-  phoneSubmitValid: boolean;
-  neuDisclaimer: string;
-  onZipChange: (v: string) => void;
-  onPhoneChange: (v: string) => void;
-  onBack: () => void;
-  onSubmit: () => void;
-}
-
-function ContactStepView({
-  contactStepIndex,
-  total,
-  zip,
-  phone,
-  zipLoading,
-  zipError,
-  zipMatched,
-  validatedZipRow,
-  hasZipTable,
-  phoneValidation,
-  isSubmitting,
-  phoneSubmitValid,
-  neuDisclaimer,
-  onZipChange,
-  onPhoneChange,
-  onBack,
-  onSubmit,
-}: ContactStepViewProps) {
-  return (
-    <section className="mx-auto max-w-[880px] px-4 -mt-20">
-      <div className={cn(wizTw.card, "relative flex flex-col gap-[14px] p-[18px]")}>
-        <HiddenAntiSpamInputs />
-
-        <div className="w-full">
-          <div className="mb-2 flex items-center justify-center">
-            <span className="font-bold mb-2">
-              Step {contactStepIndex + 1} of {total}
-            </span>
-          </div>
-          <WizardProgressBar total={total} currentStep={contactStepIndex} />
-        </div>
-
-        <div className="text-center">
-          <h3 className={cn(wizTw.display, "m-0 mb-1 text-[22px] text-[var(--navy)]")}>ZIP & phone</h3>
-          <p className="m-0 text-[13px] text-[var(--ink-soft)]">
-            Confirm your ZIP for availability and a number where we can reach you about your estimate.
-          </p>
-        </div>
-
-        <div className="grid gap-2">
           <input
             className={wizTw.input}
             inputMode="numeric"
@@ -602,7 +543,7 @@ function ContactStepView({
           type="button"
           className={cn(wizTw.btn, wizTw.btnYellow, wizTw.btnLg, wizTw.btnBlock)}
           onClick={onSubmit}
-          disabled={isSubmitting || !phoneSubmitValid}
+          disabled={isSubmitting || !submitValid}
         >
           {isSubmitting ? "Submitting..." : "Get my free quote →"}
         </button>
@@ -654,8 +595,7 @@ export default function WizardCard({
 
   /** After CMS radios: name/email → ZIP + phone + submit together (last). */
   const identityStepIndex = cmsQuestions.length;
-  const contactStepIndex = cmsQuestions.length + 1;
-  const total = cmsQuestions.length + 2;
+  const total = cmsQuestions.length + 1;
 
   // ── Wizard state ─────────────────────────────────────────────────────────
 
@@ -1062,7 +1002,8 @@ export default function WizardCard({
     (serviceData as { neuMediaText?: string } | undefined)?.neuMediaText ||
     "Neu Media Group, the operator of this website, and/or our local partner will contact you via a call, text, or email using manual or automated technology at the telephone number provided, including your wireless number, to arrange a convenient time to do an in-home estimate for you. You understand that your consent is not required to purchase products or services, and you understand that you may revoke your consent at any time.";
 
-  const phoneSubmitValid =
+  const combinedSubmitValid =
+    identityStepValid(data.name, data.email || "") &&
     PHONE_REGEX.test(data.phone.trim()) &&
     phoneValidation.status !== "verifying" &&
     data.zip.length === 5 &&
@@ -1112,46 +1053,25 @@ export default function WizardCard({
     );
   }
 
-  if (step === identityStepIndex) {
-    const nameErrMsg = getFullNameValidationMessage(data.name);
-    const emailErrMsg = getEmailValidationMessage(data.email || "");
-    return (
-      <IdentityStepView
-        step={identityStepIndex}
-        total={total}
-        name={data.name}
-        email={data.email || ""}
-        nameError={nameErrMsg}
-        emailError={emailErrMsg}
-        showNameError={
-          nameErrMsg !== null &&
-          (identityShowErrors || nameBlurred || data.name.trim().length > 0)
-        }
-        showEmailError={
-          emailErrMsg !== null &&
-          (identityShowErrors || emailBlurred || (data.email || "").trim().length > 0)
-        }
-        onNameChange={(v) => set("name", v)}
-        onEmailChange={(v) => set("email", v)}
-        onNameBlur={() => setNameBlurred(true)}
-        onEmailBlur={() => setEmailBlurred(true)}
-        onBack={back}
-        onContinue={() => {
-          if (!identityStepValid(data.name, data.email || "")) {
-            setIdentityShowErrors(true);
-            return;
-          }
-          setIdentityShowErrors(false);
-          next();
-        }}
-      />
-    );
-  }
+  const nameErrMsg = getFullNameValidationMessage(data.name);
+  const emailErrMsg = getEmailValidationMessage(data.email || "");
 
   return (
-    <ContactStepView
-      contactStepIndex={contactStepIndex}
+    <CombinedStepView
+      step={identityStepIndex}
       total={total}
+      name={data.name}
+      email={data.email || ""}
+      nameError={nameErrMsg}
+      emailError={emailErrMsg}
+      showNameError={
+        nameErrMsg !== null &&
+        (identityShowErrors || nameBlurred || data.name.trim().length > 0)
+      }
+      showEmailError={
+        emailErrMsg !== null &&
+        (identityShowErrors || emailBlurred || (data.email || "").trim().length > 0)
+      }
       zip={data.zip}
       phone={data.phone}
       zipLoading={zipLoading}
@@ -1161,8 +1081,12 @@ export default function WizardCard({
       hasZipTable={hasZipTable}
       phoneValidation={phoneValidation}
       isSubmitting={isSubmitting}
-      phoneSubmitValid={phoneSubmitValid}
+      submitValid={combinedSubmitValid}
       neuDisclaimer={neuDisclaimer}
+      onNameChange={(v) => set("name", v)}
+      onEmailChange={(v) => set("email", v)}
+      onNameBlur={() => setNameBlurred(true)}
+      onEmailBlur={() => setEmailBlurred(true)}
       onZipChange={(v) => set("zip", v)}
       onPhoneChange={handlePhoneChange}
       onBack={back}
