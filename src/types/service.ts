@@ -51,6 +51,7 @@ export interface ServiceData {
   inspirationImages?: any;
   hasLocation?: boolean;
   hasQuestionMark?: boolean;
+  variant?: string;
   seo?: {
     metaTitle?: string;
     metaDescription?: string;

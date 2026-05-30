@@ -17,120 +17,116 @@ import { buildFaqPageJsonLd, processFaqItemsFromBlock } from "@/lib/faq";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 
 const DeferredInspirations = dynamic(
-    () => import("@/components/DetailsPage/Inspirations/Inspirations"),
-    { loading: () => <div className="h-[320px] bg-gray-100 animate-pulse" /> }
+  () => import("@/components/DetailsPage/Inspirations/Inspirations"),
+  { loading: () => <div className="h-[320px] bg-gray-100 animate-pulse" /> },
 );
 
 const DeferredTestimonialsSlider = dynamic(
-    () => import("@/components/DetailsPage/Reviews/Reviews"),
-    { loading: () => <div className="h-[260px] bg-gray-100 animate-pulse" /> }
+  () => import("@/components/DetailsPage/Reviews/Reviews"),
+  { loading: () => <div className="h-[260px] bg-gray-100 animate-pulse" /> },
 );
 
 interface ServicePageContentProps {
-    serviceData: any;
-    header: any;
-    ipLocation: { city: string; state: string } | null;
-    slug: string;
-    /** lp1, lp2, etc. — undefined means base service page (no variant) */
-    variant?: string;
+  serviceData: any;
+  header: any;
+  ipLocation: { city: string; state: string } | null;
+  slug: string;
+  /** lp1, lp2, etc. — undefined means base service page (no variant) */
+  variant?: string;
 }
 
 export default function ServicePageContent({
-    serviceData,
-    header,
-    ipLocation,
-    slug,
-    variant,
+  serviceData,
+  header,
+  ipLocation,
+  slug,
+  variant,
 }: ServicePageContentProps) {
-    const content = serviceData.content ?? [];
+  const content = serviceData.content ?? [];
 
-    const howItWorkBlock = content.find(
-        (b: any) => b.blockType === "workflow"
-    );
-    const statisticBlock = content.find(
-        (b: any) => b.blockType === "statistic"
-    );
-    const topManyImagesBlock = content.find(
-        (b: any) => b.blockType === "manyImages" && b.isTopPosition === true
-    );
-    const trustBadgesBlock = content.find(
-        (b: any) => b.blockType === "trust-badges"
-    );
-    const faqBlock = content.find(
-        (b: any) => b.blockType === "faq"
-    );
+  const howItWorkBlock = content.find((b: any) => b.blockType === "workflow");
+  const statisticBlock = content.find((b: any) => b.blockType === "statistic");
+  const topManyImagesBlock = content.find(
+    (b: any) => b.blockType === "manyImages" && b.isTopPosition === true,
+  );
+  const trustBadgesBlock = content.find(
+    (b: any) => b.blockType === "trust-badges",
+  );
+  const faqBlock = content.find((b: any) => b.blockType === "faq");
 
-    const faqProcessedItems = processFaqItemsFromBlock(faqBlock ?? null);
-    const faqSectionId = variant ? `faq-${slug}-${variant}` : `faq-${slug}`;
+  const faqProcessedItems = processFaqItemsFromBlock(faqBlock ?? null);
+  const faqSectionId = variant ? `faq-${slug}-${variant}` : `faq-${slug}`;
 
-    return (
-        <>
-            {faqProcessedItems.length > 0 && (
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify(buildFaqPageJsonLd(faqProcessedItems)),
-                    }}
-                />
-            )}
+  return (
+    <>
+      {faqProcessedItems.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(buildFaqPageJsonLd(faqProcessedItems)),
+          }}
+        />
+      )}
 
-            <header className="bg-[#0b1b3f]">
-                <div className="py-5 flex justify-center items-center">
-                    {serviceData.customerLogo?.url ? (
-                        <Image
-                            src={serviceData.customerLogo.url}
-                            alt={`${serviceData.title} logo`}
-                            width={142}
-                            height={142}
-                            sizes="142px"
-                            priority
-                            className="w-[142px] h-[65px] object-contain"
-                            quality={90}
-                        />
-                    ) : (
-                        <Link href="/">
-                            <Image
-                                src={header?.headerLogo?.url ?? "/images/logo_in.svg"}
-                                alt="NEU Home Services logo"
-                                width={142}
-                                height={142}
-                                sizes="142px"
-                                priority
-                                className="w-[142px] h-[65px] object-contain"
-                            />
-                        </Link>
-                    )}
-                </div>
-            </header>
-            <main className="overflow-hidden">
-                <section className="relative">
-                    <Image
-                        src={serviceData.heroImage.url}
-                        alt={serviceData.title}
-                        fill
-                        className="object-cover"
-                        quality={90}
-                        priority
-                        placeholder="blur"
-                        sizes="100vw"
-                        fetchPriority="high"
-                        blurDataURL={HERO_BLUR_DATA_URL}
-                    />
-                    <div className="absolute inset-0 bg-[#0b1b3f]/60 z-10" />
-                    <ProjectDetailsClient
-                        serviceData={serviceData}
-                        initialUserCity={ipLocation?.city || "Your Area"}
-                        variant={variant}
-                    />
-                </section>
+      <header className="bg-[#0b1b3f]">
+        <div className="py-5 flex justify-center items-center">
+          {serviceData.customerLogo?.url ? (
+            <Image
+              src={serviceData.customerLogo.url}
+              alt={`${serviceData.title} logo`}
+              width={142}
+              height={142}
+              sizes="142px"
+              priority
+              className="w-[142px] h-[65px] object-contain"
+              quality={90}
+            />
+          ) : (
+            <Link href="/">
+              <Image
+                src={header?.headerLogo?.url ?? "/images/logo_in.svg"}
+                alt="NEU Home Services logo"
+                width={142}
+                height={142}
+                sizes="142px"
+                priority
+                className="w-[142px] h-[65px] object-contain"
+              />
+            </Link>
+          )}
+        </div>
+      </header>
+      <main className="overflow-hidden">
+        <section className="relative">
+          <Image
+            src={serviceData.heroImage.url}
+            alt={serviceData.title}
+            fill
+            className="object-cover"
+            quality={90}
+            priority
+            placeholder="blur"
+            sizes="100vw"
+            fetchPriority="high"
+            blurDataURL={HERO_BLUR_DATA_URL}
+          />
+          <div className="absolute inset-0 bg-[#0b1b3f]/60 z-10" />
+          <ProjectDetailsClient
+            serviceData={serviceData}
+            initialUserCity={ipLocation?.city || "Your Area"}
+            variant={variant}
+          />
+        </section>
 
-                {/* Trust badges — use CMS block if present, else render defaults */}
-                {trustBadgesBlock
-                    ? <TrustBadges {...(trustBadgesBlock as any)} />
-                    : <TrustBadges />}
+        {/* Trust badges — use CMS block if present, else render defaults */}
+        {trustBadgesBlock ? (
+          <TrustBadges {...(trustBadgesBlock as any)} />
+        ) : (
+          <TrustBadges />
+        )}
 
-                <Suspense fallback={<DetailPageLoader />}>
-                    {/* {topManyImagesBlock && !trustBadgesBlock && (
+        <Suspense fallback={<DetailPageLoader />}>
+          {/* {topManyImagesBlock && !trustBadgesBlock && (
                         <div className="bg-[#f5f7fa]">
                             <ManyImagesBlock
                                 key={topManyImagesBlock.id as string}
@@ -139,52 +135,48 @@ export default function ServicePageContent({
                         </div>
                     )} */}
 
-                    {serviceData.benefits && <Benefits serviceData={serviceData} />}
+          {serviceData.benefits && <Benefits serviceData={serviceData} />}
+          {serviceData.advantages && (
+            <Advantages
+              advantageData={serviceData.advantages}
+              title={serviceData.title}
+            />
+          )}
 
-                    {serviceData.advantages && (
-                        <Advantages
-                            advantageData={serviceData.advantages}
-                            title={serviceData.title}
-                        />
-                    )}
+          {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
 
-                    {howItWorkBlock && <WorksSections howItWorkBlock={howItWorkBlock} />}
+          {serviceData.features && (
+            <Features featuresData={serviceData.features} />
+          )}
 
-                    {serviceData.features && (
-                        <Features featuresData={serviceData.features} />
-                    )}
+          {serviceData.inspirationImages && (
+            <DeferredInspirations
+              images={serviceData.inspirationImages.images}
+              sectionTitle={serviceData.inspirationImages.sectionTitle}
+            />
+          )}
 
-                    {serviceData.inspirationImages && (
-                        <DeferredInspirations
-                            images={serviceData.inspirationImages.images}
-                            sectionTitle={serviceData.inspirationImages.sectionTitle}
-                        />
-                    )}
+          {statisticBlock && (
+            <HomeOwnersHelped statisticBlock={statisticBlock} />
+          )}
 
-                    {statisticBlock && <HomeOwnersHelped statisticBlock={statisticBlock} />}
-
-                    <ProjectContent
-                        content={content}
-                        serviceData={serviceData}
-                    />
-                    {/* <p>
+          <ProjectContent content={content} serviceData={serviceData} />
+          {/* <p>
                         {
                             serviceData.id
                         }
                     </p> */}
 
-                    {serviceData.testimonials && (
-                        <DeferredTestimonialsSlider
-                            testimonials={serviceData.testimonials.testimonialList}
-                            sectionTitle={serviceData.testimonials.sectionTitle}
-                        />
-                    )}
+          {serviceData.testimonials && (
+            <DeferredTestimonialsSlider
+              testimonials={serviceData.testimonials.testimonialList}
+              sectionTitle={serviceData.testimonials.sectionTitle}
+            />
+          )}
 
-                    {faqBlock && (
-                        <FAQSection block={faqBlock} sectionId={faqSectionId} />
-                    )}
-                </Suspense>
-            </main>
-        </>
-    );
+          {faqBlock && <FAQSection block={faqBlock} sectionId={faqSectionId} />}
+        </Suspense>
+      </main>
+    </>
+  );
 }
