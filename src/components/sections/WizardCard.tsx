@@ -1032,8 +1032,8 @@ export default function WizardCard({
   const emailErrMsg = getEmailValidationMessage(data.email || "");
 
   return (
-    <>
-      {/* Rendered once here so TrustedForm's value survives step transitions */}
+    // form wrapper required so TrustedForm's script detects and populates xxTrustedFormCertUrl
+    <form onSubmit={(e) => e.preventDefault()}>
       <HiddenAntiSpamInputs />
       {currentRadioQuestion ? (
         <RadioStepView
@@ -1091,6 +1091,6 @@ export default function WizardCard({
           onSubmit={() => void submitLead()}
         />
       )}
-    </>
+    </form>
   );
 }
