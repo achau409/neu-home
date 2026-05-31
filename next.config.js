@@ -9,6 +9,15 @@ const nextConfig = {
     ],
     qualities: [75, 85, 90],
   },
+  async redirects() {
+    return [
+      {
+        source: "/version/NEU_WIS/lp3",
+        destination: "/NEU_WIS",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       // Only proxy CMS-specific API paths to external CMS — NOT local API routes

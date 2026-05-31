@@ -252,7 +252,6 @@ function RadioStepView({
   return (
     <section className="mx-auto max-w-[900px] px-4 -mt-20">
       <div className={cn(wizTw.card, "relative z-[99] flex flex-col gap-[14px] p-[18px]  justify-start items-center w-full")}>
-        <HiddenAntiSpamInputs />
 
         <div className="w-full">
           <div className="mb-2 flex items-center justify-center">
@@ -416,7 +415,6 @@ function CombinedStepView({
   return (
     <section className="mx-auto max-w-[880px] px-4 -mt-20">
       <div className={cn(wizTw.card, "relative flex flex-col gap-[14px] p-[18px]")}>
-        <HiddenAntiSpamInputs />
 
         <div className="w-full">
           <div className="mb-2 flex items-center justify-center">
@@ -1029,68 +1027,70 @@ export default function WizardCard({
 
   // ── Step routing ─────────────────────────────────────────────────────────
 
-  if (step < cmsQuestions.length) {
-    const q = cmsQuestions[step];
-    return (
-      <RadioStepView
-        step={step}
-        total={total}
-        question={q}
-        answers={answers}
-        pendingWarning={pendingWarning}
-        onSelect={(option) => onSelectRadio(q, option)}
-        onClearAnswer={() => {
-          setAnswers((prev) => {
-            const n = { ...prev };
-            delete n[q.name];
-            return n;
-          });
-          setPendingWarning(null);
-        }}
-        onBack={back}
-        onContinue={() => continueRadioStep(q)}
-      />
-    );
-  }
-
+  const currentRadioQuestion = step < cmsQuestions.length ? cmsQuestions[step] : null;
   const nameErrMsg = getFullNameValidationMessage(data.name);
   const emailErrMsg = getEmailValidationMessage(data.email || "");
 
   return (
-    <CombinedStepView
-      step={identityStepIndex}
-      total={total}
-      name={data.name}
-      email={data.email || ""}
-      nameError={nameErrMsg}
-      emailError={emailErrMsg}
-      showNameError={
-        nameErrMsg !== null &&
-        (identityShowErrors || nameBlurred || data.name.trim().length > 0)
-      }
-      showEmailError={
-        emailErrMsg !== null &&
-        (identityShowErrors || emailBlurred || (data.email || "").trim().length > 0)
-      }
-      zip={data.zip}
-      phone={data.phone}
-      zipLoading={zipLoading}
-      zipError={zipError}
-      zipMatched={zipMatched}
-      validatedZipRow={validatedZipRow}
-      hasZipTable={hasZipTable}
-      phoneValidation={phoneValidation}
-      isSubmitting={isSubmitting}
-      submitValid={combinedSubmitValid}
-      neuDisclaimer={neuDisclaimer}
-      onNameChange={(v) => set("name", v)}
-      onEmailChange={(v) => set("email", v)}
-      onNameBlur={() => setNameBlurred(true)}
-      onEmailBlur={() => setEmailBlurred(true)}
-      onZipChange={(v) => set("zip", v)}
-      onPhoneChange={handlePhoneChange}
-      onBack={back}
-      onSubmit={() => void submitLead()}
-    />
+    <>
+      {/* Rendered once here so TrustedForm's value survives step transitions */}
+      <HiddenAntiSpamInputs />
+      {currentRadioQuestion ? (
+        <RadioStepView
+          step={step}
+          total={total}
+          question={currentRadioQuestion}
+          answers={answers}
+          pendingWarning={pendingWarning}
+          onSelect={(option) => onSelectRadio(currentRadioQuestion, option)}
+          onClearAnswer={() => {
+            setAnswers((prev) => {
+              const n = { ...prev };
+              delete n[currentRadioQuestion.name];
+              return n;
+            });
+            setPendingWarning(null);
+          }}
+          onBack={back}
+          onContinue={() => continueRadioStep(currentRadioQuestion)}
+        />
+      ) : (
+        <CombinedStepView
+          step={identityStepIndex}
+          total={total}
+          name={data.name}
+          email={data.email || ""}
+          nameError={nameErrMsg}
+          emailError={emailErrMsg}
+          showNameError={
+            nameErrMsg !== null &&
+            (identityShowErrors || nameBlurred || data.name.trim().length > 0)
+          }
+          showEmailError={
+            emailErrMsg !== null &&
+            (identityShowErrors || emailBlurred || (data.email || "").trim().length > 0)
+          }
+          zip={data.zip}
+          phone={data.phone}
+          zipLoading={zipLoading}
+          zipError={zipError}
+          zipMatched={zipMatched}
+          validatedZipRow={validatedZipRow}
+          hasZipTable={hasZipTable}
+          phoneValidation={phoneValidation}
+          isSubmitting={isSubmitting}
+          submitValid={combinedSubmitValid}
+          neuDisclaimer={neuDisclaimer}
+          onNameChange={(v) => set("name", v)}
+          onEmailChange={(v) => set("email", v)}
+          onNameBlur={() => setNameBlurred(true)}
+          onEmailBlur={() => setEmailBlurred(true)}
+          onZipChange={(v) => set("zip", v)}
+          onPhoneChange={handlePhoneChange}
+          onBack={back}
+          onSubmit={() => void submitLead()}
+        />
+      )}
+    </>
   );
 }
