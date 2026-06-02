@@ -34,7 +34,7 @@ const ProjectDetailsClientNew = ({ serviceData, initialUserCity = "" }: ProjectD
   useEffect(() => {
     const handleScroll = () => {
       requestAnimationFrame(() => {
-        setShowFloating(window.scrollY > 300);
+        setShowFloating(window.scrollY > 1000);
       });
     };
 

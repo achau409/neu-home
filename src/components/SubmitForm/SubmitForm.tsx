@@ -85,11 +85,11 @@ const COMMON_STEPS: Step[] = [
     type: "input-number",
     validation: z
       .string()
+      .min(1, "Phone number is required")
       .regex(
         /^(\+1\s?)?(\(\d{3}\)\s?|\d{3}[-.\s]?)\d{3}[-.\s]?\d{4}$/,
-        "Phone number is Invalid"
-      )
-      .min(1, "Phone number is required"),
+        "Enter a valid 10-digit US phone number — e.g. (555)123-4567"
+      ),
   },
 ];
 
@@ -145,7 +145,7 @@ const SubmitForm = ({
   const [info, setInfo] = useState({ os: "", browser: "" });
   const [serverIp, setServerIp] = useState("");
 
-  const allSteps = useMemo(() => [...questions, ...COMMON_STEPS], [questions]);
+  const allSteps = useMemo(() => [...(questions ?? []), ...COMMON_STEPS], [questions]);
   const currentStep = allSteps[stepIndex];
   const isLastStep = stepIndex === allSteps.length - 1;
 
@@ -383,23 +383,22 @@ const SubmitForm = ({
     if (submitInFlight) return;
     setSubmitInFlight(true);
 
-    // The per-step resolver only returns the current step's parsed fields.
-    // Use the full form state here so earlier answers are preserved on final submit.
-    const completeValues = getValues();
-    const enrichedValues = syncHiddenFields({
-      ...completeValues,
-      ...formValues,
-    });
-
-    let firstName = "";
-    let lastName = "";
-    if (typeof enrichedValues.fullName === "string" && enrichedValues.fullName) {
-      const nameParts = enrichedValues.fullName.trim().split(/\s+/);
-      firstName = nameParts[0];
-      lastName = nameParts.slice(1).join(" ");
-    }
-
     try {
+      // The per-step resolver only returns the current step's parsed fields.
+      // Use the full form state here so earlier answers are preserved on final submit.
+      const completeValues = getValues();
+      const enrichedValues = syncHiddenFields({
+        ...completeValues,
+        ...formValues,
+      });
+
+      let firstName = "";
+      let lastName = "";
+      if (typeof enrichedValues.fullName === "string" && enrichedValues.fullName) {
+        const nameParts = enrichedValues.fullName.trim().split(/\s+/);
+        firstName = nameParts[0];
+        lastName = nameParts.slice(1).join(" ");
+      }
       const { error } = await supabase
         .from(serviceData.serviceRequest as string)
         .insert([
@@ -455,7 +454,7 @@ const SubmitForm = ({
         }
         emailMessage += `Product: ${product}\n`;
 
-        // await sendEmails(targetEmail, "New Service Request Submitted", emailMessage);
+        await sendEmails(targetEmail, "New Service Request Submitted", emailMessage);
 
         const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
         sessionStorage.setItem("neu_ty", JSON.stringify({
@@ -628,7 +627,9 @@ const SubmitForm = ({
           </fieldset>
         );
 
-      case "input-number":
+      case "input-number": {
+        const phoneDigits = ((values[step.name] as string) || "").replace(/\D/g, "");
+        const digitsRemaining = Math.max(0, 10 - phoneDigits.length);
         return (
           <div>
             <div className="flex flex-col gap-2">
@@ -638,8 +639,8 @@ const SubmitForm = ({
                     {...register(step.name)}
                     type="tel"
                     aria-label={step.title}
-                    maxLength={10}
-                    placeholder="Enter Your Phone Number"
+                    maxLength={14}
+                    placeholder="(000)123-4567"
                     className="p-6 pl-12 w-full rounded-md"
                     data-ph-no-capture
                     onInput={(e: React.FormEvent<HTMLInputElement>) => {
@@ -659,6 +660,19 @@ const SubmitForm = ({
                   </div>
                 </div>
               </div>
+
+              {/* Contextual format hint */}
+              {phoneDigits.length === 0 && (
+                <p className="text-xs text-gray-400 text-left">
+                  Format: (000)123-4567 &mdash; 10 digits
+                </p>
+              )}
+              {phoneDigits.length > 0 && phoneDigits.length < 10 && (
+                <p className="text-xs text-amber-600 text-left">
+                  {digitsRemaining} more digit{digitsRemaining !== 1 ? "s" : ""} needed &mdash; e.g. (555)123-4567
+                </p>
+              )}
+
               <div>
                 {phoneValidation.status === "verifying" && (
                   <div className="text-xs text-gray-500">Verifying...</div>
@@ -682,6 +696,7 @@ const SubmitForm = ({
 
           </div>
         );
+      }
 
       case "input":
         return (

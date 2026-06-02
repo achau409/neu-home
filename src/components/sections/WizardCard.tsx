@@ -114,6 +114,14 @@ function identityStepValid(name: string, email: string): boolean {
   return !getFullNameValidationMessage(name) && !getEmailValidationMessage(email);
 }
 
+function getPhoneValidationMessage(phone: string): string | null {
+  const digits = phone.replace(/\D/g, "");
+  if (!phone.trim()) return "Phone number is required";
+  if (digits.length >= 10 && !PHONE_REGEX.test(phone.trim()))
+    return "Enter a valid 10-digit  phone number — e.g. (000)123-4567";
+  return null;
+}
+
 function warningMatches(
   condition: WizardCmsRadioQuestion["warningMessage"],
   selection: string,
@@ -373,10 +381,13 @@ interface CombinedStepViewProps {
   isSubmitting: boolean;
   submitValid: boolean;
   neuDisclaimer: string;
+  phoneError: string | null;
+  showPhoneError: boolean;
   onNameChange: (v: string) => void;
   onEmailChange: (v: string) => void;
   onNameBlur: () => void;
   onEmailBlur: () => void;
+  onPhoneBlur: () => void;
   onZipChange: (v: string) => void;
   onPhoneChange: (v: string) => void;
   onBack: () => void;
@@ -400,6 +411,8 @@ function CombinedStepView({
   validatedZipRow,
   hasZipTable,
   phoneValidation,
+  phoneError,
+  showPhoneError,
   isSubmitting,
   submitValid,
   neuDisclaimer,
@@ -407,11 +420,13 @@ function CombinedStepView({
   onEmailChange,
   onNameBlur,
   onEmailBlur,
+  onPhoneBlur,
   onZipChange,
   onPhoneChange,
   onBack,
   onSubmit,
 }: CombinedStepViewProps) {
+  const phoneDigits = phone.replace(/\D/g, "").length;
   return (
     <section className="mx-auto max-w-[880px] px-4 -mt-20">
       <div className={cn(wizTw.card, "relative flex flex-col gap-[14px] p-[18px]")}>
@@ -510,14 +525,36 @@ function CombinedStepView({
           <input
             className={wizTw.input}
             type="tel"
-            placeholder="Phone number*"
+            placeholder="(555)123-4567"
             autoComplete="tel"
             inputMode="tel"
             aria-label="Phone number"
+            aria-invalid={showPhoneError}
+            aria-describedby={showPhoneError ? "wizard-phone-error" : "wizard-phone-hint"}
             value={phone}
             onChange={(e) => onPhoneChange(e.target.value)}
+            onBlur={onPhoneBlur}
             data-ph-no-capture
           />
+          {/* Format hint when empty */}
+          {phoneDigits === 0 && !showPhoneError && (
+            <p id="wizard-phone-hint" className="-mt-1 m-0 text-[11px] text-[var(--ink-mute)]">
+              Format: (000)123-4567 — 10 digits
+            </p>
+          )}
+          {/* Partial progress hint */}
+          {phoneDigits > 0 && phoneDigits < 10 && (
+            <p className="-mt-1 m-0 text-[12px] text-amber-600">
+              {10 - phoneDigits} more digit{10 - phoneDigits !== 1 ? "s" : ""} needed
+            </p>
+          )}
+          {/* Validation error */}
+          {showPhoneError && phoneError && (
+            <p id="wizard-phone-error" role="alert" className="-mt-1 m-0 text-[13px] text-[#c0392b]">
+              {phoneError}
+            </p>
+          )}
+          {/* Verification status */}
           <div>
             {phoneValidation.status === "verifying" && (
               <p className="m-0 text-xs text-[var(--ink-mute)]">Verifying…</p>
@@ -539,11 +576,33 @@ function CombinedStepView({
 
         <button
           type="button"
-          className={cn(wizTw.btn, wizTw.btnYellow, wizTw.btnLg, wizTw.btnBlock)}
+          className={cn(
+            wizTw.btn,
+            wizTw.btnLg,
+            wizTw.btnBlock,
+            submitValid && !isSubmitting
+              ? cn(wizTw.btnYellow, "shadow-[0_4px_0_#388E5A] hover:brightness-105 active:translate-y-0.5 active:shadow-[0_2px_0_#388E5A]")
+              : "cursor-not-allowed bg-gray-100 text-gray-400 border-2 border-dashed border-gray-300"
+          )}
           onClick={onSubmit}
           disabled={isSubmitting || !submitValid}
+          aria-disabled={isSubmitting || !submitValid}
         >
-          {isSubmitting ? "Submitting..." : "Get my free quote →"}
+          {isSubmitting ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+              </svg>
+              Submitting…
+            </span>
+          ) : !submitValid ? (
+            <span className="flex items-center justify-center gap-2">
+              Get my free quote →
+            </span>
+          ) : (
+            "Get my free quote →"
+          )}
         </button>
 
         <div className="flex justify-center gap-3 text-[10px] text-[var(--ink-mute)]">
@@ -625,9 +684,10 @@ export default function WizardCard({
 
   // ── Identity step error display state ────────────────────────────────────
 
-  /** Show name/email validation under fields after blur, typing, or failed Continue. */
+  /** Show name/email/phone validation under fields after blur, typing, or failed Continue. */
   const [nameBlurred, setNameBlurred] = useState(false);
   const [emailBlurred, setEmailBlurred] = useState(false);
+  const [phoneBlurred, setPhoneBlurred] = useState(false);
   const [identityShowErrors, setIdentityShowErrors] = useState(false);
 
   // ── Intent tracking ──────────────────────────────────────────────────────
@@ -661,6 +721,7 @@ export default function WizardCard({
     if (step === identityStepIndex) return;
     setNameBlurred(false);
     setEmailBlurred(false);
+    setPhoneBlurred(false);
     setIdentityShowErrors(false);
   }, [step, identityStepIndex]);
 
@@ -1030,6 +1091,8 @@ export default function WizardCard({
   const currentRadioQuestion = step < cmsQuestions.length ? cmsQuestions[step] : null;
   const nameErrMsg = getFullNameValidationMessage(data.name);
   const emailErrMsg = getEmailValidationMessage(data.email || "");
+  const phoneErrMsg = getPhoneValidationMessage(data.phone);
+  const showPhoneError = phoneErrMsg !== null && (identityShowErrors || phoneBlurred);
 
   return (
     // form wrapper required so TrustedForm's script detects and populates xxTrustedFormCertUrl
@@ -1081,10 +1144,13 @@ export default function WizardCard({
           isSubmitting={isSubmitting}
           submitValid={combinedSubmitValid}
           neuDisclaimer={neuDisclaimer}
+          phoneError={phoneErrMsg}
+          showPhoneError={showPhoneError}
           onNameChange={(v) => set("name", v)}
           onEmailChange={(v) => set("email", v)}
           onNameBlur={() => setNameBlurred(true)}
           onEmailBlur={() => setEmailBlurred(true)}
+          onPhoneBlur={() => setPhoneBlurred(true)}
           onZipChange={(v) => set("zip", v)}
           onPhoneChange={handlePhoneChange}
           onBack={back}

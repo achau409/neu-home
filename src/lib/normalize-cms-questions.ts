@@ -1,9 +1,10 @@
 /** Shape used by Payload / Services API → in-page wizard (radio grid). */
 export type WizardCmsRadioQuestion = {
+  type: "radio";
   name: string;
   title: string;
   options: string[];
-  validation?: unknown;
+  validation?: { type: string; message?: string };
   warningMessage?: {
     condition?: string | string[];
     message: string;
@@ -58,11 +59,18 @@ export function normalizeCmsQuestion(raw: unknown): WizardCmsRadioQuestion | nul
     if (!warningMessage.message) warningMessage = undefined;
   }
 
+  const rawVal = o.validation;
+  const validation =
+    rawVal && typeof rawVal === "object" && "type" in rawVal
+      ? (rawVal as { type: string; message?: string })
+      : undefined;
+
   return {
+    type: "radio" as const,
     name,
     title,
     options,
-    validation: o.validation,
+    validation,
     warningMessage,
   };
 }
@@ -80,12 +88,14 @@ export function prioritizeOpeningWizard(
 /** Same demo as CMS JSON — used when `/test` has no Payload service doc. */
 export const DEMO_RADIO_QUESTIONS: WizardCmsRadioQuestion[] = [
   {
+    type: "radio",
     name: "FlooringMaterials",
     title: "What kind of materials are you interested in?",
     options: ["Vinyl", "Carpet", "Hardwood", "Laminate", "Tile"],
     validation: { type: "required", message: "You must select at least one option" },
   },
   {
+    type: "radio",
     name: "HomeOwner",
     title: "Are you the homeowner or authorized to make property changes?",
     options: ["Yes", "No"],
@@ -98,6 +108,7 @@ export const DEMO_RADIO_QUESTIONS: WizardCmsRadioQuestion[] = [
     },
   },
   {
+    type: "radio",
     name: "whatToDo",
     title: "What do you need help with?",
     options: ["Replace Flooring", "Repair Flooring"],

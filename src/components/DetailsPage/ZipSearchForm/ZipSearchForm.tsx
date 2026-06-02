@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import supabase from "@/utils/supabase/client";
+import { normalizeWizardRadioQuestionsFromCms } from "@/lib/normalize-cms-questions";
 import {
   CircleCheckBig,
   MapPin,
@@ -566,7 +567,7 @@ const ZipSearchForm = ({
                 projectId={projectId}
                 product={product}
                 companyName={companyName}
-                questions={serviceData.questions}
+                questions={normalizeWizardRadioQuestionsFromCms(serviceData.questions, serviceData.openingWizard) as any}
                 serviceData={serviceData}
                 onProgressChange={setFormProgress}
                 onStepChange={(step, total) => {
