@@ -3,6 +3,7 @@
 import { Suspense, useState, useEffect } from "react";
 import Image from "next/image";
 import Script from "next/script";
+import { useSearchParams } from "next/navigation";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
 
 interface ThankYouData {
@@ -14,6 +15,7 @@ interface ThankYouData {
 }
 
 function ThankYouContent() {
+  const searchParams = useSearchParams();
   const [data, setData] = useState<ThankYouData>({
     companyName: "",
     heroImage: "",
@@ -23,22 +25,43 @@ function ThankYouContent() {
   });
 
   useEffect(() => {
+    // Primary: sessionStorage set by the form submission flow
     const stored = sessionStorage.getItem("neu_ty");
-    if (!stored) return;
-    try {
-      const parsed = JSON.parse(stored);
-      const raw: string = parsed.returnUrl || "/";
-      setData({
-        companyName: parsed.companyName || "",
-        heroImage: parsed.heroImage || "",
-        contactPhone: parsed.contactPhone || "",
-        customerLogo: parsed.customerLogo || "",
-        returnUrl: raw.startsWith("/") && !raw.startsWith("//") ? raw : "/",
-      });
-    } catch {
-      // malformed storage — keep defaults
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        const raw: string = parsed.returnUrl || "/";
+        setData({
+          companyName: parsed.companyName || "",
+          heroImage: parsed.heroImage || "",
+          contactPhone: parsed.contactPhone || "",
+          customerLogo: parsed.customerLogo || "",
+          returnUrl: raw.startsWith("/") && !raw.startsWith("//") ? raw : "/",
+        });
+        return;
+      } catch {
+        // malformed — fall through to CMS fetch
+      }
     }
-  }, []);
+
+    // Fallback: fetch from CMS using the ?s= slug (direct URL visit / page reload)
+    const slug = searchParams.get("s");
+    if (!slug) return;
+
+    fetch(`/api/service/by-slug?slug=${encodeURIComponent(slug)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((serviceData) => {
+        if (!serviceData) return;
+        setData((prev) => ({
+          ...prev,
+          companyName: serviceData.title || "",
+          heroImage: serviceData.heroImage?.url || "",
+          contactPhone: serviceData.contactPhone || "",
+          customerLogo: serviceData.customerLogo?.url || "",
+        }));
+      })
+      .catch(() => {});
+  }, [searchParams]);
 
   const { companyName, heroImage, contactPhone, customerLogo, returnUrl } = data;
 
@@ -48,27 +71,6 @@ function ThankYouContent() {
 
   return (
     <>
-      <Script id="meta-pixel" strategy="afterInteractive">{`
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1576743846962833');
-        fbq('track', 'PageView');
-      `}</Script>
-      <noscript>
-        <img
-          height="1"
-          width="1"
-          style={{ display: "none" }}
-          src="https://www.facebook.com/tr?id=1576743846962833&ev=PageView&noscript=1"
-          alt=""
-        />
-      </noscript>
       <Script id="microsoft-clarity" strategy="afterInteractive">{`
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -86,6 +88,7 @@ function ThankYouContent() {
               alt=""
               fill
               className="object-cover"
+              placeholder="blur"
               blurDataURL={HERO_BLUR_DATA_URL}
               priority
             />

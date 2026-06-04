@@ -137,6 +137,7 @@ const SubmitForm = ({
   const [stepIndex, setStepIndex] = useState<number>(persistedStepIndex ?? 0);
   const { toast } = useToast();
   const [submitInFlight, setSubmitInFlight] = useState(false);
+  const submitGuardRef = useRef(false);
   const [phoneValidation, setPhoneValidation] = useState<{
     status: "idle" | "verifying" | "pass" | "fail";
     score?: number;
@@ -380,7 +381,8 @@ const SubmitForm = ({
       return;
     }
 
-    if (submitInFlight) return;
+    if (submitGuardRef.current) return;
+    submitGuardRef.current = true;
     setSubmitInFlight(true);
 
     try {
@@ -500,6 +502,7 @@ const SubmitForm = ({
         description: "Something went wrong. Please try again later.",
       });
     } finally {
+      submitGuardRef.current = false;
       setSubmitInFlight(false);
     }
   };

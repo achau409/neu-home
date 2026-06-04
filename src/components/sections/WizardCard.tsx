@@ -580,9 +580,11 @@ function CombinedStepView({
             wizTw.btn,
             wizTw.btnLg,
             wizTw.btnBlock,
-            submitValid && !isSubmitting
-              ? cn(wizTw.btnYellow, "shadow-[0_4px_0_#388E5A] hover:brightness-105 active:translate-y-0.5 active:shadow-[0_2px_0_#388E5A]")
-              : "cursor-not-allowed bg-gray-100 text-gray-400 border-2 border-dashed border-gray-300"
+            isSubmitting
+              ? cn(wizTw.btnYellow, "cursor-wait opacity-90")
+              : submitValid
+                ? cn(wizTw.btnYellow, "shadow-[0_4px_0_#388E5A] hover:brightness-105 active:translate-y-0.5 active:shadow-[0_2px_0_#388E5A]")
+                : "cursor-not-allowed bg-gray-100 text-gray-400 border-2 border-dashed border-gray-300"
           )}
           onClick={onSubmit}
           disabled={isSubmitting || !submitValid}
@@ -598,6 +600,7 @@ function CombinedStepView({
             </span>
           ) : !submitValid ? (
             <span className="flex items-center justify-center gap-2">
+
               Get my free quote →
             </span>
           ) : (
@@ -693,6 +696,7 @@ export default function WizardCard({
   // ── Intent tracking ──────────────────────────────────────────────────────
 
   const intentFiredRef = useRef(false);
+  const submitGuardRef = useRef(false);
   const intentSessionKey = `wizard_form_intent_${service}`;
 
   const fireFormIntent = () => {
@@ -881,6 +885,7 @@ export default function WizardCard({
   // ── Lead submission ──────────────────────────────────────────────────────
 
   const submitLead = async () => {
+    if (submitGuardRef.current) return;
     if (
       getFullNameValidationMessage(data.name) ||
       getEmailValidationMessage(data.email || "") ||
@@ -922,6 +927,7 @@ export default function WizardCard({
       return;
     }
 
+    submitGuardRef.current = true;
     setIsSubmitting(true);
     try {
       const { os, browser } = detectClientInfo();
@@ -1051,6 +1057,7 @@ export default function WizardCard({
       }));
       window.location.href = `/thank-you?s=${encodeURIComponent(service)}`;
     } finally {
+      submitGuardRef.current = false;
       setIsSubmitting(false);
     }
   };
