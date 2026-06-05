@@ -14,9 +14,9 @@ export async function isBlockedSubmission(
     .select("id")
     .eq("ip_address", ip)
     .gte("submitted_at", since)
-    .maybeSingle();
+    .limit(1);
 
-  return !!data;
+  return Array.isArray(data) && data.length > 0;
 }
 
 export async function logSubmission(
