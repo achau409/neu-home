@@ -405,6 +405,7 @@ const SubmitForm = ({
       const emailValue = typeof enrichedValues.Email === "string" ? enrichedValues.Email : "";
       const blocked = await isBlockedSubmission(serverIp, emailValue);
       if (blocked) {
+        void logSubmission(serverIp, emailValue, service);
         toast({
           title: "Already submitted",
           description: "We already received your request. Our team will be in touch soon.",

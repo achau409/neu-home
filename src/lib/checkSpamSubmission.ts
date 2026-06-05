@@ -7,11 +7,13 @@ export async function isBlockedSubmission(
   if (!ip || !email) return false;
   if (email.toLowerCase().endsWith("@neu.com")) return false;
 
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
   const { data } = await supabase
     .from("form_submissions_log")
     .select("id")
     .eq("ip_address", ip)
-    .eq("email", email.toLowerCase())
+    .gte("submitted_at", since)
     .maybeSingle();
 
   return !!data;

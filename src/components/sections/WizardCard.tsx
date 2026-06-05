@@ -943,6 +943,7 @@ export default function WizardCard({
 
       const blocked = await isBlockedSubmission(serverIp, data.email || "");
       if (blocked) {
+        void logSubmission(serverIp, data.email || "", service);
         toast({
           title: "Already submitted",
           description: "We already received your request. Our team will be in touch soon.",
