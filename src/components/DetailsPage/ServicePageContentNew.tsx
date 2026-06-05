@@ -137,14 +137,6 @@ export default function ServicePageContentNew({
                     : <TrustBadges />}
 
                 <Suspense fallback={<DetailPageLoader />}>
-                    {topManyImagesBlock && !trustBadgesBlock && (
-                        <div className="bg-[#f5f7fa]">
-                            <ManyImagesBlock
-                                key={topManyImagesBlock.id as string}
-                                {...(topManyImagesBlock as any)}
-                            />
-                        </div>
-                    )}
 
                     {serviceData.benefits && <Benefits serviceData={serviceData} />}
 
@@ -185,6 +177,15 @@ export default function ServicePageContentNew({
                     {faqBlock && (
                         <FAQSection block={faqBlock} sectionId={faqSectionId} />
                     )}
+                    {topManyImagesBlock && !trustBadgesBlock && (
+                        <div className="bg-[#f5f7fa]">
+                            <ManyImagesBlock
+                                key={topManyImagesBlock.id as string}
+                                {...(topManyImagesBlock as any)}
+                            />
+                        </div>
+                    )}
+
                 </Suspense>
             </main>
         </>
