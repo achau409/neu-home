@@ -17,6 +17,7 @@ import {
   fetchServiceZipRow,
   type ServiceZipRow,
 } from "@/lib/validate-service-zip";
+import { isBlockedSubmission, logSubmission } from "@/lib/checkSpamSubmission";
 import { getMaterialOptionIconSrc } from "@/lib/material-option-icons";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -940,6 +941,15 @@ export default function WizardCard({
         // non-critical
       }
 
+      const blocked = await isBlockedSubmission(serverIp, data.email || "");
+      if (blocked) {
+        toast({
+          title: "Already submitted",
+          description: "We already received your request. Our team will be in touch soon.",
+        });
+        return;
+      }
+
       let { city, state, companyName, leadEmail, product } = applyZipRowToLead(
         validatedZipRow,
         initialUserCity,
@@ -999,6 +1009,8 @@ export default function WizardCard({
         });
         return;
       }
+
+      void logSubmission(serverIp, data.email || "", service);
 
       toast({
         title: "Form Submitted",

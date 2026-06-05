@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 import supabase from "@/utils/supabase/client";
+import { isBlockedSubmission, logSubmission } from "@/lib/checkSpamSubmission";
 import { LockKeyhole } from "lucide-react";
 import {
   Select,
@@ -401,6 +402,16 @@ const SubmitForm = ({
         firstName = nameParts[0];
         lastName = nameParts.slice(1).join(" ");
       }
+      const emailValue = typeof enrichedValues.Email === "string" ? enrichedValues.Email : "";
+      const blocked = await isBlockedSubmission(serverIp, emailValue);
+      if (blocked) {
+        toast({
+          title: "Already submitted",
+          description: "We already received your request. Our team will be in touch soon.",
+        });
+        return;
+      }
+
       const { error } = await supabase
         .from(serviceData.serviceRequest as string)
         .insert([
@@ -430,6 +441,8 @@ const SubmitForm = ({
           description: "There was an error submitting your form. Please try again.",
         });
       } else {
+        void logSubmission(serverIp, emailValue, service);
+
         toast({
           title: "Form Submitted",
           description: "Your form has been successfully submitted.",
