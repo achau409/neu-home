@@ -18,6 +18,7 @@ import {
   type ServiceZipRow,
 } from "@/lib/validate-service-zip";
 import { isBlockedSubmission, logSubmission } from "@/lib/checkSpamSubmission";
+import { extractTrackingIds } from "@/lib/extract-tracking-ids";
 import { getMaterialOptionIconSrc } from "@/lib/material-option-icons";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -917,12 +918,16 @@ export default function WizardCard({
       const { companyName } = applyZipRowToLead(validatedZipRow, initialUserCity, initialUserState);
       const partnerDisplay = companyName.trim() || serviceData?.title?.trim() || "your local estimator";
       const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
+      const { gtmId, metaPixelId, ga4Id } = extractTrackingIds(serviceData?.content);
       sessionStorage.setItem("neu_ty", JSON.stringify({
         companyName: partnerDisplay,
         heroImage: typeof serviceData?.heroImage?.url === "string" ? serviceData.heroImage.url : "",
         contactPhone: typeof serviceData?.contactPhone === "string" ? serviceData.contactPhone : "",
         customerLogo: typeof serviceData?.customerLogo?.url === "string" ? serviceData.customerLogo.url : "",
         returnUrl,
+        gtmId,
+        metaPixelId,
+        ga4Id,
       }));
       window.location.href = `/thank-you?s=${encodeURIComponent(service)}`;
       return;
@@ -1061,12 +1066,16 @@ export default function WizardCard({
 
       const partnerDisplay = companyName.trim() || serviceData?.title?.trim() || "your local estimator";
       const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
+      const { gtmId: tGtmId, metaPixelId: tPixelId, ga4Id: tGa4Id } = extractTrackingIds(serviceData?.content);
       sessionStorage.setItem("neu_ty", JSON.stringify({
         companyName: partnerDisplay,
         heroImage: typeof serviceData?.heroImage?.url === "string" ? serviceData.heroImage.url : "",
         contactPhone: typeof serviceData?.contactPhone === "string" ? serviceData.contactPhone : "",
         customerLogo: typeof serviceData?.customerLogo?.url === "string" ? serviceData.customerLogo.url : "",
         returnUrl,
+        gtmId: tGtmId,
+        metaPixelId: tPixelId,
+        ga4Id: tGa4Id,
       }));
       window.location.href = `/thank-you?s=${encodeURIComponent(service)}`;
     } finally {

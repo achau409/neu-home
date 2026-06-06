@@ -10,6 +10,7 @@ import { RadioGroup } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 import supabase from "@/utils/supabase/client";
 import { isBlockedSubmission, logSubmission } from "@/lib/checkSpamSubmission";
+import { extractTrackingIds } from "@/lib/extract-tracking-ids";
 import { LockKeyhole } from "lucide-react";
 import {
   Select,
@@ -473,12 +474,18 @@ const SubmitForm = ({
         await sendEmails(targetEmail, "New Service Request Submitted", emailMessage);
 
         const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
+        const { gtmId, metaPixelId, ga4Id } = extractTrackingIds(
+          (serviceData as Record<string, unknown>).content
+        );
         sessionStorage.setItem("neu_ty", JSON.stringify({
           companyName: companyName,
           heroImage: (serviceData as Record<string, { url: string }>).heroImage?.url || "",
           contactPhone: (serviceData as Record<string, string>).contactPhone || "",
           customerLogo: (serviceData as Record<string, { url?: string }>).customerLogo?.url || "",
           returnUrl,
+          gtmId,
+          metaPixelId,
+          ga4Id,
         }));
         window.location.href = `/thank-you?s=${encodeURIComponent(service)}`;
 

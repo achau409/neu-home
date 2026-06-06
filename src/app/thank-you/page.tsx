@@ -1,10 +1,10 @@
 "use client";
 
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import Script from "next/script";
 import { useSearchParams } from "next/navigation";
 import { HERO_BLUR_DATA_URL } from "@/lib/constants";
+import { extractTrackingIds } from "@/lib/extract-tracking-ids";
 
 interface ThankYouData {
   companyName: string;
@@ -12,6 +12,9 @@ interface ThankYouData {
   contactPhone: string;
   customerLogo: string;
   returnUrl: string;
+  gtmId: string;
+  metaPixelId: string;
+  ga4Id: string;
 }
 
 function ThankYouContent() {
@@ -22,7 +25,12 @@ function ThankYouContent() {
     contactPhone: "",
     customerLogo: "",
     returnUrl: "/",
+    gtmId: "",
+    metaPixelId: "",
+    ga4Id: "",
   });
+
+  const trackingFiredRef = useRef(false);
 
   useEffect(() => {
     // Primary: sessionStorage set by the form submission flow
@@ -37,6 +45,9 @@ function ThankYouContent() {
           contactPhone: parsed.contactPhone || "",
           customerLogo: parsed.customerLogo || "",
           returnUrl: raw.startsWith("/") && !raw.startsWith("//") ? raw : "/",
+          gtmId: parsed.gtmId || "",
+          metaPixelId: parsed.metaPixelId || "",
+          ga4Id: parsed.ga4Id || "",
         });
         return;
       } catch {
@@ -52,16 +63,72 @@ function ThankYouContent() {
       .then((res) => (res.ok ? res.json() : null))
       .then((serviceData) => {
         if (!serviceData) return;
+        const { gtmId, metaPixelId, ga4Id } = extractTrackingIds(serviceData.content);
         setData((prev) => ({
           ...prev,
           companyName: serviceData.title || "",
           heroImage: serviceData.heroImage?.url || "",
           contactPhone: serviceData.contactPhone || "",
           customerLogo: serviceData.customerLogo?.url || "",
+          gtmId,
+          metaPixelId,
+          ga4Id,
         }));
       })
       .catch(() => {});
   }, [searchParams]);
+
+  // Fire conversion events once tracking IDs are available
+  const { gtmId, metaPixelId, ga4Id } = data;
+  useEffect(() => {
+    if (trackingFiredRef.current || (!gtmId && !metaPixelId && !ga4Id)) return;
+    trackingFiredRef.current = true;
+
+    // Meta Pixel — Lead conversion
+    if (metaPixelId) {
+      const s = document.createElement("script");
+      s.async = true;
+      s.src = "https://connect.facebook.net/en_US/fbevents.js";
+      s.onload = () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const fbq = (window as any).fbq;
+        if (typeof fbq === "function") {
+          fbq("init", metaPixelId);
+          fbq("track", "Lead");
+        }
+      };
+      document.head.appendChild(s);
+    }
+
+    // GTM — push lead event then load container
+    if (gtmId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const w = window as any;
+      w.dataLayer = w.dataLayer || [];
+      w.dataLayer.push({ event: "lead" });
+      const s = document.createElement("script");
+      s.async = true;
+      s.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
+      document.head.appendChild(s);
+    }
+
+    // GA4 — load script then fire generate_lead
+    if (ga4Id) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const w = window as any;
+      w.dataLayer = w.dataLayer || [];
+      const gtag = (...args: unknown[]) => w.dataLayer.push(args);
+      const s = document.createElement("script");
+      s.async = true;
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${ga4Id}`;
+      s.onload = () => {
+        gtag("js", new Date());
+        gtag("config", ga4Id);
+        gtag("event", "generate_lead");
+      };
+      document.head.appendChild(s);
+    }
+  }, [gtmId, metaPixelId, ga4Id]);
 
   const { companyName, heroImage, contactPhone, customerLogo, returnUrl } = data;
 
@@ -70,14 +137,6 @@ function ThankYouContent() {
   };
 
   return (
-    <>
-      <Script id="microsoft-clarity" strategy="afterInteractive">{`
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "sksa0tzass");
-      `}</Script>
     <div className="isolate w-full min-h-screen overflow-y-auto bg-white text-[#0b1b3f]">
       <div className="relative min-h-screen flex flex-col">
         {/* Background Image & Gradient overlay */}
@@ -250,7 +309,6 @@ function ThankYouContent() {
         </div>
       </div>
     </div>
-    </>
   );
 }
 
