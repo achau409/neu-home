@@ -15,6 +15,7 @@ interface ThankYouData {
   gtmId: string;
   metaPixelId: string;
   ga4Id: string;
+  pixelHtml: string;
 }
 
 function ThankYouContent() {
@@ -28,6 +29,7 @@ function ThankYouContent() {
     gtmId: "",
     metaPixelId: "",
     ga4Id: "",
+    pixelHtml: "",
   });
 
   const trackingFiredRef = useRef(false);
@@ -48,6 +50,7 @@ function ThankYouContent() {
           gtmId: parsed.gtmId || "",
           metaPixelId: parsed.metaPixelId || "",
           ga4Id: parsed.ga4Id || "",
+          pixelHtml: parsed.pixelHtml || "",
         });
         return;
       } catch {
@@ -63,7 +66,7 @@ function ThankYouContent() {
       .then((res) => (res.ok ? res.json() : null))
       .then((serviceData) => {
         if (!serviceData) return;
-        const { gtmId, metaPixelId, ga4Id } = extractTrackingIds(serviceData.content);
+        const { gtmId, metaPixelId, ga4Id, pixelHtml } = extractTrackingIds(serviceData.content);
         setData((prev) => ({
           ...prev,
           companyName: serviceData.title || "",
@@ -73,19 +76,47 @@ function ThankYouContent() {
           gtmId,
           metaPixelId,
           ga4Id,
+          pixelHtml,
         }));
       })
       .catch(() => {});
   }, [searchParams]);
 
   // Fire conversion events once tracking IDs are available
-  const { gtmId, metaPixelId, ga4Id } = data;
+  const { gtmId, metaPixelId, ga4Id, pixelHtml } = data;
   useEffect(() => {
     if (trackingFiredRef.current || (!gtmId && !metaPixelId && !ga4Id)) return;
     trackingFiredRef.current = true;
 
-    // Meta Pixel — Lead conversion
-    if (metaPixelId) {
+    // Meta Pixel — inject full CMS script when available, else manual fallback
+    if (pixelHtml) {
+      // Run the complete pixel HTML block (same approach as HTMLBlock component).
+      // The IIFE sets up window.fbq synchronously, so Lead can be queued immediately.
+      const scriptRegex = /<script([^>]*)>([\s\S]*?)<\/script>/gi;
+      let match;
+      while ((match = scriptRegex.exec(pixelHtml)) !== null) {
+        const attrs = match[1];
+        const scriptContent = match[2].trim();
+        const script = document.createElement("script");
+        const srcMatch = attrs.match(/src=["']([^"']+)["']/i);
+        if (srcMatch) {
+          script.src = srcMatch[1];
+          script.async = true;
+        }
+        if (scriptContent) {
+          script.textContent = scriptContent;
+        }
+        document.head.appendChild(script);
+      }
+      // DOMContentLoaded already fired for dynamically injected scripts, so fire
+      // Lead explicitly via the queue that the IIFE just set up.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const fbq = (window as any).fbq;
+      if (typeof fbq === "function") {
+        fbq("track", "Lead");
+      }
+    } else if (metaPixelId) {
+      // Fallback for older sessionStorage entries without pixelHtml
       const s = document.createElement("script");
       s.async = true;
       s.src = "https://connect.facebook.net/en_US/fbevents.js";
@@ -128,7 +159,7 @@ function ThankYouContent() {
       };
       document.head.appendChild(s);
     }
-  }, [gtmId, metaPixelId, ga4Id]);
+  }, [gtmId, metaPixelId, ga4Id, pixelHtml]);
 
   const { companyName, heroImage, contactPhone, customerLogo, returnUrl } = data;
 

@@ -2,10 +2,11 @@ export interface TrackingIds {
   gtmId: string;
   metaPixelId: string;
   ga4Id: string;
+  pixelHtml: string;
 }
 
 export function extractTrackingIds(content: unknown): TrackingIds {
-  const result: TrackingIds = { gtmId: "", metaPixelId: "", ga4Id: "" };
+  const result: TrackingIds = { gtmId: "", metaPixelId: "", ga4Id: "", pixelHtml: "" };
   if (!Array.isArray(content)) return result;
 
   for (const block of content) {
@@ -25,7 +26,10 @@ export function extractTrackingIds(content: unknown): TrackingIds {
     }
     if (!result.metaPixelId) {
       const m = html.match(/fbq\(\s*['"]init['"]\s*,\s*['"](\d+)['"]/);
-      if (m) result.metaPixelId = m[1];
+      if (m) {
+        result.metaPixelId = m[1];
+        result.pixelHtml = html;
+      }
     }
     if (!result.ga4Id) {
       const m = html.match(/['"](G-[A-Z0-9]+)['"]/);

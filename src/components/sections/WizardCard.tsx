@@ -918,7 +918,7 @@ export default function WizardCard({
       const { companyName } = applyZipRowToLead(validatedZipRow, initialUserCity, initialUserState);
       const partnerDisplay = companyName.trim() || serviceData?.title?.trim() || "your local estimator";
       const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
-      const { gtmId, metaPixelId, ga4Id } = extractTrackingIds(serviceData?.content);
+      const { gtmId, metaPixelId, ga4Id, pixelHtml } = extractTrackingIds(serviceData?.content);
       sessionStorage.setItem("neu_ty", JSON.stringify({
         companyName: partnerDisplay,
         heroImage: typeof serviceData?.heroImage?.url === "string" ? serviceData.heroImage.url : "",
@@ -928,6 +928,7 @@ export default function WizardCard({
         gtmId,
         metaPixelId,
         ga4Id,
+        pixelHtml,
       }));
       window.location.href = `/thank-you?s=${encodeURIComponent(service)}`;
       return;
@@ -1066,7 +1067,7 @@ export default function WizardCard({
 
       const partnerDisplay = companyName.trim() || serviceData?.title?.trim() || "your local estimator";
       const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
-      const { gtmId: tGtmId, metaPixelId: tPixelId, ga4Id: tGa4Id } = extractTrackingIds(serviceData?.content);
+      const { gtmId: tGtmId, metaPixelId: tPixelId, ga4Id: tGa4Id, pixelHtml: tPixelHtml } = extractTrackingIds(serviceData?.content);
       sessionStorage.setItem("neu_ty", JSON.stringify({
         companyName: partnerDisplay,
         heroImage: typeof serviceData?.heroImage?.url === "string" ? serviceData.heroImage.url : "",
@@ -1076,6 +1077,7 @@ export default function WizardCard({
         gtmId: tGtmId,
         metaPixelId: tPixelId,
         ga4Id: tGa4Id,
+        pixelHtml: tPixelHtml,
       }));
       window.location.href = `/thank-you?s=${encodeURIComponent(service)}`;
     } finally {

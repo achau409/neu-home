@@ -474,7 +474,7 @@ const SubmitForm = ({
         await sendEmails(targetEmail, "New Service Request Submitted", emailMessage);
 
         const returnUrl = typeof window !== "undefined" ? window.location.pathname : "/";
-        const { gtmId, metaPixelId, ga4Id } = extractTrackingIds(
+        const { gtmId, metaPixelId, ga4Id, pixelHtml } = extractTrackingIds(
           (serviceData as Record<string, unknown>).content
         );
         sessionStorage.setItem("neu_ty", JSON.stringify({
@@ -486,6 +486,7 @@ const SubmitForm = ({
           gtmId,
           metaPixelId,
           ga4Id,
+          pixelHtml,
         }));
         window.location.href = `/thank-you?s=${encodeURIComponent(service)}`;
 
