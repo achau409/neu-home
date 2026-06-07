@@ -75,8 +75,7 @@ const COMMON_STEPS: Step[] = [
         placeholder: "Email Address*",
         validation: z
           .string()
-          .email("Invalid email format")
-          .min(1, "Email is required"),
+          .regex(/^[^@\s]+@[^@\s]+\.[^@\s]+$/, "Please enter a valid email (e.g. user@example.com)"),
       },
     ],
   },

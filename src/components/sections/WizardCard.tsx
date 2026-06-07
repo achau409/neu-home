@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { z } from "zod";
 
 import posthog from "posthog-js";
 import supabase from "@/utils/supabase/client";
@@ -92,10 +91,7 @@ const PHONE_REGEX =
 
 /** Same rules as SubmitForm composite step (`fullName` + `Email` fields). */
 const FULL_NAME_REGEX = /^[a-zA-Z.]+ [a-zA-Z.]+.*$/;
-const wizardEmailSchema = z
-  .string()
-  .min(1, "Email is required")
-  .email("Invalid email format");
+const EMAIL_REGEX = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 // ── Validation helpers ─────────────────────────────────────────────────────────
 
@@ -107,8 +103,9 @@ function getFullNameValidationMessage(fullName: string): string | null {
 }
 
 function getEmailValidationMessage(email: string): string | null {
-  const r = wizardEmailSchema.safeParse(email.trim());
-  if (!r.success) return r.error.issues[0]?.message ?? "Invalid email format";
+  const t = email.trim();
+  if (!t) return "Email is required";
+  if (!EMAIL_REGEX.test(t)) return "Please enter a valid email (e.g. user@example.com)";
   return null;
 }
 
