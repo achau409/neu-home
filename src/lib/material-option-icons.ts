@@ -18,8 +18,8 @@ export function getMaterialOptionIconSrc(
 
   const t = optionLabel.toLowerCase();
   if (t.includes("vinyl") || t.includes("lvp")) return "/icons/vinyl.svg";
-  if (t.includes("replace")) return "/icons/window/replace.png";
-  if (t.includes("repair")) return "/icons/window/repair.png";
+  if (t.includes("replace windows")) return "/icons/window/replace.png";
+  if (t.includes("repair windows")) return "/icons/window/repair.png";
   if (t.includes("walk")) return "/icons/wis.png";
   if (t.includes("tub-to")) return "/icons/wit-to-wis.png";
   if (t.includes("shower only")) return "/icons/shower.png";

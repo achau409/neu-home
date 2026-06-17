@@ -1,5 +1,5 @@
 import { fetchHeader, fetchLandingVariant, getServicesBySlug, getIpLocation } from "@/lib/api";
-import ServicePageContent from "@/components/DetailsPage/ServicePageContent";
+// import ServicePageContent from "@/components/DetailsPage/ServicePageContent";
 import ServicePageContentNew from "@/components/DetailsPage/ServicePageContentNew";
 
 export const revalidate = 60;
@@ -69,23 +69,20 @@ export default async function VariantPage({
   const ipLocation = serviceData.hasLocation ? await getIpLocation() : null;
 
   return (
-    variant === "lp3" ? (
-      <ServicePageContentNew
-        serviceData={serviceData}
-        header={header}
-        ipLocation={ipLocation}
-        slug={slug}
-        variant={variant}
-      />
-    ) : (
-      <ServicePageContent
-        serviceData={serviceData}
-        header={header}
-        ipLocation={ipLocation}
-        slug={slug}
-        variant={variant}
-      />
-    )
-  )
+    <ServicePageContentNew
+      serviceData={serviceData}
+      header={header}
+      ipLocation={ipLocation}
+      slug={slug}
+      variant={variant}
+    />
+  );
+  // return (
+  //   variant === "lp3" ? (
+  //     <ServicePageContentNew ... />
+  //   ) : (
+  //     <ServicePageContent ... />
+  //   )
+  // )
 }
 
