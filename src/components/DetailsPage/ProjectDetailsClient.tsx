@@ -80,10 +80,10 @@ const ProjectDetailsClient = ({ serviceData, initialUserCity = "", variant }: Pr
               </svg>
             ))}
 
-            <span className="text-white font-bold text-sm">4.9 </span>
+            <span className="text-white font-bold text-sm">5.0 </span>
           </div>
 
-          <div className="text-gray-300 text-xs">based on 1500+ reviews</div>
+          <div className="text-gray-300 text-xs">based on 1,153 reviews</div>
 
         </div>
 
