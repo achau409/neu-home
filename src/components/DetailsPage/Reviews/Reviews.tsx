@@ -63,9 +63,9 @@ const TestimonialsSlider = ({
                   </svg>
                 ))}
               </div>
-              <span className="text-[#0b1b3f] font-black text-xl md:text-2xl">4.9</span>
+              <span className="text-[#0b1b3f] font-black text-xl md:text-2xl">5.0</span>
             </div>
-            <span className="text-[#0b1b3f]/70 text-sm font-medium">based on 1,500+ reviews</span>
+            <span className="text-[#0b1b3f]/70 text-sm font-medium">based on 1,153 reviews</span>
           </div>
         </div>
       </div>
